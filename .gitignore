@@ -1,0 +1,25 @@
+# Node.js
+node_modules/
+
+# Environment files
+.env
+
+# Build folder
+dist/
+
+# PHP Composer
+vendor/
+
+# VS Code
+.vscode/
+
+# Log files
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Uploads
+backend/uploads/*
+!backend/uploads/.gitkeep

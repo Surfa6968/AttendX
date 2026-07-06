@@ -6,15 +6,12 @@ This folder contains the SQL files required to initialize the AttendX database.
 
 database_schema.sql
 Creates the complete database structure.
-
-sample_data.sql
-Imports sample users, courses, timetable and demo attendance records.
+sample users, courses, timetable and demo attendance records.
 
 ## Import Order
 
 1. Create database
 2. Import database_schema.sql
-3. Import sample_data.sql
 
 Default Admin
 

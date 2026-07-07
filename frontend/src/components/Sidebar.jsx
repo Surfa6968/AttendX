@@ -6,6 +6,7 @@ import {
     FaUniversity,
     FaBuilding,
     FaBook,
+    FaChalkboardTeacher,
     FaCalendarAlt,
     FaQrcode,
     FaClipboardCheck,
@@ -47,6 +48,12 @@ function Sidebar() {
             title: "Courses",
             icon: <FaBook />,
             path: "/admin/courses"
+        },
+
+        {
+            title: "Lecturers",
+            icon: <FaChalkboardTeacher />,
+            path: "/admin/lecturers"
         },
 
         {

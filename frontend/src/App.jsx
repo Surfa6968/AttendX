@@ -11,6 +11,9 @@ import EditUser from "./pages/admin/users/EditUser";
 import FacultyList from "./pages/admin/faculties/FacultyList";
 import AddFaculty from "./pages/admin/faculties/AddFaculty";
 import EditFaculty from "./pages/admin/faculties/EditFaculty";
+import DepartmentList from "./pages/admin/departments/DepartmentList";
+import AddDepartment from "./pages/admin/departments/AddDepartment";
+import EditDepartment from "./pages/admin/departments/EditDepartment";
 
 import LecturerDashboard from "./pages/lecturer/Dashboard";
 import StudentDashboard from "./pages/student/Dashboard";
@@ -59,40 +62,20 @@ function App() {
                     </ProtectedRoute>
                 }
             >
-                <Route
-                    path="dashboard"
-                    element={<AdminDashboard />}
-                />
+                {/* Users */}
+                <Route path="users" element={<UserList />} />
+                <Route path="users/add" element={<AddUser />} />
+                <Route path="users/edit/:id" element={<EditUser />} />
 
-                <Route
-                    path="users"
-                    element={<UserList />}
-                />
+                {/* Faculties */}
+                <Route path="faculties" element={<FacultyList />} />
+                <Route path="faculties/add" element={<AddFaculty />} />
+                <Route path="faculties/edit/:id" element={<EditFaculty />} />
 
-                <Route
-                    path="users/add"
-                    element={<AddUser />}
-                />
-
-                <Route
-                    path="users/edit/:id"
-                    element={<EditUser />}
-                />
-
-                <Route
-                    path="faculties"
-                    element={<FacultyList />}
-                />
-
-                <Route
-                    path="faculties/add"
-                    element={<AddFaculty />}
-                />
-
-                <Route
-                    path="faculties/edit/:id"
-                    element={<EditFaculty />}
-                />
+                {/* Departments */}
+                <Route path="departments" element={<DepartmentList />} />
+                <Route path="departments/add" element={<AddDepartment />} />
+                <Route path="departments/edit/:id" element={<EditDepartment />} />
             </Route>
             {/* =======================
                 Lecturer
@@ -105,10 +88,7 @@ function App() {
                     </ProtectedRoute>
                 }
             >
-                <Route
-                    path="dashboard"
-                    element={<LecturerDashboard />}
-                />
+                <Route path="dashboard" element={<LecturerDashboard />} />
             </Route>
             {/* =======================
                 Student
@@ -121,10 +101,7 @@ function App() {
                     </ProtectedRoute>
                 }
             >
-                <Route
-                    path="dashboard"
-                    element={<StudentDashboard />}
-                />
+                <Route path="dashboard" element={<StudentDashboard />} />
             </Route>
             {/* =======================
                 Unauthorized
@@ -136,10 +113,7 @@ function App() {
             {/* =======================
                 404
             ======================= */}
-            <Route
-                path="*"
-                element={<Navigate to="/" replace />}
-            />
+            <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
     );
 }

@@ -14,6 +14,9 @@ import EditFaculty from "./pages/admin/faculties/EditFaculty";
 import DepartmentList from "./pages/admin/departments/DepartmentList";
 import AddDepartment from "./pages/admin/departments/AddDepartment";
 import EditDepartment from "./pages/admin/departments/EditDepartment";
+import CourseList from "./pages/admin/courses/CourseList";
+import AddCourse from "./pages/admin/courses/AddCourse";
+import EditCourse from "./pages/admin/courses/EditCourse";
 
 import LecturerDashboard from "./pages/lecturer/Dashboard";
 import StudentDashboard from "./pages/student/Dashboard";
@@ -76,6 +79,11 @@ function App() {
                 <Route path="departments" element={<DepartmentList />} />
                 <Route path="departments/add" element={<AddDepartment />} />
                 <Route path="departments/edit/:id" element={<EditDepartment />} />
+
+                {/* Courses */}
+                <Route path="courses" element={<CourseList />} />
+                <Route path="courses/add" element={<AddCourse />} />
+                <Route path="courses/edit/:id" element={<EditCourse />} />
             </Route>
             {/* =======================
                 Lecturer

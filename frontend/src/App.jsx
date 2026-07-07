@@ -8,6 +8,9 @@ import AdminDashboard from "./pages/admin/Dashboard";
 import UserList from "./pages/admin/users/UserList";
 import AddUser from "./pages/admin/users/AddUser";
 import EditUser from "./pages/admin/users/EditUser";
+import FacultyList from "./pages/admin/faculties/FacultyList";
+import AddFaculty from "./pages/admin/faculties/AddFaculty";
+import EditFaculty from "./pages/admin/faculties/EditFaculty";
 
 import LecturerDashboard from "./pages/lecturer/Dashboard";
 import StudentDashboard from "./pages/student/Dashboard";
@@ -74,6 +77,21 @@ function App() {
                 <Route
                     path="users/edit/:id"
                     element={<EditUser />}
+                />
+
+                <Route
+                    path="faculties"
+                    element={<FacultyList />}
+                />
+
+                <Route
+                    path="faculties/add"
+                    element={<AddFaculty />}
+                />
+
+                <Route
+                    path="faculties/edit/:id"
+                    element={<EditFaculty />}
                 />
             </Route>
             {/* =======================

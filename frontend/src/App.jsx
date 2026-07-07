@@ -3,7 +3,11 @@ import { useAuth } from "./context/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
 import AdminLayout from "./layouts/AdminLayout";
 import Login from "./pages/Login";
+
 import AdminDashboard from "./pages/admin/Dashboard";
+import UserList from "./pages/admin/users/UserList";
+import AddUser from "./pages/admin/users/AddUser";
+
 import LecturerDashboard from "./pages/lecturer/Dashboard";
 import StudentDashboard from "./pages/student/Dashboard";
 import Unauthorized from "./pages/Unauthorized";
@@ -54,6 +58,16 @@ function App() {
                 <Route
                     path="dashboard"
                     element={<AdminDashboard />}
+                />
+
+                <Route
+                    path="users"
+                    element={<UserList />}
+                />
+
+                <Route
+                    path="users/add"
+                    element={<AddUser />}
                 />
             </Route>
             {/* =======================

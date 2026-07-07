@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { getUsers } from "../../../services/userService";
+import { getUsers, deleteUser } from "../../../services/userService";
 
 function UserList() {
 
@@ -23,19 +23,57 @@ function UserList() {
 
             console.error(err);
 
+            alert("Failed to load users.");
+
         } finally {
 
             setLoading(false);
 
         }
+
+    };
+
+    const handleDelete = async (id) => {
+
+        const confirmed = window.confirm(
+            "Are you sure you want to delete this user?"
+        );
+
+        if (!confirmed) return;
+
+        try {
+
+            const res = await deleteUser(id);
+
+            alert(res.message);
+
+            loadUsers();
+
+        } catch (err) {
+
+            console.error(err);
+
+            alert(
+                err.response?.data?.message ||
+                "Failed to delete user."
+            );
+
+        }
+
     };
 
     if (loading) {
+
         return (
+
             <div className="text-center mt-5">
+
                 <div className="spinner-border text-primary"></div>
+
             </div>
+
         );
+
     }
 
     return (
@@ -77,7 +115,7 @@ function UserList() {
 
                                 <th>Status</th>
 
-                                <th>Action</th>
+                                <th width="180">Actions</th>
 
                             </tr>
 
@@ -85,77 +123,71 @@ function UserList() {
 
                         <tbody>
 
-                            {
+                            {users.map((user) => (
 
-                                users.map((user) => (
+                                <tr key={user.id}>
 
-                                    <tr key={user.id}>
+                                    <td>{user.id}</td>
 
-                                        <td>{user.id}</td>
+                                    <td>{user.full_name}</td>
 
-                                        <td>{user.full_name}</td>
+                                    <td>{user.email}</td>
 
-                                        <td>{user.email}</td>
+                                    <td>
 
-                                        <td>
+                                        <span className="badge bg-info">
 
-                                            <span className="badge bg-info">
+                                            {user.role_name}
 
-                                                {user.role_name}
+                                        </span>
+
+                                    </td>
+
+                                    <td>{user.gender}</td>
+
+                                    <td>
+
+                                        {user.is_active == 1 ? (
+
+                                            <span className="badge bg-success">
+
+                                                Active
 
                                             </span>
 
-                                        </td>
+                                        ) : (
 
-                                        <td>{user.gender}</td>
+                                            <span className="badge bg-danger">
 
-                                        <td>
+                                                Disabled
 
-                                            {
+                                            </span>
 
-                                                user.is_active == 1
+                                        )}
 
-                                                ?
+                                    </td>
 
-                                                <span className="badge bg-success">
+                                    <td>
 
-                                                    Active
+                                        <Link
+                                            to={`/admin/users/edit/${user.id}`}
+                                            className="btn btn-warning btn-sm me-2"
+                                        >
+                                            Edit
+                                        </Link>
 
-                                                </span>
+                                        <button
+                                            className="btn btn-danger btn-sm"
+                                            onClick={() => handleDelete(user.id)}
+                                        >
+                                            Delete
+                                        </button>
 
-                                                :
+                                    </td>
 
-                                                <span className="badge bg-danger">
+                                </tr>
 
-                                                    Disabled
-
-                                                </span>
-
-                                            }
-
-                                        </td>
-
-                                        <td>
-
-                                            <button className="btn btn-sm btn-warning me-2">
-
-                                                Edit
-
-                                            </button>
-
-                                            <button className="btn btn-sm btn-danger">
-
-                                                Delete
-
-                                            </button>
-
-                                        </td>
-
-                                    </tr>
-
-                                ))
-
-                            }
+                            ))}
 
                         </tbody>
 

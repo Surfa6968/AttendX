@@ -20,3 +20,6 @@ admin@attendx.com
 
 Password:
 Admin@123
+
+Student@123
+Lecturer@123

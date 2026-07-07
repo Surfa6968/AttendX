@@ -7,6 +7,7 @@ import Login from "./pages/Login";
 import AdminDashboard from "./pages/admin/Dashboard";
 import UserList from "./pages/admin/users/UserList";
 import AddUser from "./pages/admin/users/AddUser";
+import EditUser from "./pages/admin/users/EditUser";
 
 import LecturerDashboard from "./pages/lecturer/Dashboard";
 import StudentDashboard from "./pages/student/Dashboard";
@@ -68,6 +69,11 @@ function App() {
                 <Route
                     path="users/add"
                     element={<AddUser />}
+                />
+
+                <Route
+                    path="users/edit/:id"
+                    element={<EditUser />}
                 />
             </Route>
             {/* =======================

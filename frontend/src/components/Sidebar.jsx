@@ -1,0 +1,176 @@
+import { NavLink } from "react-router-dom";
+
+import {
+    FaTachometerAlt,
+    FaUsers,
+    FaUniversity,
+    FaBuilding,
+    FaBook,
+    FaCalendarAlt,
+    FaQrcode,
+    FaClipboardCheck,
+    FaChartBar,
+    FaBell,
+    FaCog,
+    FaSignOutAlt
+} from "react-icons/fa";
+
+function Sidebar() {
+
+    const menuItems = [
+
+        {
+            title: "Dashboard",
+            icon: <FaTachometerAlt />,
+            path: "/admin/dashboard"
+        },
+
+        {
+            title: "Users",
+            icon: <FaUsers />,
+            path: "/admin/users"
+        },
+
+        {
+            title: "Faculties",
+            icon: <FaUniversity />,
+            path: "/admin/faculties"
+        },
+
+        {
+            title: "Departments",
+            icon: <FaBuilding />,
+            path: "/admin/departments"
+        },
+
+        {
+            title: "Courses",
+            icon: <FaBook />,
+            path: "/admin/courses"
+        },
+
+        {
+            title: "Timetable",
+            icon: <FaCalendarAlt />,
+            path: "/admin/timetable"
+        },
+
+        {
+            title: "QR Sessions",
+            icon: <FaQrcode />,
+            path: "/admin/attendance"
+        },
+
+        {
+            title: "Attendance",
+            icon: <FaClipboardCheck />,
+            path: "/admin/attendance"
+        },
+
+        {
+            title: "Reports",
+            icon: <FaChartBar />,
+            path: "/admin/reports"
+        },
+
+        {
+            title: "Notifications",
+            icon: <FaBell />,
+            path: "/admin/notifications"
+        },
+
+        {
+            title: "Settings",
+            icon: <FaCog />,
+            path: "/admin/settings"
+        }
+
+    ];
+
+    return (
+
+        <aside
+            className="bg-dark text-white d-flex flex-column"
+            style={{
+                width: "260px",
+                minHeight: "100vh"
+            }}
+        >
+
+            <div className="text-center py-4 border-bottom">
+
+                <h3 className="fw-bold">
+
+                    AttendX
+
+                </h3>
+
+                <small>
+
+                    Admin Panel
+
+                </small>
+
+            </div>
+
+            <div className="flex-grow-1">
+
+                {
+
+                    menuItems.map((item) => (
+
+                        <NavLink
+
+                            key={item.title}
+
+                            to={item.path}
+
+                            className={({ isActive }) =>
+
+                                `d-flex align-items-center text-decoration-none px-4 py-3 ${
+                                    isActive
+                                        ? "bg-primary text-white"
+                                        : "text-light"
+                                }`
+
+                            }
+
+                        >
+
+                            <span className="me-3 fs-5">
+
+                                {item.icon}
+
+                            </span>
+
+                            {item.title}
+
+                        </NavLink>
+
+                    ))
+
+                }
+
+            </div>
+
+            <div className="border-top p-3">
+
+                <button
+                    className="btn btn-danger w-100"
+                >
+
+                    <FaSignOutAlt className="me-2" />
+
+                    Logout
+
+                </button>
+
+            </div>
+
+        </aside>
+
+    );
+
+}
+
+export default Sidebar;

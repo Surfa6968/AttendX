@@ -4,7 +4,7 @@ import { useAuth } from "./context/AuthContext";
 
 import ProtectedRoute from "./components/ProtectedRoute";
 
-import DashboardLayout from "./components/layout/DashboardLayout";
+import DashboardLayout from "./layouts/AdminLayout";
 
 import Login from "./pages/Login";
 

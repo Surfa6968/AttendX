@@ -143,6 +143,42 @@ $stmt->close();
 
 /*
 |--------------------------------------------------------------------------
+| Create Lecturer / Student Record
+|--------------------------------------------------------------------------
+*/
+
+if ($role_id == 2) {
+
+    $employee_no = "EMP" . str_pad($user_id, 4, "0", STR_PAD_LEFT);
+
+    $stmt = $mysqli->prepare("
+    INSERT INTO lecturers
+    (user_id, employee_no)
+    VALUES (?, ?)
+    ");
+
+    $stmt->bind_param("is", $user_id, $employee_no);
+    $stmt->execute();
+    $stmt->close();
+}
+
+if ($role_id == 3) {
+
+    $registration_no = "STU" . str_pad($user_id, 5, "0", STR_PAD_LEFT);
+
+    $stmt = $mysqli->prepare("
+    INSERT INTO students
+    (user_id, registration_no)
+    VALUES (?, ?)
+    ");
+
+    $stmt->bind_param("is", $user_id, $registration_no);
+    $stmt->execute();
+    $stmt->close();
+}
+
+/*
+|--------------------------------------------------------------------------
 | Success
 |--------------------------------------------------------------------------
 */

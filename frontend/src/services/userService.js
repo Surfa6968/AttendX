@@ -36,3 +36,8 @@ export const toggleUserStatus = async (id) => {
     const response = await api.post(`/toggle-status.php?id=${id}`);
     return response.data;
 };
+
+export const searchUsers = async (keyword) => {
+    const response = await api.get(`/search.php?keyword=${keyword}`);
+    return response.data;
+};

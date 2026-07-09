@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { createLecturer } from "../../../services/lecturerService";
+import { createStudent } from "../../../services/studentService";
 import { getFaculties } from "../../../services/facultyService";
 import { getDepartments } from "../../../services/departmentService";
 
-function AddLecturer() {
+function AddStudent() {
 
     const navigate = useNavigate();
 
@@ -21,17 +21,20 @@ function AddLecturer() {
         password: "",
         gender: "",
 
-        employee_no: "",
+        registration_no: "",
 
         faculty_id: "",
         department_id: "",
 
-        designation: "",
-        qualification: "",
-        specialization: "",
-        office_room: "",
+        year_of_study: "",
+        semester: "",
+        intake_year: "",
+
         phone: "",
-        joined_date: ""
+        address: "",
+
+        guardian_name: "",
+        guardian_phone: ""
 
     });
 
@@ -85,11 +88,11 @@ function AddLecturer() {
 
         try {
 
-            const res = await createLecturer(form);
+            const res = await createStudent(form);
 
             alert(res.message);
 
-            navigate("/admin/lecturers");
+            navigate("/admin/students");
 
         }
 
@@ -101,7 +104,7 @@ function AddLecturer() {
 
                 err.response?.data?.message ||
 
-                "Failed to create lecturer."
+                "Failed to create student."
 
             );
 
@@ -123,7 +126,7 @@ function AddLecturer() {
 
                 <div className="card-header">
 
-                    <h3>Add Lecturer</h3>
+                    <h3>Add Student</h3>
 
                 </div>
 
@@ -207,7 +210,9 @@ function AddLecturer() {
                                 >
 
                                     <option value="">Select Gender</option>
+
                                     <option value="Male">Male</option>
+
                                     <option value="Female">Female</option>
 
                                 </select>
@@ -218,34 +223,15 @@ function AddLecturer() {
 
                                 <label className="form-label">
 
-                                    Employee Number
+                                    Registration Number
 
                                 </label>
 
                                 <input
                                     type="text"
                                     className="form-control"
-                                    name="employee_no"
-                                    value={form.employee_no}
-                                    onChange={handleChange}
-                                    required
-                                />
-
-                            </div>
-
-                            <div className="col-md-6 mb-3">
-
-                                <label className="form-label">
-
-                                    Designation
-
-                                </label>
-
-                                <input
-                                    type="text"
-                                    className="form-control"
-                                    name="designation"
-                                    value={form.designation}
+                                    name="registration_no"
+                                    value={form.registration_no}
                                     onChange={handleChange}
                                     required
                                 />
@@ -333,23 +319,62 @@ function AddLecturer() {
                                     }
 
                                 </select>
+
+                            </div>
+
+                                                        <div className="col-md-6 mb-3">
+
+                                <label className="form-label">
+
+                                    Year of Study
+
+                                </label>
+
+                                <select
+                                    className="form-select"
+                                    name="year_of_study"
+                                    value={form.year_of_study}
+                                    onChange={handleChange}
+                                    required
+                                >
+
+                                    <option value="">Select Year</option>
+
+                                    <option value="1">Year 1</option>
+
+                                    <option value="2">Year 2</option>
+
+                                    <option value="3">Year 3</option>
+
+                                    <option value="4">Year 4</option>
+
+                                </select>
+
                             </div>
 
                             <div className="col-md-6 mb-3">
 
                                 <label className="form-label">
 
-                                    Qualification
+                                    Semester
 
                                 </label>
 
-                                <input
-                                    type="text"
-                                    className="form-control"
-                                    name="qualification"
-                                    value={form.qualification}
+                                <select
+                                    className="form-select"
+                                    name="semester"
+                                    value={form.semester}
                                     onChange={handleChange}
-                                />
+                                    required
+                                >
+
+                                    <option value="">Select Semester</option>
+
+                                    <option value="1">Semester 1</option>
+
+                                    <option value="2">Semester 2</option>
+
+                                </select>
 
                             </div>
 
@@ -357,34 +382,18 @@ function AddLecturer() {
 
                                 <label className="form-label">
 
-                                    Specialization
+                                    Intake Year
 
                                 </label>
 
                                 <input
-                                    type="text"
+                                    type="number"
                                     className="form-control"
-                                    name="specialization"
-                                    value={form.specialization}
+                                    name="intake_year"
+                                    value={form.intake_year}
                                     onChange={handleChange}
-                                />
-
-                            </div>
-
-                            <div className="col-md-6 mb-3">
-
-                                <label className="form-label">
-
-                                    Office Room
-
-                                </label>
-
-                                <input
-                                    type="text"
-                                    className="form-control"
-                                    name="office_room"
-                                    value={form.office_room}
-                                    onChange={handleChange}
+                                    placeholder="2026"
+                                    required
                                 />
 
                             </div>
@@ -407,19 +416,55 @@ function AddLecturer() {
 
                             </div>
 
-                            <div className="col-md-6 mb-4">
+                            <div className="col-md-12 mb-3">
 
                                 <label className="form-label">
 
-                                    Joined Date
+                                    Address
+
+                                </label>
+
+                                <textarea
+                                    className="form-control"
+                                    rows="3"
+                                    name="address"
+                                    value={form.address}
+                                    onChange={handleChange}
+                                ></textarea>
+
+                            </div>
+
+                            <div className="col-md-6 mb-3">
+
+                                <label className="form-label">
+
+                                    Guardian Name
 
                                 </label>
 
                                 <input
-                                    type="date"
+                                    type="text"
                                     className="form-control"
-                                    name="joined_date"
-                                    value={form.joined_date}
+                                    name="guardian_name"
+                                    value={form.guardian_name}
+                                    onChange={handleChange}
+                                />
+
+                            </div>
+
+                            <div className="col-md-6 mb-4">
+
+                                <label className="form-label">
+
+                                    Guardian Phone
+
+                                </label>
+
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    name="guardian_phone"
+                                    value={form.guardian_phone}
                                     onChange={handleChange}
                                 />
 
@@ -443,7 +488,7 @@ function AddLecturer() {
 
                                     :
 
-                                    "Create Lecturer"
+                                    "Create Student"
 
                             }
 
@@ -461,4 +506,4 @@ function AddLecturer() {
 
 }
 
-export default AddLecturer;
+export default AddStudent;

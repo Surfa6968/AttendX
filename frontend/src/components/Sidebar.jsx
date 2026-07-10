@@ -1,4 +1,5 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 import {
     FaTachometerAlt,
@@ -17,6 +18,18 @@ import {
 } from "react-icons/fa";
 
 function Sidebar() {
+
+    const { logout } = useAuth();
+
+    const navigate = useNavigate();
+
+    const handleLogout = async () => {
+
+        await logout();
+
+        navigate("/login", { replace: true });
+
+    };
 
     const menuItems = [
 
@@ -107,15 +120,11 @@ function Sidebar() {
             <div className="text-center py-4 border-bottom">
 
                 <h3 className="fw-bold">
-
                     AttendX
-
                 </h3>
 
                 <small>
-
                     Admin Panel
-
                 </small>
 
             </div>
@@ -123,31 +132,22 @@ function Sidebar() {
             <div className="flex-grow-1">
 
                 {
-
                     menuItems.map((item) => (
 
                         <NavLink
-
                             key={item.title}
-
                             to={item.path}
-
                             className={({ isActive }) =>
-
                                 `d-flex align-items-center text-decoration-none px-4 py-3 ${
                                     isActive
                                         ? "bg-primary text-white"
                                         : "text-light"
                                 }`
-
                             }
-
                         >
 
                             <span className="me-3 fs-5">
-
                                 {item.icon}
-
                             </span>
 
                             {item.title}
@@ -155,7 +155,6 @@ function Sidebar() {
                         </NavLink>
 
                     ))
-
                 }
 
             </div>
@@ -164,6 +163,7 @@ function Sidebar() {
 
                 <button
                     className="btn btn-danger w-100"
+                    onClick={handleLogout}
                 >
 
                     <FaSignOutAlt className="me-2" />

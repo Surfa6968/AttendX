@@ -22,6 +22,6 @@ if (!isset($_SESSION["user"])) {
 |--------------------------------------------------------------------------
 */
 
-echo "<pre>";
-print_r($_SESSION["user"]);
-exit;
+success("Authenticated.", [
+    "user" => $_SESSION["user"]
+]);

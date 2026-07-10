@@ -20,6 +20,9 @@ import EditCourse from "./pages/admin/courses/EditCourse";
 import LecturerList from "./pages/admin/lecturers/LecturerList";
 import AddLecturer from "./pages/admin/lecturers/AddLecturer";
 import EditLecturer from "./pages/admin/lecturers/EditLecturer";
+import StudentList from "./pages/admin/students/StudentList";
+import AddStudent from "./pages/admin/students/AddStudent";
+import EditStudent from "./pages/admin/students/EditStudent";
 
 import LecturerDashboard from "./pages/lecturer/Dashboard";
 import StudentDashboard from "./pages/student/Dashboard";
@@ -68,6 +71,9 @@ function App() {
                     </ProtectedRoute>
                 }
             >
+                {/* Dashboard */}
+                <Route path="dashboard" element={<AdminDashboard />} />
+
                 {/* Users */}
                 <Route path="users" element={<UserList />} />
                 <Route path="users/add" element={<AddUser />} />
@@ -92,6 +98,11 @@ function App() {
                 <Route path="lecturers" element={<LecturerList />} />
                 <Route path="lecturers/add" element={<AddLecturer />} />
                 <Route path="lecturers/edit/:id" element={<EditLecturer />} />
+
+                {/* Student Management */}
+                <Route path="students" element={<StudentList />} />
+                <Route path="students/add" element={<AddStudent />} />
+                <Route path="students/edit/:id" element={<EditStudent />} />
             </Route>
             {/* =======================
                 Lecturer

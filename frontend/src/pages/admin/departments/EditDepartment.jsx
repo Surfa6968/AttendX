@@ -2,6 +2,11 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 import {
+    FaSave,
+    FaTimes
+} from "react-icons/fa";
+
+import {
     getDepartment,
     updateDepartment
 } from "../../../services/departmentService";
@@ -116,31 +121,54 @@ function EditDepartment(){
 
     return(
 
-        <div className="container-fluid">
+        <div className="container py-4">
+            <div className="card border-0 shadow-lg" style={{ borderRadius: "18px" }}>
+                <div className="card-header border-0 d-flex justify-content-between align-items-center"
+                    style={{
+                        background: "linear-gradient(135deg,#2563eb,#1d4ed8)",
+                        color: "#fff",
+                        borderTopLeftRadius: "18px",
+                        borderTopRightRadius: "18px",
+                        padding: "18px 24px"
+                    }}
+                >
+                    <h3 className="mb-0 fw-bold">Edit Department</h3>
+                    <div className="d-flex gap-2">
+                        <button
+                            type="submit"
+                            form="editUserForm"
+                            className="btn btn-light rounded-circle shadow-sm"
+                            title="Save Changes"
+                            style={{ width: "46px", height: "46px" }}
+                        >
+                            <FaSave className="text-success" />
+                        </button>
 
-            <div className="card shadow-sm">
-
-                <div className="card-header">
-
-                    <h3>Edit Department</h3>
-
+                        <button
+                            type="button"
+                            onClick={() => navigate("/admin/departments")}
+                            className="btn btn-light rounded-circle shadow-sm"
+                            title="Cancel"
+                            style={{ width: "46px", height: "46px" }}
+                        >
+                            <FaTimes className="text-danger"  />
+                        </button>
+                    </div>
                 </div>
 
-                <div className="card-body">
-
-                    <form onSubmit={handleSubmit}>
-
-                        <div className="mb-3">
-
-                            <label className="form-label">
-
+                <div className="card-body py-4">
+                    <form id="editDepartmentForm" onSubmit={handleSubmit}>
+                        <div className="mb-4">
+                            <label className="form-label fw-semibold">
                                 Faculty
-
                             </label>
 
                             <select
 
-                                className="form-select"
+                               className="form-select shadow-sm"
+                                    style={{
+                                        borderRadius: "10px"
+                                    }}
 
                                 name="faculty_id"
 
@@ -176,9 +204,9 @@ function EditDepartment(){
 
                         </div>
 
-                        <div className="mb-3">
+                        <div className="mb-4">
 
-                            <label className="form-label">
+                            <label className="form-label fw-semibold">
 
                                 Department Name
 
@@ -186,7 +214,10 @@ function EditDepartment(){
 
                             <input
 
-                                className="form-control"
+                                className="form-control shadow-sm"
+                                style={{
+                                    borderRadius: "10px"
+                                }}
 
                                 name="department_name"
 
@@ -202,7 +233,7 @@ function EditDepartment(){
 
                         <div className="mb-4">
 
-                            <label className="form-label">
+                            <label className="form-label fw-semibold">
 
                                 Department Code
 
@@ -210,7 +241,10 @@ function EditDepartment(){
 
                             <input
 
-                                className="form-control"
+                                className="form-control shadow-sm"
+                                style={{
+                                    borderRadius: "10px"
+                                }}
 
                                 name="department_code"
 
@@ -223,12 +257,6 @@ function EditDepartment(){
                             />
 
                         </div>
-
-                        <button className="btn btn-success">
-
-                            Update Department
-
-                        </button>
 
                     </form>
 

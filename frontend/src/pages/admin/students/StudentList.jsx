@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-
+import "bootstrap-icons/font/bootstrap-icons.css";
 import {
     getStudents,
     deleteStudent,
@@ -151,7 +151,7 @@ function StudentList() {
                                 <th>Year of Study</th>
                                 <th>Semester</th>
                                 <th>Status</th>
-                                <th width="180">Actions</th>
+                                <th style={{ width: "220px" }}>Actions</th>
                             </tr>
                         </thead>
 
@@ -179,19 +179,21 @@ function StudentList() {
                                                 </span>
                                             )}
                                         </td>
-                                        <td>
+                                        <td className="text-nowrap">
                                             <Link
                                                 to={`/admin/students/edit/${student.id}`}
                                                 className="btn btn-warning btn-sm me-2"
+                                                title="Edit Student"
                                             >
-                                                Edit
+                                                <i className="bi bi-pencil-square"></i>
                                             </Link>
 
                                             <button
                                                 className="btn btn-danger btn-sm"
                                                 onClick={() => handleDelete(student.id)}
+                                                title="Delete Student"
                                             >
-                                                Delete
+                                                <i className="bi bi-trash"></i>
                                             </button>
                                         </td>
                                     </tr>

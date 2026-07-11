@@ -132,7 +132,7 @@ function AddCourse() {
 
             <div className="card shadow-sm">
 
-                <div className="card-header">
+                <div className="card-header bg-primary text-white">
 
                     <h3>Add Course</h3>
 
@@ -417,26 +417,28 @@ function AddCourse() {
 
                         </div>
 
-                        <button
-                            className="btn btn-primary"
-                            disabled={loading}
-                        >
+                        <div className="col-12 mt-4">
+                            <button
+                                type="submit"
+                                className="btn btn-primary me-2"
+                                disabled={loading}
+                            >
+                                {
+                                    loading
+                                        ? "Saving..."
+                                        : "Create Course"
+                                }
 
-                            {
-
-                                loading
-
-                                    ?
-
-                                    "Saving..."
-
-                                    :
-
-                                    "Create Course"
-
-                            }
-
-                        </button>
+                            </button>
+                            
+                            <button
+                                type="button"
+                                className="btn btn-secondary"
+                                onClick={() => navigate("/admin/courses")}
+                            >
+                                Cancel
+                            </button>
+                        </div>
 
                     </form>
 

@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getUser, updateUser } from "../../../services/userService";
+import {
+    FaSave,
+    FaTimes
+} from "react-icons/fa";
 
 function EditUser() {
 
@@ -97,30 +101,54 @@ function EditUser() {
 
     return (
 
-        <div className="container-fluid">
+        <div className="container py-4">
+            <div className="card border-0 shadow-lg" style={{ borderRadius: "18px" }}>
+                <div className="card-header border-0 d-flex justify-content-between align-items-center"
+                    style={{
+                        background: "linear-gradient(135deg,#2563eb,#1d4ed8)",
+                        color: "#fff",
+                        borderTopLeftRadius: "18px",
+                        borderTopRightRadius: "18px",
+                        padding: "18px 24px"
+                    }}
+                >
+                    <h3 className="mb-0 fw-bold">Edit User</h3>
+    
+                    <div className="d-flex gap-2">
+                        <button
+                            type="submit"
+                            form="editUserForm"
+                            className="btn btn-light rounded-circle shadow-sm"
+                            title="Save Changes"
+                            style={{ width: "46px", height: "46px" }}
+                        >
+                            <FaSave className="text-success" />
+                        </button>
 
-            <div className="card shadow-sm">
-
-                <div className="card-header">
-
-                    <h3>Edit User</h3>
-
+                        <button
+                            type="button"
+                            onClick={() => navigate("/admin/users")}
+                            className="btn btn-light rounded-circle shadow-sm"
+                            title="Cancel"
+                            style={{ width: "46px", height: "46px" }}
+                        >
+                            <FaTimes className="text-danger"  />
+                        </button>
+                    </div>
                 </div>
 
-                <div className="card-body">
+                <div className="card-body p-4">
+                    <form id="editUserForm" onSubmit={handleSubmit}>
 
-                    <form onSubmit={handleSubmit}>
-
-                        <div className="mb-3">
-
-                            <label className="form-label">
-
-                                Full Name
-
-                            </label>
+                        <div className="mb-4">
+                            <label className="form-label fw-semibold"> Full Name </label>
 
                             <input
-                                className="form-control"
+                                type="text"
+                                className="form-control shadow-sm"
+                                style={{
+                                    borderRadius: "10px"
+                                }}
                                 name="full_name"
                                 value={form.full_name}
                                 onChange={handleChange}
@@ -129,17 +157,15 @@ function EditUser() {
 
                         </div>
 
-                        <div className="mb-3">
-
-                            <label className="form-label">
-
-                                Email
-
-                            </label>
+                        <div className="mb-4">
+                            <label className="form-label fw-semibold"> Email </label>
 
                             <input
                                 type="email"
-                                className="form-control"
+                                className="form-control shadow-sm"
+                                style={{
+                                    borderRadius: "10px"
+                                }}
                                 name="email"
                                 value={form.email}
                                 onChange={handleChange}
@@ -148,91 +174,68 @@ function EditUser() {
 
                         </div>
 
-                        <div className="mb-3">
+                        <div className="row">
+                            <div className="col-md-6 mb-4">
+                                <label className="form-label fw-semibold"> Gender </label>
 
-                            <label className="form-label">
+                                <select
+                                    className="form-select shadow-sm"
+                                    style={{
+                                        borderRadius: "10px"
+                                    }}
+                                    name="gender"
+                                    value={form.gender}
+                                    onChange={handleChange}
+                                >
+                                    <option>Male</option>
+                                    <option>Female</option>
+                                    <option>Other</option>
+                                </select>
+                            </div>
 
-                                Gender
+                            <div className="col-md-6 mb-4">
+                                <label className="form-label fw-semibold"> Role </label>
 
-                            </label>
+                                <select
+                                    className="form-select shadow-sm"
+                                    style={{
+                                        borderRadius: "10px"
+                                    }}
+                                    name="role_id"
+                                    value={form.role_id}
+                                    onChange={handleChange}
+                                >
 
-                            <select
-                                className="form-select"
-                                name="gender"
-                                value={form.gender}
-                                onChange={handleChange}
-                            >
+                                    <option value="1">Administrator</option>
+                                    <option value="2">Lecturer</option>
+                                    <option value="3">Student</option>
 
-                                <option>Male</option>
-                                <option>Female</option>
-                                <option>Other</option>
+                                </select>
 
-                            </select>
+                            </div>
 
+                            <div className="col-md-6 mb-4">
+                                <label className="form-label fw-semibold"> Status </label>
+
+                                <select
+                                    className="form-select shadow-sm"
+                                    style={{
+                                        borderRadius: "10px"
+                                    }}
+                                    name="is_active"
+                                    value={form.is_active}
+                                    onChange={handleChange}
+                                >
+                                    <option value="1">Active</option>
+                                    <option value="0">Disabled</option>
+                                </select>
+                            </div>
                         </div>
-
-                        <div className="mb-3">
-
-                            <label className="form-label">
-
-                                Role
-
-                            </label>
-
-                            <select
-                                className="form-select"
-                                name="role_id"
-                                value={form.role_id}
-                                onChange={handleChange}
-                            >
-
-                                <option value="1">Administrator</option>
-                                <option value="2">Lecturer</option>
-                                <option value="3">Student</option>
-
-                            </select>
-
-                        </div>
-
-                        <div className="mb-4">
-
-                            <label className="form-label">
-
-                                Status
-
-                            </label>
-
-                            <select
-                                className="form-select"
-                                name="is_active"
-                                value={form.is_active}
-                                onChange={handleChange}
-                            >
-
-                                <option value="1">Active</option>
-
-                                <option value="0">Disabled</option>
-
-                            </select>
-
-                        </div>
-
-                        <button className="btn btn-success">
-
-                            Update User
-
-                        </button>
-
                     </form>
-
                 </div>
-
             </div>
-
         </div>
-
     );
-
 }
 
 export default EditUser;

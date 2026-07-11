@@ -47,7 +47,7 @@ function AddUser() {
 
             <div className="card shadow-sm">
 
-                <div className="card-header">
+                <div className="card-header bg-primary text-dark">
 
                     <h3>Add User</h3>
 
@@ -160,13 +160,27 @@ function AddUser() {
 
                         </div>
 
-                        <button
-                            className="btn btn-primary"
-                        >
+                        <div className="col-12 mt-4">
+                            <button
+                                type="submit"
+                                className="btn btn-primary me-2"
+                                disabled={loading}
+                            >
+                                {
+                                loading
+                                    ? "Saving..."
+                                    : "Save User"
+                                }
+                            </button>
 
-                            Save User
-
-                        </button>
+                            <button
+                                type="button"
+                                className="btn btn-secondary"
+                                onClick={() => navigate("/admin/users")}
+                            >
+                                Cancel
+                            </button>
+                        </div>
 
                     </form>
 

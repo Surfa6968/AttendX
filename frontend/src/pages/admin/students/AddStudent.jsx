@@ -35,58 +35,37 @@ function AddStudent() {
     });
 
     useEffect(() => {
-
         loadFaculties();
         loadDepartments();
-
     }, []);
 
     const loadFaculties = async () => {
-
         try {
-
             const res = await getFaculties();
-
             setFaculties(res.data);
-
         }
 
         catch (err) {
-
             console.error(err);
-
         }
-
     };
 
     const loadDepartments = async () => {
-
         try {
-
             const res = await getDepartments();
-
             setDepartments(res.data);
-
         }
 
         catch (err) {
-
             console.error(err);
-
         }
-
     };
 
     const handleChange = (e) => {
-
         setFormData({
-
             ...formData,
-
             [e.target.name]: e.target.value
-
         });
-
     };
 
     const handleSubmit = async (e) => {
@@ -111,31 +90,20 @@ function AddStudent() {
         }
     };
 
-        return (
-
-        <div className="container">
-
-            <div className="card shadow">
-
+    return (
+        <div className="container-fluid">
+            <div className="card shadow-sm">
                 <div className="card-header bg-primary text-white">
-
                     <h3>Add Student</h3>
-
                 </div>
 
                 <div className="card-body">
-
                     <form onSubmit={handleSubmit}>
-
                         <div className="row">
 
                             {/* Registration Number */}
-
                             <div className="col-md-6 mb-3">
-
-                                <label className="form-label">
-                                    Registration Number
-                                </label>
+                                <label className="form-label"> Registration Number </label>
 
                                 <input
                                     type="text"
@@ -145,17 +113,11 @@ function AddStudent() {
                                     onChange={handleChange}
                                     required
                                 />
-
                             </div>
 
                             {/* Full Name */}
-
                             <div className="col-md-6 mb-3">
-
-                                <label className="form-label">
-                                    Full Name
-                                </label>
-
+                                <label className="form-label"> Full Name </label>
                                 <input
                                     type="text"
                                     className="form-control"
@@ -164,19 +126,11 @@ function AddStudent() {
                                     onChange={handleChange}
                                     required
                                 />
-
                             </div>
 
                             {/* Email */}
-
                             <div className="col-md-6 mb-3">
-
-                                <label className="form-label">
-
-                                    Email
-
-                                </label>
-
+                                <label className="form-label"> Email </label>
                                 <input
                                     type="email"
                                     className="form-control"
@@ -185,7 +139,6 @@ function AddStudent() {
                                     onChange={handleChange}
                                     required
                                 />
-
                             </div>
 
                             {/* Password */}
@@ -434,7 +387,6 @@ function AddStudent() {
                             </div>
 
                             <div className="col-12 mt-4">
-
                                 <button
                                     type="submit"
                                     className="btn btn-primary me-2"
@@ -446,7 +398,6 @@ function AddStudent() {
                                             ? "Saving..."
                                             : "Save Student"
                                     }
-
                                 </button>
 
                                 <button
@@ -454,25 +405,15 @@ function AddStudent() {
                                     className="btn btn-secondary"
                                     onClick={() => navigate("/admin/students")}
                                 >
-
                                     Cancel
-
                                 </button>
-
                             </div>
-
                         </div>
-
                     </form>
-
                 </div>
-
             </div>
-
         </div>
-
     );
-
 }
 
 export default AddStudent;

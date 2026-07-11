@@ -20,12 +20,9 @@ function AddLecturer() {
         email: "",
         password: "",
         gender: "",
-
         employee_no: "",
-
         faculty_id: "",
         department_id: "",
-
         designation: "",
         qualification: "",
         specialization: "",
@@ -36,83 +33,50 @@ function AddLecturer() {
     });
 
     useEffect(() => {
-
         loadDropdowns();
-
     }, []);
 
     const loadDropdowns = async () => {
-
         try {
-
             const facultyRes = await getFaculties();
-
             setFaculties(facultyRes.data);
-
             const departmentRes = await getDepartments();
-
             setDepartments(departmentRes.data);
-
         }
 
         catch (err) {
-
             console.error(err);
-
             alert("Failed to load dropdowns.");
-
         }
-
     };
 
     const handleChange = (e) => {
-
         setForm({
-
             ...form,
-
             [e.target.name]: e.target.value
-
         });
-
     };
 
     const handleSubmit = async (e) => {
-
         e.preventDefault();
-
         setLoading(true);
-
         try {
-
             const res = await createLecturer(form);
-
             alert(res.message);
-
             navigate("/admin/lecturers");
-
         }
 
         catch (err) {
-
             console.error(err);
-
             alert(
-
                 err.response?.data?.message ||
-
                 "Failed to create lecturer."
-
             );
-
         }
 
         finally {
-
             setLoading(false);
-
         }
-
     };
 
     return (
@@ -121,7 +85,7 @@ function AddLecturer() {
 
             <div className="card shadow-sm">
 
-                <div className="card-header">
+                <div className="card-header bg-primary text-white">
 
                     <h3>Add Lecturer</h3>
 
@@ -424,41 +388,34 @@ function AddLecturer() {
                                 />
 
                             </div>
-
                         </div>
 
-                        <button
-                            type="submit"
-                            className="btn btn-primary"
-                            disabled={loading}
-                        >
-
-                            {
-
-                                loading
-
-                                    ?
-
-                                    "Saving..."
-
-                                    :
-
-                                    "Create Lecturer"
-
-                            }
-
-                        </button>
-
+                        <div className="col-12 mt-4">
+                            <button
+                                type="submit"
+                                className="btn btn-primary me-2"
+                                disabled={loading}
+                            >
+                                {
+                                    loading
+                                        ? "Saving..."
+                                        : "Create Lecturer"
+                                }
+                            </button>
+                            
+                            <button
+                                type="button"
+                                className="btn btn-secondary"
+                                onClick={() => navigate("/admin/lecturers")}
+                            >
+                                Cancel
+                            </button>
+                        </div>
                     </form>
-
                 </div>
-
             </div>
-
         </div>
-
     );
-
 }
 
 export default AddLecturer;

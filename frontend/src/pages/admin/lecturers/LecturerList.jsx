@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-
+import "bootstrap-icons/font/bootstrap-icons.css";
 import {
     getLecturers,
     deleteLecturer,
@@ -265,19 +265,17 @@ function LecturerList() {
                                             <Link
                                                 to={`/admin/lecturers/edit/${lecturer.id}`}
                                                 className="btn btn-warning btn-sm me-2"
+                                                title="Edit Lecturer"
                                             >
-
-                                                Edit
-
+                                                <i className="bi bi-pencil-square"></i>
                                             </Link>
 
                                             <button
                                                 className="btn btn-danger btn-sm"
                                                 onClick={()=>handleDelete(lecturer.id)}
+                                                title="Delete Lecturer"
                                             >
-
-                                                Delete
-
+                                                <i className="bi bi-trash"></i>
                                             </button>
 
                                         </td>

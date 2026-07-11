@@ -2,6 +2,11 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 import {
+    FaSave,
+    FaTimes
+} from "react-icons/fa";
+
+import {
     getCourse,
     updateCourse
 } from "../../../services/courseService";
@@ -150,28 +155,58 @@ function EditCourse() {
 
     return (
 
-        <div className="container-fluid">
+        <div className="container py-4">
 
-            <div className="card shadow-sm">
+            <div className="card border-0 shadow-lg" style={{ borderRadius: "18px" }}>
+                <div className="card-header border-0 d-flex justify-content-between align-items-center"
+                    style={{
+                        background: "linear-gradient(135deg,#2563eb,#1d4ed8)",
+                        color: "#fff",
+                        borderTopLeftRadius: "18px",
+                        borderTopRightRadius: "18px",
+                        padding: "18px 24px"
+                    }}
+                >
+                    <h3 className="mb-0 fw-bold">Edit Course</h3>
+    
+                    <div className="d-flex gap-2">
+                        <button
+                            type="submit"
+                            form="editUserForm"
+                            className="btn btn-light rounded-circle shadow-sm"
+                            title="Save Changes"
+                            style={{ width: "46px", height: "46px" }}
+                        >
+                            <FaSave className="text-success" />
+                        </button>
 
-                <div className="card-header">
-
-                    <h3>Edit Course</h3>
-
+                        <button
+                            type="button"
+                            onClick={() => navigate("/admin/courses")}
+                            className="btn btn-light rounded-circle shadow-sm"
+                            title="Cancel"
+                            style={{ width: "46px", height: "46px" }}
+                        >
+                            <FaTimes className="text-danger"  />
+                        </button>
+                    </div>
                 </div>
 
-                <div className="card-body">
+                <div className="card-body p-4">
 
-                    <form onSubmit={handleSubmit}>
+                    <form id="editCourseForm" onSubmit={handleSubmit}>
 
                         <div className="row">
 
-                            <div className="col-md-6 mb-3">
+                            <div className="col-md-6 mb-4">
 
-                                <label>Course Code</label>
+                                <label className="form-label fw-semibold">Course Code</label>
 
                                 <input
-                                    className="form-control"
+                                    className="form-control shadow-sm"
+                                    style={{
+                                        borderRadius: "10px"
+                                    }}
                                     name="course_code"
                                     value={form.course_code}
                                     onChange={handleChange}
@@ -180,12 +215,15 @@ function EditCourse() {
 
                             </div>
 
-                            <div className="col-md-6 mb-3">
+                            <div className="col-md-6 mb-4">
 
-                                <label>Course Name</label>
+                                <label className="form-label fw-semibold">Course Name</label>
 
                                 <input
-                                    className="form-control"
+                                    className="form-control shadow-sm"
+                                    style={{
+                                        borderRadius: "10px"
+                                    }}
                                     name="course_name"
                                     value={form.course_name}
                                     onChange={handleChange}
@@ -194,13 +232,17 @@ function EditCourse() {
 
                             </div>
 
-                            <div className="col-12 mb-3">
+                            <div className="col-12 mb-4">
 
-                                <label>Description</label>
+                                <label className="form-label fw-semibold">Description</label>
 
                                 <textarea
                                     rows="3"
-                                    className="form-control"
+                                    type="text"
+                                    className="form-control shadow-sm"
+                                    style={{
+                                        borderRadius: "10px"
+                                    }}
                                     name="description"
                                     value={form.description}
                                     onChange={handleChange}
@@ -208,13 +250,17 @@ function EditCourse() {
 
                             </div>
 
-                            <div className="col-md-3 mb-3">
+                            <div className="col-md-3 mb-4">
 
-                                <label>Credits</label>
+                                <label className="form-label fw-semibold">Credits</label>
 
                                 <input
                                     type="number"
-                                    className="form-control"
+                                    type="text"
+                                    className="form-control shadow-sm"
+                                    style={{
+                                        borderRadius: "10px"
+                                    }}
                                     name="credits"
                                     value={form.credits}
                                     onChange={handleChange}
@@ -222,12 +268,15 @@ function EditCourse() {
 
                             </div>
 
-                            <div className="col-md-3 mb-3">
+                            <div className="col-md-3 mb-4">
 
-                                <label>Academic Year</label>
+                                <label className="form-label fw-semibold">Academic Year</label>
 
                                 <select
-                                    className="form-select"
+                                    className="form-select shadow-sm"
+                                    style={{
+                                        borderRadius: "10px"
+                                    }}
                                     name="academic_year"
                                     value={form.academic_year}
                                     onChange={handleChange}
@@ -242,12 +291,15 @@ function EditCourse() {
 
                             </div>
 
-                            <div className="col-md-3 mb-3">
+                            <div className="col-md-3 mb-4">
 
-                                <label>Semester</label>
+                                <label className="form-label fw-semibold">Semester</label>
 
                                 <select
-                                    className="form-select"
+                                    className="form-select shadow-sm"
+                                    style={{
+                                        borderRadius: "10px"
+                                    }}
                                     name="semester"
                                     value={form.semester}
                                     onChange={handleChange}
@@ -260,12 +312,15 @@ function EditCourse() {
 
                             </div>
 
-                            <div className="col-md-3 mb-3">
+                            <div className="col-md-3 mb-4">
 
-                                <label>Status</label>
+                                <label className="form-label fw-semibold">Status</label>
 
                                 <select
-                                    className="form-select"
+                                    className="form-select shadow-sm"
+                                    style={{
+                                        borderRadius: "10px"
+                                    }}
                                     name="is_active"
                                     value={form.is_active}
                                     onChange={handleChange}
@@ -278,12 +333,15 @@ function EditCourse() {
 
                             </div>
 
-                            <div className="col-md-4 mb-3">
+                            <div className="col-md-4 mb-4">
 
-                                <label>Faculty</label>
+                                <label className="form-label fw-semibold">Faculty</label>
 
                                 <select
-                                    className="form-select"
+                                    className="form-select shadow-sm"
+                                    style={{
+                                        borderRadius: "10px"
+                                    }}
                                     name="faculty_id"
                                     value={form.faculty_id}
                                     onChange={handleChange}
@@ -306,12 +364,15 @@ function EditCourse() {
 
                             </div>
 
-                            <div className="col-md-4 mb-3">
+                            <div className="col-md-4 mb-4">
 
-                                <label>Department</label>
+                                <label className="form-label fw-semibold">Department</label>
 
                                 <select
-                                    className="form-select"
+                                    className="form-select shadow-sm"
+                                    style={{
+                                        borderRadius: "10px"
+                                    }}
                                     name="department_id"
                                     value={form.department_id}
                                     onChange={handleChange}
@@ -341,10 +402,13 @@ function EditCourse() {
 
                             <div className="col-md-4 mb-4">
 
-                                <label>Lecturer</label>
+                                <label className="form-label fw-semibold">Lecturer</label>
 
                                 <select
-                                    className="form-select"
+                                    className="form-select shadow-sm"
+                                    style={{
+                                        borderRadius: "10px"
+                                    }}
                                     name="lecturer_id"
                                     value={form.lecturer_id}
                                     onChange={handleChange}
@@ -368,12 +432,6 @@ function EditCourse() {
                             </div>
 
                         </div>
-
-                        <button className="btn btn-success">
-
-                            Update Course
-
-                        </button>
 
                     </form>
 

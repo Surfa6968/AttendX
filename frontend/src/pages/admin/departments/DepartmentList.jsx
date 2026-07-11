@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import "bootstrap-icons/font/bootstrap-icons.css";
 import {
     getDepartments,
     deleteDepartment
@@ -133,15 +134,17 @@ function DepartmentList() {
                                             <Link
                                                 to={`/admin/departments/edit/${department.id}`}
                                                 className="btn btn-warning btn-sm me-2"
+                                                title="Edit Department"
                                             >
-                                                Edit
+                                                <i className="bi bi-pencil-square"></i>
                                             </Link>
 
                                             <button
                                                 className="btn btn-danger btn-sm"
                                                 onClick={() => handleDelete(department.id)}
+                                                title="Delete Department"
                                             >
-                                                Delete
+                                                <i className="bi bi-trash"></i>
                                             </button>
 
                                         </td>

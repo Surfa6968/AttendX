@@ -1,5 +1,9 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import {
+    FaSave,
+    FaTimes
+} from "react-icons/fa";
 
 import {
     getLecturer,
@@ -145,29 +149,56 @@ function EditLecturer() {
 
     return (
 
-        <div className="container-fluid">
+        <div className="container py-4">
 
-            <div className="card shadow-sm">
+           <div className="card border-0 shadow-lg" style={{ borderRadius: "18px" }}>
+                <div className="card-header border-0 d-flex justify-content-between align-items-center"
+                    style={{
+                        background: "linear-gradient(135deg,#2563eb,#1d4ed8)",
+                        color: "#fff",
+                        borderTopLeftRadius: "18px",
+                        borderTopRightRadius: "18px",
+                        padding: "18px 24px"
+                    }}
+                >
+                    <h3 className="mb-0 fw-bold">Edit Lecturer</h3>
+    
+                    <div className="d-flex gap-2">
+                        <button
+                            type="submit"
+                            form="editUserForm"
+                            className="btn btn-light rounded-circle shadow-sm"
+                            title="Save Changes"
+                            style={{ width: "46px", height: "46px" }}
+                        >
+                            <FaSave className="text-success" />
+                        </button>
 
-                <div className="card-header">
-
-                    <h3>Edit Lecturer</h3>
-
+                        <button
+                            type="button"
+                            onClick={() => navigate("/admin/lecturers")}
+                            className="btn btn-light rounded-circle shadow-sm"
+                            title="Cancel"
+                            style={{ width: "46px", height: "46px" }}
+                        >
+                            <FaTimes className="text-danger"  />
+                        </button>
+                    </div>
                 </div>
 
-                <div className="card-body">
-
-                    <form onSubmit={handleSubmit}>
+                <div className="card-body py-4">
+                    <form id="editLecturerForm" onSubmit={handleSubmit}>
 
                         <div className="row">
-
-                            <div className="col-md-6 mb-3">
-
-                                <label>Full Name</label>
+                            <div className="col-md-6 mb-4">
+                                <label className="form-label fw-semibold">Full Name</label>
 
                                 <input
-                                    className="form-control"
-                                    name="full_name"
+                                    className="form-control shadow-sm"
+                                    style={{
+                                        borderRadius: "10px"
+                                    }}
+                                        name="full_name"
                                     value={form.full_name}
                                     onChange={handleChange}
                                     required
@@ -175,13 +206,16 @@ function EditLecturer() {
 
                             </div>
 
-                            <div className="col-md-6 mb-3">
+                            <div className="col-md-6 mb-4">
 
-                                <label>Email</label>
+                                <label className="form-label fw-semibold">Email</label>
 
                                 <input
                                     type="email"
-                                    className="form-control"
+                                    className="form-control shadow-sm"
+                                    style={{
+                                        borderRadius: "10px"
+                                    }}
                                     name="email"
                                     value={form.email}
                                     onChange={handleChange}
@@ -190,12 +224,15 @@ function EditLecturer() {
 
                             </div>
 
-                            <div className="col-md-6 mb-3">
+                            <div className="col-md-6 mb-4">
 
-                                <label>Gender</label>
+                                <label className="form-label fw-semibold">Gender</label>
 
                                 <select
-                                    className="form-select"
+                                    className="form-select shadow-sm"
+                                    style={{
+                                        borderRadius: "10px"
+                                    }}
                                     name="gender"
                                     value={form.gender}
                                     onChange={handleChange}
@@ -208,12 +245,15 @@ function EditLecturer() {
 
                             </div>
 
-                            <div className="col-md-6 mb-3">
+                            <div className="col-md-6 mb-4">
 
-                                <label>Employee No</label>
+                                <label className="form-label fw-semibold">Employee No</label>
 
                                 <input
-                                    className="form-control"
+                                    className="form-control shadow-sm"
+                                    style={{
+                                        borderRadius: "10px"
+                                    }}
                                     name="employee_no"
                                     value={form.employee_no}
                                     onChange={handleChange}
@@ -221,12 +261,15 @@ function EditLecturer() {
 
                             </div>
 
-                            <div className="col-md-6 mb-3">
+                            <div className="col-md-6 mb-4">
 
-                                <label>Faculty</label>
+                                <label className="form-label fw-semibold">Faculty</label>
 
                                 <select
-                                    className="form-select"
+                                    className="form-select shadow-sm"
+                                    style={{
+                                        borderRadius: "10px"
+                                    }}
                                     name="faculty_id"
                                     value={form.faculty_id}
                                     onChange={handleChange}
@@ -249,12 +292,15 @@ function EditLecturer() {
 
                             </div>
 
-                            <div className="col-md-6 mb-3">
+                            <div className="col-md-6 mb-4">
 
-                                <label>Department</label>
+                                <label className="form-label fw-semibold">Department</label>
 
                                 <select
-                                    className="form-select"
+                                    className="form-select shadow-sm"
+                                    style={{
+                                        borderRadius: "10px"
+                                    }}
                                     name="department_id"
                                     value={form.department_id}
                                     onChange={handleChange}
@@ -282,12 +328,15 @@ function EditLecturer() {
 
                             </div>
 
-                            <div className="col-md-6 mb-3">
+                            <div className="col-md-6 mb-4">
 
-                                <label>Designation</label>
+                                <label className="form-label fw-semibold">Designation</label>
 
                                 <input
-                                    className="form-control"
+                                    className="form-control shadow-sm"
+                                    style={{
+                                        borderRadius: "10px"
+                                    }}
                                     name="designation"
                                     value={form.designation}
                                     onChange={handleChange}
@@ -295,12 +344,15 @@ function EditLecturer() {
 
                             </div>
 
-                                                        <div className="col-md-6 mb-3">
+                            <div className="col-md-6 mb-4">
 
-                                <label>Qualification</label>
+                                <label className="form-label fw-semibold">Qualification</label>
 
                                 <input
-                                    className="form-control"
+                                    className="form-control shadow-sm"
+                                    style={{
+                                        borderRadius: "10px"
+                                    }}
                                     name="qualification"
                                     value={form.qualification}
                                     onChange={handleChange}
@@ -308,12 +360,15 @@ function EditLecturer() {
 
                             </div>
 
-                            <div className="col-md-6 mb-3">
+                            <div className="col-md-6 mb-4">
 
-                                <label>Specialization</label>
+                                <label className="form-label fw-semibold">Specialization</label>
 
                                 <input
-                                    className="form-control"
+                                    className="form-control shadow-sm"
+                                    style={{
+                                        borderRadius: "10px"
+                                    }}
                                     name="specialization"
                                     value={form.specialization}
                                     onChange={handleChange}
@@ -321,12 +376,15 @@ function EditLecturer() {
 
                             </div>
 
-                            <div className="col-md-6 mb-3">
+                            <div className="col-md-6 mb-4">
 
-                                <label>Office Room</label>
+                                <label className="form-label fw-semibold">Office Room</label>
 
                                 <input
-                                    className="form-control"
+                                    className="form-control shadow-sm"
+                                    style={{
+                                        borderRadius: "10px"
+                                    }}
                                     name="office_room"
                                     value={form.office_room}
                                     onChange={handleChange}
@@ -334,12 +392,15 @@ function EditLecturer() {
 
                             </div>
 
-                            <div className="col-md-6 mb-3">
+                            <div className="col-md-6 mb-4">
 
-                                <label>Phone</label>
+                                <label className="form-label fw-semibold">Phone</label>
 
                                 <input
-                                    className="form-control"
+                                    className="form-control shadow-sm"
+                                    style={{
+                                        borderRadius: "10px"
+                                    }}
                                     name="phone"
                                     value={form.phone}
                                     onChange={handleChange}
@@ -347,13 +408,16 @@ function EditLecturer() {
 
                             </div>
 
-                            <div className="col-md-6 mb-3">
+                            <div className="col-md-6 mb-4">
 
-                                <label>Joined Date</label>
+                                <label className="form-label fw-semibold">Joined Date</label>
 
                                 <input
                                     type="date"
-                                    className="form-control"
+                                    className="form-control shadow-sm"
+                                    style={{
+                                        borderRadius: "10px"
+                                    }}
                                     name="joined_date"
                                     value={form.joined_date}
                                     onChange={handleChange}
@@ -363,52 +427,31 @@ function EditLecturer() {
 
                             <div className="col-md-6 mb-4">
 
-                                <label>Status</label>
+                                <label className="form-label fw-semibold">Status</label>
 
                                 <select
-                                    className="form-select"
+                                    className="form-select shadow-sm"
+                                    style={{
+                                        borderRadius: "10px"
+                                    }}
                                     name="is_active"
                                     value={form.is_active}
                                     onChange={handleChange}
                                 >
-
                                     <option value="1">
-
                                         Active
-
                                     </option>
-
                                     <option value="0">
-
                                         Inactive
-
                                     </option>
-
                                 </select>
-
                             </div>
-
                         </div>
-
-                        <button
-                            type="submit"
-                            className="btn btn-success"
-                        >
-
-                            Update Lecturer
-
-                        </button>
-
                     </form>
-
                 </div>
-
             </div>
-
         </div>
-
     );
-
 }
 
 export default EditLecturer;

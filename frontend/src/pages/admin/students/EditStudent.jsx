@@ -1,5 +1,9 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import {
+    FaSave,
+    FaTimes
+} from "react-icons/fa";
 
 import {
     getStudent,
@@ -186,93 +190,106 @@ function EditStudent() {
 
         return (
 
-        <div className="container">
+        <div className="container py-4">
+            <div className="card border-0 shadow-lg" style={{ borderRadius: "18px" }}>
+                <div className="card-header border-0 d-flex justify-content-between align-items-center"
+                    style={{
+                        background: "linear-gradient(135deg,#2563eb,#1d4ed8)",
+                        color: "#fff",
+                        borderTopLeftRadius: "18px",
+                        borderTopRightRadius: "18px",
+                        padding: "18px 24px"
+                    }}
+                >
+                    <h3 className="mb-0 fw-bold">Edit Student</h3>
 
-            <div className="card shadow">
+                    <div className="d-flex gap-2">
+                        <button
+                            type="submit"
+                            form="editUserForm"
+                            className="btn btn-light rounded-circle shadow-sm"
+                            title="Save Changes"
+                            style={{ width: "46px", height: "46px" }}
+                        >
+                            <FaSave className="text-success" />
+                        </button>
 
-                <div className="card-header bg-warning text-dark">
-
-                    <h3>Edit Student</h3>
-
+                        <button
+                            type="button"
+                            onClick={() => navigate("/admin/students")}
+                            className="btn btn-light rounded-circle shadow-sm"
+                            title="Cancel"
+                            style={{ width: "46px", height: "46px" }}
+                        >
+                            <FaTimes className="text-danger"  />
+                        </button>
+                    </div>
                 </div>
 
-                <div className="card-body">
-
-                    <form onSubmit={handleSubmit}>
-
+                <div className="card-body p-4">
+                    <form id="editStudentForm" onSubmit={handleSubmit}>
                         <div className="row">
 
                             {/* Registration Number */}
-
                             <div className="col-md-6 mb-3">
-
-                                <label className="form-label">
-                                    Registration Number
-                                </label>
+                                <label className="form-label fw-semibold"> Registration Number </label>
 
                                 <input
                                     type="text"
-                                    className="form-control"
+                                    className="form-control shadow-sm"
+                                    style={{
+                                        borderRadius: "10px"
+                                    }}
                                     name="registration_no"
                                     value={formData.registration_no}
                                     onChange={handleChange}
                                     required
                                 />
-
                             </div>
 
                             {/* Full Name */}
-
                             <div className="col-md-6 mb-3">
-
-                                <label className="form-label">
-                                    Full Name
-                                </label>
+                                <label className="form-label fw-semibold"> Full Name </label>
 
                                 <input
                                     type="text"
-                                    className="form-control"
+                                    className="form-control shadow-sm"
+                                    style={{
+                                        borderRadius: "10px"
+                                    }}
                                     name="full_name"
                                     value={formData.full_name}
                                     onChange={handleChange}
                                     required
                                 />
-
                             </div>
 
                             {/* Email */}
-
                             <div className="col-md-6 mb-3">
-
-                                <label className="form-label">
-
-                                    Email
-
-                                </label>
+                                <label className="form-label fw-semibold"> Email  </label>
 
                                 <input
                                     type="email"
-                                    className="form-control"
+                                    className="form-control shadow-sm"
+                                    style={{
+                                        borderRadius: "10px"
+                                    }}
                                     name="email"
                                     value={formData.email}
                                     onChange={handleChange}
                                     required
                                 />
-
                             </div>
 
                             {/* Gender */}
-
                             <div className="col-md-3 mb-3">
-
-                                <label className="form-label">
-
-                                    Gender
-
-                                </label>
+                                <label className="form-label fw-semibold"> Gender  </label>
 
                                 <select
-                                    className="form-select"
+                                    className="form-select shadow-sm"
+                                    style={{
+                                        borderRadius: "10px"
+                                    }}
                                     name="gender"
                                     value={formData.gender}
                                     onChange={handleChange}
@@ -280,23 +297,18 @@ function EditStudent() {
 
                                     <option value="Male">Male</option>
                                     <option value="Female">Female</option>
-
                                 </select>
-
                             </div>
 
                             {/* Status */}
-
                             <div className="col-md-3 mb-3">
-
-                                <label className="form-label">
-
-                                    Status
-
-                                </label>
+                                <label className="form-label fw-semibold"> Status </label>
 
                                 <select
-                                    className="form-select"
+                                    className="form-select shadow-sm"
+                                    style={{
+                                        borderRadius: "10px"
+                                    }}
                                     name="is_active"
                                     value={formData.is_active}
                                     onChange={handleChange}
@@ -304,23 +316,18 @@ function EditStudent() {
 
                                     <option value={1}>Active</option>
                                     <option value={0}>Inactive</option>
-
                                 </select>
-
                             </div>
 
                             {/* Faculty */}
-
                             <div className="col-md-6 mb-3">
-
-                                <label className="form-label">
-
-                                    Faculty
-
-                                </label>
+                                <label className="form-label fw-semibold"> Faculty </label>
 
                                 <select
-                                    className="form-select"
+                                    className="form-select shadow-sm"
+                                    style={{
+                                        borderRadius: "10px"
+                                    }}
                                     name="faculty_id"
                                     value={formData.faculty_id}
                                     onChange={handleChange}
@@ -348,15 +355,13 @@ function EditStudent() {
                             {/* Department */}
 
                             <div className="col-md-6 mb-3">
-
-                                <label className="form-label">
-
-                                    Department
-
-                                </label>
+                                <label className="form-label fw-semibold"> Department </label>
 
                                 <select
-                                    className="form-select"
+                                    className="form-select shadow-sm"
+                                    style={{
+                                        borderRadius: "10px"
+                                    }}
                                     name="department_id"
                                     value={formData.department_id}
                                     onChange={handleChange}
@@ -372,48 +377,37 @@ function EditStudent() {
                                         >
 
                                             {department.department_name}
-
                                         </option>
-
                                     ))}
-
                                 </select>
-
                             </div>
 
                             {/* Academic Year */}
-
                             <div className="col-md-4 mb-3">
-
-                                <label className="form-label">
-
-                                    Academic Year
-
-                                </label>
+                                <label className="form-label fw-semibold"> Academic Year </label>
 
                                 <input
                                     type="text"
-                                    className="form-control"
+                                    className="form-control shadow-sm"
+                                    style={{
+                                        borderRadius: "10px"
+                                    }}
                                     name="academic_year"
                                     value={formData.academic_year}
                                     onChange={handleChange}
                                     placeholder="2023/2024"
                                 />
-
                             </div>
 
                             {/* Year of Study */}
-
                             <div className="col-md-4 mb-3">
-
-                                <label className="form-label">
-
-                                    Year of Study
-
-                                </label>
+                                <label className="form-label fw-semibold"> Year of Study </label>
 
                                 <select
-                                    className="form-select"
+                                    className="form-select shadow-sm"
+                                    style={{
+                                        borderRadius: "10px"
+                                    }}
                                     name="year_of_study"
                                     value={formData.year_of_study}
                                     onChange={handleChange}
@@ -426,21 +420,17 @@ function EditStudent() {
                                     <option value="4">Year 4</option>
 
                                 </select>
-
                             </div>
 
                             {/* Semester */}
-
                             <div className="col-md-4 mb-3">
-
-                                <label className="form-label">
-
-                                    Semester
-
-                                </label>
+                                <label className="form-label fw-semibold"> Semester </label>
 
                                 <select
-                                    className="form-select"
+                                    className="form-select shadow-sm"
+                                    style={{
+                                        borderRadius: "10px"
+                                    }}
                                     name="semester"
                                     value={formData.semester}
                                     onChange={handleChange}
@@ -451,22 +441,18 @@ function EditStudent() {
                                     <option value="2">Semester 2</option>
 
                                 </select>
-
                             </div>
 
                             {/* Phone */}
-
                             <div className="col-md-6 mb-3">
-
-                                <label className="form-label">
-
-                                    Phone
-
-                                </label>
+                                <label className="form-label fw-semibold"> Phone </label>
 
                                 <input
                                     type="text"
-                                    className="form-control"
+                                    className="form-control shadow-sm"
+                                    style={{
+                                        borderRadius: "10px"
+                                    }}
                                     name="phone"
                                     value={formData.phone}
                                     onChange={handleChange}
@@ -475,38 +461,31 @@ function EditStudent() {
                             </div>
 
                             {/* Guardian Phone */}
-
                             <div className="col-md-6 mb-3">
-
-                                <label className="form-label">
-
-                                    Guardian Phone
-
-                                </label>
+                                <label className="form-label fw-semibold"> Guardian Phone </label>
 
                                 <input
                                     type="text"
-                                    className="form-control"
+                                    className="form-control shadow-sm"
+                                    style={{
+                                        borderRadius: "10px"
+                                    }}
                                     name="guardian_phone"
                                     value={formData.guardian_phone}
                                     onChange={handleChange}
                                 />
-
                             </div>
 
                             {/* Address */}
-
                             <div className="col-md-12 mb-3">
-
-                                <label className="form-label">
-
-                                    Address
-
-                                </label>
+                                <label className="form-label fw-semibold"> Address </label>
 
                                 <textarea
                                     rows="3"
-                                    className="form-control"
+                                    className="form-control shadow-sm"
+                                    style={{
+                                        borderRadius: "10px"
+                                    }}
                                     name="address"
                                     value={formData.address}
                                     onChange={handleChange}
@@ -515,64 +494,26 @@ function EditStudent() {
                             </div>
 
                             {/* Guardian Name */}
-
                             <div className="col-md-12 mb-3">
-
-                                <label className="form-label">
-
-                                    Guardian Name
-
-                                </label>
+                                <label className="form-label fw-semibold"> Guardian Name </label>
 
                                 <input
                                     type="text"
-                                    className="form-control"
+                                    className="form-control shadow-sm"
+                                    style={{
+                                        borderRadius: "10px"
+                                    }}
                                     name="guardian_name"
                                     value={formData.guardian_name}
                                     onChange={handleChange}
                                 />
                             </div>
-
-                                                        <div className="col-12 mt-4">
-
-                                <button
-                                    type="submit"
-                                    className="btn btn-warning me-2"
-                                    disabled={loading}
-                                >
-
-                                    {
-                                        loading
-                                            ? "Updating..."
-                                            : "Update Student"
-                                    }
-
-                                </button>
-
-                                <button
-                                    type="button"
-                                    className="btn btn-secondary"
-                                    onClick={() => navigate("/admin/students")}
-                                >
-
-                                    Cancel
-
-                                </button>
-
-                            </div>
-
                         </div>
-
                     </form>
-
                 </div>
-
             </div>
-
         </div>
-
     );
-
 }
 
 export default EditStudent;

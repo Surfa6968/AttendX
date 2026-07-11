@@ -2,6 +2,15 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getUsers, deleteUser, searchUsers } from "../../../services/userService";
 
+import {
+    FaPlus,
+    FaEdit,
+    FaTrash,
+    FaSearch,
+    FaSave,
+    FaTimes
+} from "react-icons/fa";
+
 function UserList() {
 
     const [users, setUsers] = useState([]);
@@ -72,20 +81,25 @@ function UserList() {
                 <h2>User Management</h2>
 
                 <div className="d-flex gap-2">
-                     <input
-                      type="text"
-                      className="form-control"
-                      placeholder="Search users..."
-                      style={{ width: "250px" }}
-                      value={keyword}
-                      onChange={(e) => handleSearch(e.target.value)}
-                     />
+                    <div className="input-group" style={{ width: "500px" }}>
+                        <span className="input-group-text">
+                            <FaSearch />
+                        </span>
+
+                        <input
+                            type="text"
+                            className="form-control"
+                            placeholder="Search users..."
+                            value={keyword}
+                            onChange={(e) => handleSearch(e.target.value)}
+                        />
+                    </div>
 
                      <Link
                       to="/admin/users/add"
                       className="btn btn-primary"
                      >
-                      + Add User
+                      <FaPlus className="me-2" />Add User
                      </Link>
 
                 </div>
@@ -134,15 +148,17 @@ function UserList() {
                                         <Link
                                             to={`/admin/users/edit/${user.id}`}
                                             className="btn btn-warning btn-sm me-2"
+                                            title="Edit User"
                                         >
-                                            Edit
+                                            <FaEdit className="me-1" />
                                         </Link>
 
                                         <button
                                             className="btn btn-danger btn-sm"
                                             onClick={() => handleDelete(user.id)}
+                                            title="Delete User"
                                         >
-                                            Delete
+                                            <FaTrash className="me-1" />
                                         </button>
                                     </td>
                                 </tr>

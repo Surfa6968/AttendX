@@ -13,44 +13,67 @@ require_once "../../../helpers/response.php";
 */
 
 if (!isset($_SESSION["user"])) {
-    error("Unauthorized.", 401);
+    error("Unauthorized.",401);
 }
 
 if ($_SESSION["user"]["role"] !== "admin") {
-    error("Access denied.", 403);
+    error("Access denied.",403);
 }
 
 /*
 |--------------------------------------------------------------------------
-| Get Lecturers
+| Get Lecturer List
 |--------------------------------------------------------------------------
 */
 
-$sql = "
+$stmt = $mysqli->prepare("
+
 SELECT
-    l.id,
-    l.employee_no,
-    u.full_name
+
+l.id,
+l.employee_no,
+
+u.full_name,
+u.email,
+u.is_active,
+
+f.faculty_name,
+d.department_name,
+
+l.designation
+
 FROM lecturers l
+
 INNER JOIN users u
-    ON l.user_id = u.id
+ON l.user_id = u.id
+
+LEFT JOIN faculties f
+ON l.faculty_id = f.id
+
+LEFT JOIN departments d
+ON l.department_id = d.id
+
 WHERE u.role_id = 2
-AND u.is_active = 1
+
 ORDER BY u.full_name ASC
-";
 
-$result = $mysqli->query($sql);
+");
 
-$lecturers = [];
+$stmt->execute();
 
-while ($row = $result->fetch_assoc()) {
-    $lecturers[] = $row;
+$result = $stmt->get_result();
+
+$data=[];
+
+while($row=$result->fetch_assoc()){
+
+    $data[]=$row;
+
 }
 
-/*
-|--------------------------------------------------------------------------
-| Success
-|--------------------------------------------------------------------------
-*/
+$stmt->close();
 
-success("Lecturers loaded successfully.", $lecturers);
+success(
+    "Lecturers loaded successfully.",
+    $data
+);

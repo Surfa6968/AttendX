@@ -22,20 +22,17 @@ function StudentList() {
         try {
 
             const res = await getStudents();
+             console.log("API Response:", res);
+             console.log("Students:", res.data);
 
-            setStudents(res.data);
+            setStudents(res.data || []);
 
-        }
-
-        catch (err) {
+        } catch (err) {
 
             console.error(err);
-
             alert("Failed to load students.");
 
-        }
-
-        finally {
+        } finally {
 
             setLoading(false);
 
@@ -46,9 +43,7 @@ function StudentList() {
     const handleDelete = async (id) => {
 
         if (!window.confirm("Delete this student?")) {
-
             return;
-
         }
 
         try {
@@ -59,18 +54,13 @@ function StudentList() {
 
             loadStudents();
 
-        }
-
-        catch (err) {
+        } catch (err) {
 
             console.error(err);
 
             alert(
-
                 err.response?.data?.message ||
-
                 "Delete failed."
-
             );
 
         }
@@ -81,23 +71,21 @@ function StudentList() {
 
         setKeyword(value);
 
-        try {
+        if (value.trim() === "") {
 
-            if (value.trim() === "") {
+            loadStudents();
 
-                loadStudents();
-
-                return;
-
-            }
-
-            const res = await searchStudents(value);
-
-            setStudents(res.data);
+            return;
 
         }
 
-        catch (err) {
+        try {
+
+            const res = await searchStudents(value);
+
+            setStudents(res.data || []);
+
+        } catch (err) {
 
             console.error(err);
 
@@ -108,13 +96,9 @@ function StudentList() {
     if (loading) {
 
         return (
-
             <div className="text-center mt-5">
-
                 <div className="spinner-border text-primary"></div>
-
             </div>
-
         );
 
     }
@@ -131,9 +115,7 @@ function StudentList() {
                     to="/admin/students/add"
                     className="btn btn-primary"
                 >
-
                     + Add Student
-
                 </Link>
 
             </div>
@@ -147,7 +129,7 @@ function StudentList() {
                         className="form-control"
                         placeholder="Search students..."
                         value={keyword}
-                        onChange={(e)=>handleSearch(e.target.value)}
+                        onChange={(e) => handleSearch(e.target.value)}
                     />
 
                 </div>
@@ -155,159 +137,71 @@ function StudentList() {
             </div>
 
             <div className="card shadow-sm">
-
                 <div className="card-body">
-
                     <table className="table table-hover align-middle">
-
                         <thead className="table-dark">
-
                             <tr>
-
                                 <th>Reg No</th>
-
                                 <th>Name</th>
-
                                 <th>Email</th>
-
+                                <th>Gender</th>
                                 <th>Faculty</th>
-
                                 <th>Department</th>
-
                                 <th>Academic Year</th>
-
+                                <th>Year of Study</th>
                                 <th>Semester</th>
-
                                 <th>Status</th>
-
-                                <th width="180">
-
-                                    Actions
-
-                                </th>
-
+                                <th width="180">Actions</th>
                             </tr>
-
                         </thead>
 
                         <tbody>
-
-                            {
-
-                                students.length > 0 ?
-
-                                students.map((student)=>(
-
+                            {students.length > 0 ? (
+                                students.map((student) => (
                                     <tr key={student.id}>
-
+                                        <td>{student.registration_no}</td>
+                                        <td>{student.full_name}</td>
+                                        <td>{student.email}</td>
+                                        <td>{student.gender}</td>
+                                        <td>{student.faculty_name}</td>
+                                        <td>{student.department_name}</td>
+                                        <td>{student.academic_year}</td>
+                                        <td>{student.year_of_study}</td>
+                                        <td>{student.semester}</td>
                                         <td>
-
-                                            {student.registration_no}
-
-                                        </td>
-
-                                        <td>
-
-                                            {student.full_name}
-
-                                        </td>
-
-                                        <td>
-
-                                            {student.email}
-
-                                        </td>
-
-                                        <td>
-
-                                            {student.faculty_name}
-
-                                        </td>
-
-                                        <td>
-
-                                            {student.department_name}
-
-                                        </td>
-
-                                        <td>
-
-                                            {student.academic_year}
-
-                                        </td>
-
-                                        <td>
-
-                                            {student.semester}
-
-                                        </td>
-
-                                        <td>
-
-                                            {
-
-                                                student.is_active == 1 ?
-
+                                            {student.is_active == 1 ? (
                                                 <span className="badge bg-success">
-
                                                     Active
-
                                                 </span>
-
-                                                :
-
+                                            ) : (
                                                 <span className="badge bg-danger">
-
                                                     Inactive
-
                                                 </span>
-
-                                            }
-
+                                            )}
                                         </td>
-
                                         <td>
-
                                             <Link
                                                 to={`/admin/students/edit/${student.id}`}
                                                 className="btn btn-warning btn-sm me-2"
                                             >
-
                                                 Edit
-
                                             </Link>
 
                                             <button
                                                 className="btn btn-danger btn-sm"
-                                                onClick={()=>handleDelete(student.id)}
+                                                onClick={() => handleDelete(student.id)}
                                             >
-
                                                 Delete
-
                                             </button>
-
                                         </td>
-
                                     </tr>
-
                                 ))
-
-                                :
-
+                            ) : (
                                 <tr>
-
-                                    <td
-                                        colSpan="9"
-                                        className="text-center"
-                                    >
-
-                                        No students found.
-
-                                    </td>
-
+                                    <td colSpan="11" className="text-center"> No students found. </td>
                                 </tr>
 
-                            }
+                            )}
 
                         </tbody>
 

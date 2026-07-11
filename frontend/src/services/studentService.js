@@ -6,13 +6,18 @@ export const getStudents = async () => {
     const response = await axios.get(`${API}/list.php`, {
         withCredentials: true
     });
+
     return response.data;
 };
 
 export const getStudent = async (id) => {
-    const response = await axios.get(`${API}/details.php?id=${id}`, {
-        withCredentials: true
-    });
+    const response = await axios.get(
+        `${API}/details.php?id=${id}`,
+        {
+            withCredentials: true
+        }
+    );
+
     return response.data;
 };
 
@@ -24,6 +29,7 @@ export const createStudent = async (data) => {
             withCredentials: true
         }
     );
+
     return response.data;
 };
 
@@ -35,6 +41,7 @@ export const updateStudent = async (id, data) => {
             withCredentials: true
         }
     );
+
     return response.data;
 };
 
@@ -43,9 +50,13 @@ export const deleteStudent = async (id) => {
         `${API}/delete.php?id=${id}`,
         {},
         {
-            withCredentials: true
+            withCredentials: true,
+            headers: {
+                "Content-Type": "application/json"
+            }
         }
     );
+
     return response.data;
 };
 
@@ -56,5 +67,6 @@ export const searchStudents = async (keyword) => {
             withCredentials: true
         }
     );
+
     return response.data;
 };

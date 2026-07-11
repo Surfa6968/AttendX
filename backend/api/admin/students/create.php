@@ -9,16 +9,16 @@ require_once "../../../helpers/validator.php";
 
 /*
 |--------------------------------------------------------------------------
-| Authorization
+| Authentication
 |--------------------------------------------------------------------------
 */
 
 if (!isset($_SESSION["user"])) {
-    error("Unauthorized.",401);
+    error("Unauthorized.", 401);
 }
 
 if ($_SESSION["user"]["role"] !== "admin") {
-    error("Access denied.",403);
+    error("Access denied.", 403);
 }
 
 /*
@@ -29,23 +29,19 @@ if ($_SESSION["user"]["role"] !== "admin") {
 
 $data = json_decode(file_get_contents("php://input"), true);
 
-$full_name      = trim($data["full_name"] ?? "");
-$email          = trim($data["email"] ?? "");
-$password       = $data["password"] ?? "";
-$gender         = $data["gender"] ?? "";
-
+$full_name = trim($data["full_name"] ?? "");
+$email = trim($data["email"] ?? "");
+$password = $data["password"] ?? "";
+$gender = trim($data["gender"] ?? "");
 $registration_no = trim($data["registration_no"] ?? "");
-
-$faculty_id     = intval($data["faculty_id"] ?? 0);
-$department_id  = intval($data["department_id"] ?? 0);
-
-$year_of_study  = $data["year_of_study"] ?? "";
-$semester       = $data["semester"] ?? "";
-$intake_year    = intval($data["intake_year"] ?? 0);
-
-$phone          = trim($data["phone"] ?? "");
-$address        = trim($data["address"] ?? "");
-$guardian_name  = trim($data["guardian_name"] ?? "");
+$faculty_id = intval($data["faculty_id"] ?? 0);
+$department_id = intval($data["department_id"] ?? 0);
+$academic_year = trim($data["academic_year"] ?? "");
+$year_of_study = trim($data["year_of_study"] ?? "");
+$semester = trim($data["semester"] ?? "");
+$phone = trim($data["phone"] ?? "");
+$address = trim($data["address"] ?? "");
+$guardian_name = trim($data["guardian_name"] ?? "");
 $guardian_phone = trim($data["guardian_phone"] ?? "");
 
 /*
@@ -60,11 +56,11 @@ if (
     !required($password) ||
     !required($registration_no)
 ) {
-    error("Please fill all required fields.",400);
+    error("Please fill all required fields.", 400);
 }
 
 if (!isEmail($email)) {
-    error("Invalid email address.",400);
+    error("Invalid email address.", 400);
 }
 
 /*
@@ -76,15 +72,15 @@ if (!isEmail($email)) {
 $stmt = $mysqli->prepare("
 SELECT id
 FROM users
-WHERE email=?
+WHERE email = ?
 LIMIT 1
 ");
 
-$stmt->bind_param("s",$email);
+$stmt->bind_param("s", $email);
 $stmt->execute();
 
-if($stmt->get_result()->num_rows>0){
-    error("Email already exists.",409);
+if ($stmt->get_result()->num_rows > 0) {
+    error("Email already exists.", 409);
 }
 
 $stmt->close();
@@ -98,15 +94,15 @@ $stmt->close();
 $stmt = $mysqli->prepare("
 SELECT id
 FROM students
-WHERE registration_no=?
+WHERE registration_no = ?
 LIMIT 1
 ");
 
-$stmt->bind_param("s",$registration_no);
+$stmt->bind_param("s", $registration_no);
 $stmt->execute();
 
-if($stmt->get_result()->num_rows>0){
-    error("Registration number already exists.",409);
+if ($stmt->get_result()->num_rows > 0) {
+    error("Registration number already exists.", 409);
 }
 
 $stmt->close();
@@ -117,10 +113,7 @@ $stmt->close();
 |--------------------------------------------------------------------------
 */
 
-$password_hash = password_hash(
-    $password,
-    PASSWORD_DEFAULT
-);
+$password_hash = password_hash($password, PASSWORD_DEFAULT);
 
 $stmt = $mysqli->prepare("
 INSERT INTO users
@@ -135,7 +128,11 @@ is_active
 VALUES
 (
 3,
-?,?,?,?,1
+?,
+?,
+?,
+?,
+1
 )
 ");
 
@@ -147,8 +144,8 @@ $stmt->bind_param(
     $gender
 );
 
-if(!$stmt->execute()){
-    error("Failed to create user.",500);
+if (!$stmt->execute()) {
+    error("Failed to create user.", 500);
 }
 
 $user_id = $stmt->insert_id;
@@ -168,9 +165,9 @@ user_id,
 registration_no,
 faculty_id,
 department_id,
+academic_year,
 year_of_study,
 semester,
-intake_year,
 phone,
 address,
 guardian_name,
@@ -184,15 +181,15 @@ VALUES
 
 $stmt->bind_param(
 
-"isiississss",
+"isiisssssss",
 
 $user_id,
 $registration_no,
 $faculty_id,
 $department_id,
+$academic_year,
 $year_of_study,
 $semester,
-$intake_year,
 $phone,
 $address,
 $guardian_name,
@@ -200,8 +197,10 @@ $guardian_phone
 
 );
 
-if(!$stmt->execute()){
+if (!$stmt->execute()) {
+
     error("Failed to create student.",500);
+
 }
 
 $stmt->close();
@@ -212,6 +211,4 @@ $stmt->close();
 |--------------------------------------------------------------------------
 */
 
-success(
-    "Student created successfully."
-);
+success("Student created successfully.");

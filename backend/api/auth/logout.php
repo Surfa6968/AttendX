@@ -1,4 +1,4 @@
-<?php
+intake_year<?php
 session_start();
 
 require_once "../../config/cors.php";

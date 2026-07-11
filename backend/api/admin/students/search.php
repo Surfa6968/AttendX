@@ -8,7 +8,7 @@ require_once "../../../helpers/response.php";
 
 /*
 |--------------------------------------------------------------------------
-| Authorization
+| Authentication
 |--------------------------------------------------------------------------
 */
 
@@ -37,19 +37,20 @@ $keyword = "%" . trim($_GET["keyword"] ?? "") . "%";
 $stmt = $mysqli->prepare("
 SELECT
 
-s.id,
-s.registration_no,
+    s.id,
+    s.registration_no,
 
-u.full_name,
-u.email,
-u.gender,
-u.is_active,
+    u.full_name,
+    u.email,
+    u.gender,
+    u.is_active,
 
-f.faculty_name,
-d.department_name,
+    f.faculty_name,
+    d.department_name,
 
-s.year_of_study,
-s.semester
+    s.academic_year,
+    s.year_of_study,
+    s.semester
 
 FROM students s
 
@@ -64,22 +65,23 @@ ON s.department_id = d.id
 
 WHERE
 
-u.full_name LIKE ?
-OR
-u.email LIKE ?
-OR
-s.registration_no LIKE ?
-OR
-f.faculty_name LIKE ?
-OR
-d.department_name LIKE ?
+    u.full_name LIKE ?
+    OR u.email LIKE ?
+    OR s.registration_no LIKE ?
+    OR f.faculty_name LIKE ?
+    OR d.department_name LIKE ?
+    OR s.academic_year LIKE ?
+    OR s.year_of_study LIKE ?
+    OR s.semester LIKE ?
 
-ORDER BY
-u.full_name
+ORDER BY u.full_name
 ");
 
 $stmt->bind_param(
-    "sssss",
+    "ssssssss",
+    $keyword,
+    $keyword,
+    $keyword,
     $keyword,
     $keyword,
     $keyword,
@@ -94,12 +96,16 @@ $result = $stmt->get_result();
 $data = [];
 
 while ($row = $result->fetch_assoc()) {
-
     $data[] = $row;
-
 }
 
 $stmt->close();
+
+/*
+|--------------------------------------------------------------------------
+| Success
+|--------------------------------------------------------------------------
+*/
 
 success(
     "Students loaded successfully.",

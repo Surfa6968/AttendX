@@ -6,44 +6,47 @@ import {
     updateStudent
 } from "../../../services/studentService";
 
-import {
-    getFaculties
-} from "../../../services/facultyService";
-
-import {
-    getDepartments
-} from "../../../services/departmentService";
+import { getFaculties } from "../../../services/facultyService";
+import { getDepartments } from "../../../services/departmentService";
 
 function EditStudent() {
 
-    const { id } = useParams();
-
     const navigate = useNavigate();
 
-    const [loading, setLoading] = useState(true);
+    const { id } = useParams();
+
+    const [loading, setLoading] = useState(false);
 
     const [faculties, setFaculties] = useState([]);
+
     const [departments, setDepartments] = useState([]);
 
-    const [form, setForm] = useState({
-
-        full_name: "",
-        email: "",
-        gender: "",
+    const [formData, setFormData] = useState({
 
         registration_no: "",
 
+        full_name: "",
+
+        email: "",
+
+        gender: "",
+
         faculty_id: "",
+
         department_id: "",
 
+        academic_year: "",
+
         year_of_study: "",
+
         semester: "",
-        intake_year: "",
 
         phone: "",
+
         address: "",
 
         guardian_name: "",
+
         guardian_phone: "",
 
         is_active: 1
@@ -52,25 +55,36 @@ function EditStudent() {
 
     useEffect(() => {
 
-        loadData();
+        loadStudent();
+
+        loadFaculties();
+
+        loadDepartments();
 
     }, []);
 
-    const loadData = async () => {
+    const loadStudent = async () => {
 
         try {
 
-            const facultyRes = await getFaculties();
+            const res = await getStudent(id);
 
-            setFaculties(facultyRes.data);
-
-            const departmentRes = await getDepartments();
-
-            setDepartments(departmentRes.data);
-
-            const studentRes = await getStudent(id);
-
-            setForm(studentRes.data);
+            setFormData({
+                registration_no: res.data.registration_no || "",
+                full_name: res.data.full_name || "",
+                email: res.data.email || "",
+                gender: res.data.gender || "Male",
+                faculty_id: res.data.faculty_id || "",
+                department_id: res.data.department_id || "",
+                academic_year: res.data.academic_year || "",
+                year_of_study: res.data.year_of_study || "",
+                semester: res.data.semester || "",
+                phone: res.data.phone || "",
+                address: res.data.address || "",
+                guardian_name: res.data.guardian_name || "",
+                guardian_phone: res.data.guardian_phone || "",
+                is_active: res.data.is_active ?? 1
+            });
 
         }
 
@@ -78,13 +92,43 @@ function EditStudent() {
 
             console.error(err);
 
-            alert("Unable to load student.");
+            alert("Failed to load student.");
 
         }
 
-        finally {
+    };
 
-            setLoading(false);
+    const loadFaculties = async () => {
+
+        try {
+
+            const res = await getFaculties();
+
+            setFaculties(res.data);
+
+        }
+
+        catch (err) {
+
+            console.error(err);
+
+        }
+
+    };
+
+    const loadDepartments = async () => {
+
+        try {
+
+            const res = await getDepartments();
+
+            setDepartments(res.data);
+
+        }
+
+        catch (err) {
+
+            console.error(err);
 
         }
 
@@ -92,9 +136,9 @@ function EditStudent() {
 
     const handleChange = (e) => {
 
-        setForm({
+        setFormData({
 
-            ...form,
+            ...formData,
 
             [e.target.name]: e.target.value
 
@@ -105,10 +149,12 @@ function EditStudent() {
     const handleSubmit = async (e) => {
 
         e.preventDefault();
+        console.log(formData);
+        setLoading(true);
 
         try {
 
-            const res = await updateStudent(id, form);
+            const res = await updateStudent(id, formData);
 
             alert(res.message);
 
@@ -124,35 +170,27 @@ function EditStudent() {
 
                 err.response?.data?.message ||
 
-                "Update failed."
+                "Failed to update student."
 
             );
 
         }
 
-    };
+        finally {
 
-    if (loading) {
+            setLoading(false);
+
+        }
+
+    };
 
         return (
 
-            <div className="text-center mt-5">
+        <div className="container">
 
-                <div className="spinner-border text-primary"></div>
+            <div className="card shadow">
 
-            </div>
-
-        );
-
-    }
-
-    return (
-
-        <div className="container-fluid">
-
-            <div className="card shadow-sm">
-
-                <div className="card-header">
+                <div className="card-header bg-warning text-dark">
 
                     <h3>Edit Student</h3>
 
@@ -164,86 +202,140 @@ function EditStudent() {
 
                         <div className="row">
 
+                            {/* Registration Number */}
+
                             <div className="col-md-6 mb-3">
 
-                                <label>Full Name</label>
+                                <label className="form-label">
+                                    Registration Number
+                                </label>
 
                                 <input
+                                    type="text"
                                     className="form-control"
-                                    name="full_name"
-                                    value={form.full_name}
+                                    name="registration_no"
+                                    value={formData.registration_no}
                                     onChange={handleChange}
                                     required
                                 />
 
                             </div>
 
+                            {/* Full Name */}
+
                             <div className="col-md-6 mb-3">
 
-                                <label>Email</label>
+                                <label className="form-label">
+                                    Full Name
+                                </label>
+
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    name="full_name"
+                                    value={formData.full_name}
+                                    onChange={handleChange}
+                                    required
+                                />
+
+                            </div>
+
+                            {/* Email */}
+
+                            <div className="col-md-6 mb-3">
+
+                                <label className="form-label">
+
+                                    Email
+
+                                </label>
 
                                 <input
                                     type="email"
                                     className="form-control"
                                     name="email"
-                                    value={form.email}
+                                    value={formData.email}
                                     onChange={handleChange}
                                     required
                                 />
 
                             </div>
 
-                            <div className="col-md-6 mb-3">
+                            {/* Gender */}
 
-                                <label>Gender</label>
+                            <div className="col-md-3 mb-3">
+
+                                <label className="form-label">
+
+                                    Gender
+
+                                </label>
 
                                 <select
                                     className="form-select"
                                     name="gender"
-                                    value={form.gender}
+                                    value={formData.gender}
                                     onChange={handleChange}
                                 >
 
                                     <option value="Male">Male</option>
-
                                     <option value="Female">Female</option>
 
                                 </select>
 
                             </div>
 
-                            <div className="col-md-6 mb-3">
+                            {/* Status */}
 
-                                <label>Registration No</label>
+                            <div className="col-md-3 mb-3">
 
-                                <input
-                                    className="form-control"
-                                    name="registration_no"
-                                    value={form.registration_no}
+                                <label className="form-label">
+
+                                    Status
+
+                                </label>
+
+                                <select
+                                    className="form-select"
+                                    name="is_active"
+                                    value={formData.is_active}
                                     onChange={handleChange}
-                                />
+                                >
+
+                                    <option value={1}>Active</option>
+                                    <option value={0}>Inactive</option>
+
+                                </select>
 
                             </div>
 
+                            {/* Faculty */}
+
                             <div className="col-md-6 mb-3">
 
-                                <label>Faculty</label>
+                                <label className="form-label">
+
+                                    Faculty
+
+                                </label>
 
                                 <select
                                     className="form-select"
                                     name="faculty_id"
-                                    value={form.faculty_id}
+                                    value={formData.faculty_id}
                                     onChange={handleChange}
                                 >
 
-                                    {faculties.map(f => (
+                                    <option value="">Select Faculty</option>
+
+                                    {faculties.map((faculty) => (
 
                                         <option
-                                            key={f.id}
-                                            value={f.id}
+                                            key={faculty.id}
+                                            value={faculty.id}
                                         >
 
-                                            {f.faculty_name}
+                                            {faculty.faculty_name}
 
                                         </option>
 
@@ -253,50 +345,81 @@ function EditStudent() {
 
                             </div>
 
+                            {/* Department */}
+
                             <div className="col-md-6 mb-3">
 
-                                <label>Department</label>
+                                <label className="form-label">
+
+                                    Department
+
+                                </label>
 
                                 <select
                                     className="form-select"
                                     name="department_id"
-                                    value={form.department_id}
+                                    value={formData.department_id}
                                     onChange={handleChange}
                                 >
 
-                                    {departments
-                                        .filter(
-                                            d =>
-                                                Number(d.faculty_id) === Number(form.faculty_id)
-                                        )
-                                        .map(d => (
+                                    <option value="">Select Department</option>
 
-                                            <option
-                                                key={d.id}
-                                                value={d.id}
-                                            >
+                                    {departments.map((department) => (
 
-                                                {d.department_name}
+                                        <option
+                                            key={department.id}
+                                            value={department.id}
+                                        >
 
-                                            </option>
+                                            {department.department_name}
 
-                                        ))}
+                                        </option>
+
+                                    ))}
 
                                 </select>
 
                             </div>
 
-                                                        <div className="col-md-6 mb-3">
+                            {/* Academic Year */}
 
-                                <label>Year of Study</label>
+                            <div className="col-md-4 mb-3">
+
+                                <label className="form-label">
+
+                                    Academic Year
+
+                                </label>
+
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    name="academic_year"
+                                    value={formData.academic_year}
+                                    onChange={handleChange}
+                                    placeholder="2023/2024"
+                                />
+
+                            </div>
+
+                            {/* Year of Study */}
+
+                            <div className="col-md-4 mb-3">
+
+                                <label className="form-label">
+
+                                    Year of Study
+
+                                </label>
 
                                 <select
                                     className="form-select"
                                     name="year_of_study"
-                                    value={form.year_of_study}
+                                    value={formData.year_of_study}
                                     onChange={handleChange}
                                 >
 
+                                    <option value="">Select</option>
                                     <option value="1">Year 1</option>
                                     <option value="2">Year 2</option>
                                     <option value="3">Year 3</option>
@@ -306,17 +429,24 @@ function EditStudent() {
 
                             </div>
 
-                            <div className="col-md-6 mb-3">
+                            {/* Semester */}
 
-                                <label>Semester</label>
+                            <div className="col-md-4 mb-3">
+
+                                <label className="form-label">
+
+                                    Semester
+
+                                </label>
 
                                 <select
                                     className="form-select"
                                     name="semester"
-                                    value={form.semester}
+                                    value={formData.semester}
                                     onChange={handleChange}
                                 >
 
+                                    <option value="">Select</option>
                                     <option value="1">Semester 1</option>
                                     <option value="2">Semester 2</option>
 
@@ -324,110 +454,114 @@ function EditStudent() {
 
                             </div>
 
-                            <div className="col-md-6 mb-3">
-
-                                <label>Intake Year</label>
-
-                                <input
-                                    type="number"
-                                    className="form-control"
-                                    name="intake_year"
-                                    value={form.intake_year}
-                                    onChange={handleChange}
-                                />
-
-                            </div>
+                            {/* Phone */}
 
                             <div className="col-md-6 mb-3">
 
-                                <label>Phone</label>
+                                <label className="form-label">
+
+                                    Phone
+
+                                </label>
 
                                 <input
+                                    type="text"
                                     className="form-control"
                                     name="phone"
-                                    value={form.phone}
+                                    value={formData.phone}
                                     onChange={handleChange}
                                 />
 
                             </div>
+
+                            {/* Guardian Phone */}
+
+                            <div className="col-md-6 mb-3">
+
+                                <label className="form-label">
+
+                                    Guardian Phone
+
+                                </label>
+
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    name="guardian_phone"
+                                    value={formData.guardian_phone}
+                                    onChange={handleChange}
+                                />
+
+                            </div>
+
+                            {/* Address */}
 
                             <div className="col-md-12 mb-3">
 
-                                <label>Address</label>
+                                <label className="form-label">
+
+                                    Address
+
+                                </label>
 
                                 <textarea
-                                    className="form-control"
                                     rows="3"
+                                    className="form-control"
                                     name="address"
-                                    value={form.address}
+                                    value={formData.address}
                                     onChange={handleChange}
                                 />
 
                             </div>
 
-                            <div className="col-md-6 mb-3">
+                            {/* Guardian Name */}
 
-                                <label>Guardian Name</label>
+                            <div className="col-md-12 mb-3">
+
+                                <label className="form-label">
+
+                                    Guardian Name
+
+                                </label>
 
                                 <input
+                                    type="text"
                                     className="form-control"
                                     name="guardian_name"
-                                    value={form.guardian_name}
+                                    value={formData.guardian_name}
                                     onChange={handleChange}
                                 />
-
                             </div>
 
-                            <div className="col-md-6 mb-3">
+                                                        <div className="col-12 mt-4">
 
-                                <label>Guardian Phone</label>
-
-                                <input
-                                    className="form-control"
-                                    name="guardian_phone"
-                                    value={form.guardian_phone}
-                                    onChange={handleChange}
-                                />
-
-                            </div>
-
-                            <div className="col-md-6 mb-4">
-
-                                <label>Status</label>
-
-                                <select
-                                    className="form-select"
-                                    name="is_active"
-                                    value={form.is_active}
-                                    onChange={handleChange}
+                                <button
+                                    type="submit"
+                                    className="btn btn-warning me-2"
+                                    disabled={loading}
                                 >
 
-                                    <option value="1">
+                                    {
+                                        loading
+                                            ? "Updating..."
+                                            : "Update Student"
+                                    }
 
-                                        Active
+                                </button>
 
-                                    </option>
+                                <button
+                                    type="button"
+                                    className="btn btn-secondary"
+                                    onClick={() => navigate("/admin/students")}
+                                >
 
-                                    <option value="0">
+                                    Cancel
 
-                                        Inactive
-
-                                    </option>
-
-                                </select>
+                                </button>
 
                             </div>
 
                         </div>
-
-                        <button
-                            type="submit"
-                            className="btn btn-success"
-                        >
-
-                            Update Student
-
-                        </button>
 
                     </form>
 

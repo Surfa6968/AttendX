@@ -8,7 +8,7 @@ require_once "../../../helpers/response.php";
 
 /*
 |--------------------------------------------------------------------------
-| Authorization
+| Authentication
 |--------------------------------------------------------------------------
 */
 
@@ -22,53 +22,88 @@ if ($_SESSION["user"]["role"] !== "admin") {
 
 /*
 |--------------------------------------------------------------------------
-| Student List
+| Get Student List
 |--------------------------------------------------------------------------
 */
 
-$sql = "
+$stmt = $mysqli->prepare("
 SELECT
+    s.id,
+    s.registration_no,
+    s.faculty_id,
+    s.department_id,
+    s.academic_year,
+    s.year_of_study,
+    s.semester,
 
-s.id,
-s.registration_no,
+    u.full_name,
+    u.email,
+    u.gender,
+    u.is_active,
 
-u.full_name,
-u.email,
-u.gender,
-u.is_active,
-
-f.faculty_name,
-d.department_name,
-
-s.academic_year,
-s.semester
+    f.faculty_name,
+    d.department_name
 
 FROM students s
 
 INNER JOIN users u
-ON s.user_id = u.id
+    ON s.user_id = u.id
 
 LEFT JOIN faculties f
-ON s.faculty_id = f.id
+    ON s.faculty_id = f.id
 
 LEFT JOIN departments d
-ON s.department_id = d.id
+    ON s.department_id = d.id
 
-ORDER BY
-u.full_name
-";
+ORDER BY u.full_name ASC
+");
 
-$result = $mysqli->query($sql);
+if (!$stmt) {
+    error($mysqli->error, 500);
+}
 
-$data = [];
+$stmt->execute();
+
+$result = $stmt->get_result();
+
+$students = [];
 
 while ($row = $result->fetch_assoc()) {
 
-    $data[] = $row;
+    $students[] = [
 
+        "id" => (int)$row["id"],
+
+        "registration_no" => $row["registration_no"],
+
+        "full_name" => $row["full_name"],
+
+        "email" => $row["email"],
+
+        "gender" => $row["gender"],
+
+        "faculty_id" => (int)$row["faculty_id"],
+
+        "department_id" => (int)$row["department_id"],
+
+        "faculty_name" => $row["faculty_name"],
+
+        "department_name" => $row["department_name"],
+
+        "academic_year" => $row["academic_year"],
+
+        "year_of_study" => $row["year_of_study"],
+
+        "semester" => $row["semester"],
+
+        "is_active" => (int)$row["is_active"]
+
+    ];
 }
+
+$stmt->close();
 
 success(
     "Students loaded successfully.",
-    $data
+    $students
 );

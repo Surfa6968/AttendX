@@ -6,6 +6,12 @@ require_once "../../../config/cors.php";
 require_once "../../../config/database.php";
 require_once "../../../helpers/response.php";
 
+/*
+|--------------------------------------------------------------------------
+| Authentication
+|--------------------------------------------------------------------------
+*/
+
 if (!isset($_SESSION["user"])) {
     error("Unauthorized.", 401);
 }
@@ -13,6 +19,12 @@ if (!isset($_SESSION["user"])) {
 if ($_SESSION["user"]["role"] !== "admin") {
     error("Access denied.", 403);
 }
+
+/*
+|--------------------------------------------------------------------------
+| Validate Student ID
+|--------------------------------------------------------------------------
+*/
 
 $id = intval($_GET["id"] ?? 0);
 
@@ -29,7 +41,7 @@ if ($id <= 0) {
 $stmt = $mysqli->prepare("
 SELECT user_id
 FROM students
-WHERE id=?
+WHERE id = ?
 LIMIT 1
 ");
 
@@ -38,7 +50,7 @@ $stmt->execute();
 
 $result = $stmt->get_result();
 
-if ($result->num_rows === 0) {
+if ($result->num_rows == 0) {
     error("Student not found.", 404);
 }
 
@@ -48,46 +60,66 @@ $stmt->close();
 
 /*
 |--------------------------------------------------------------------------
-| Delete Student
+| Start Transaction
 |--------------------------------------------------------------------------
 */
 
-$stmt = $mysqli->prepare("
-DELETE FROM students
-WHERE id=?
-");
+$mysqli->begin_transaction();
 
-$stmt->bind_param("i", $id);
+try {
 
-if (!$stmt->execute()) {
-    error("Failed to delete student.", 500);
+    /*
+    |--------------------------------------------------------------------------
+    | Delete Student
+    |--------------------------------------------------------------------------
+    */
+
+    $stmt = $mysqli->prepare("
+    DELETE FROM students
+    WHERE id = ?
+    ");
+
+    $stmt->bind_param("i", $id);
+
+    if (!$stmt->execute()) {
+        throw new Exception("Failed to delete student.");
+    }
+
+    $stmt->close();
+
+    /*
+    |--------------------------------------------------------------------------
+    | Delete User
+    |--------------------------------------------------------------------------
+    */
+
+    $stmt = $mysqli->prepare("
+    DELETE FROM users
+    WHERE id = ?
+    ");
+
+    $stmt->bind_param("i", $user_id);
+
+    if (!$stmt->execute()) {
+        throw new Exception("Failed to delete user.");
+    }
+
+    $stmt->close();
+
+    /*
+    |--------------------------------------------------------------------------
+    | Commit
+    |--------------------------------------------------------------------------
+    */
+
+    $mysqli->commit();
+
+    success("Student deleted successfully.");
+
+} catch (Exception $e) {
+
+    $mysqli->rollback();
+
+    error($e->getMessage(), 500);
+
 }
-
-$stmt->close();
-
-/*
-|--------------------------------------------------------------------------
-| Delete User
-|--------------------------------------------------------------------------
-*/
-
-$stmt = $mysqli->prepare("
-DELETE FROM users
-WHERE id=?
-");
-
-$stmt->bind_param("i", $user_id);
-
-if (!$stmt->execute()) {
-    error("Failed to delete user.", 500);
-}
-
-$stmt->close();
-
-/*
-|--------------------------------------------------------------------------
-| Success
-|--------------------------------------------------------------------------
-*/
-
-success("Student deleted successfully.");

@@ -70,6 +70,12 @@ function Sidebar() {
         },
 
         {
+            title: "Students",
+            icon: <FaUsers />,
+            path: "/admin/students"
+        },
+
+        {
             title: "Timetable",
             icon: <FaCalendarAlt />,
             path: "/admin/timetable"

@@ -8,9 +8,7 @@ import { getDepartments } from "../../../services/departmentService";
 function AddStudent() {
 
     const navigate = useNavigate();
-
     const [loading, setLoading] = useState(false);
-
     const [faculties, setFaculties] = useState([]);
     const [departments, setDepartments] = useState([]);
 
@@ -31,7 +29,6 @@ function AddStudent() {
         guardian_name: "",
         guardian_phone: "",
         is_active: 1
-
     });
 
     useEffect(() => {

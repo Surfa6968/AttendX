@@ -23,6 +23,9 @@ import EditLecturer from "./pages/admin/lecturers/EditLecturer";
 import StudentList from "./pages/admin/students/StudentList";
 import AddStudent from "./pages/admin/students/AddStudent";
 import EditStudent from "./pages/admin/students/EditStudent";
+import TimetableList from "./pages/admin/timetable/TimetableList";
+import AddTimetable from "./pages/admin/timetable/AddTimetable";
+import EditTimetable from "./pages/admin/timetable/EditTimetable";
 
 import LecturerDashboard from "./pages/lecturer/Dashboard";
 import StudentDashboard from "./pages/student/Dashboard";
@@ -103,6 +106,11 @@ function App() {
                 <Route path="students" element={<StudentList />} />
                 <Route path="students/add" element={<AddStudent />} />
                 <Route path="students/edit/:id" element={<EditStudent />} />
+
+                {/* Timetable Management */}
+                <Route path="timetable" element={<TimetableList />} />
+                <Route path="timetable/add" element={<AddTimetable />} />
+                <Route path="timetable/edit/:id" element={<EditTimetable />} />
             </Route>
             {/* =======================
                 Lecturer

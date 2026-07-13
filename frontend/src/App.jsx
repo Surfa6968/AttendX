@@ -34,8 +34,13 @@ import AttendanceList from "./pages/admin/attendance/AttendanceList";
 import AttendanceView from "./pages/admin/attendance/AttendanceView";
 
 import LecturerDashboard from "./pages/lecturer/Dashboard";
+
 import StudentDashboard from "./pages/student/Dashboard";
+import QRScanner from "./pages/student/QRScanner";
+import AttendanceHistory from "./pages/student/AttendanceHistory";
+
 import Unauthorized from "./pages/Unauthorized";
+import StudentLayout from "./layouts/StudentLayout";
 
 function App() {
     const { user } = useAuth();
@@ -151,12 +156,16 @@ function App() {
                 path="/student"
                 element={
                     <ProtectedRoute allowedRoles={["student"]}>
-                        <AdminLayout />
+                        <StudentLayout />
                     </ProtectedRoute>
                 }
             >
                 <Route path="dashboard" element={<StudentDashboard />} />
+
+                <Route path="scan" element={<QRScanner />} />
+                <Route path="attendance" element={<AttendanceHistory />} />
             </Route>
+
             {/* =======================
                 Unauthorized
             ======================= */}

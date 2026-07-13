@@ -1,77 +1,40 @@
 import { useState } from "react";
 import { Outlet } from "react-router-dom";
 
-import Sidebar from "../components/Sidebar";
-import Topbar from "../components/Topbar";
+import Sidebar from "../components/admin/Sidebar";
+import Topbar from "../components/admin/Topbar";
 
 function AdminLayout() {
+  const [sidebarOpen, setSidebarOpen] = useState(true);
 
-    const [sidebarOpen, setSidebarOpen] = useState(true);
+  const toggleSidebar = () => {
+    setSidebarOpen(!sidebarOpen);
+  };
 
-    const toggleSidebar = () => {
+  return (
+    <div className="d-flex bg-light">
+      {/* Sidebar */}
 
-        setSidebarOpen(!sidebarOpen);
+      <div className={sidebarOpen ? "d-block" : "d-none d-lg-block"}>
+        <Sidebar />
+      </div>
 
-    };
+      {/* Main Content */}
 
-    return (
+      <div
+        className="flex-grow-1"
+        style={{
+          minHeight: "100vh",
+        }}
+      >
+        <Topbar toggleSidebar={toggleSidebar} />
 
-        <div className="d-flex bg-light">
-
-            {/* Sidebar */}
-
-            <div
-
-                className={
-
-                    sidebarOpen
-                        ? "d-block"
-                        : "d-none d-lg-block"
-
-                }
-
-            >
-
-                <Sidebar />
-
-            </div>
-
-            {/* Main Content */}
-
-            <div
-
-                className="flex-grow-1"
-
-                style={{
-
-                    minHeight: "100vh"
-
-                }}
-
-            >
-
-                <Topbar
-
-                    toggleSidebar={toggleSidebar}
-
-                />
-
-                <main
-
-                    className="p-4"
-
-                >
-
-                    <Outlet />
-
-                </main>
-
-            </div>
-
-        </div>
-
-    );
-
+        <main className="p-4">
+          <Outlet />
+        </main>
+      </div>
+    </div>
+  );
 }
 
 export default AdminLayout;

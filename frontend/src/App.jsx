@@ -26,6 +26,12 @@ import EditStudent from "./pages/admin/students/EditStudent";
 import TimetableList from "./pages/admin/timetable/TimetableList";
 import AddTimetable from "./pages/admin/timetable/AddTimetable";
 import EditTimetable from "./pages/admin/timetable/EditTimetable";
+import ClassSessionList from "./pages/admin/classSession/ClassSessionList";
+import CreateClassSession from "./pages/admin/classSession/CreateClassSession";
+import EditClassSession from "./pages/admin/classSession/EditClassSession";
+// import QRSessionList from "./pages/admin/qrSession/QRSessionList";
+// import AddQRSession from "./pages/admin/qrSession/AddQRSession";
+// import EditQRSession from "./pages/admin/qrSession/EditQRSession";
 
 import LecturerDashboard from "./pages/lecturer/Dashboard";
 import StudentDashboard from "./pages/student/Dashboard";
@@ -111,6 +117,16 @@ function App() {
                 <Route path="timetable" element={<TimetableList />} />
                 <Route path="timetable/add" element={<AddTimetable />} />
                 <Route path="timetable/edit/:id" element={<EditTimetable />} />
+
+                {/* Class Session */}
+                <Route path="classSession" element={<ClassSessionList />} />
+                <Route path="classSession/create" element={<CreateClassSession />} />
+                <Route path="classSession/edit/:id" element={<EditClassSession />} />
+
+                {/* QR Session */}
+                {/* <Route path="qrSession" element={<QRSessionList />} />
+                <Route path="qrSession/add" element={<AddQRSession />} />
+                <Route path="qrSession/edit/:id" element={<EditQRSession />} /> */}
             </Route>
             {/* =======================
                 Lecturer

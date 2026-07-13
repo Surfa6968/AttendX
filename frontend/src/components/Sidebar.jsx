@@ -82,9 +82,15 @@ function Sidebar() {
         },
 
         {
+            title: "Class Sessions",
+            icon: <FaCalendarAlt />,
+            path: "/admin/classSession"
+        },
+
+        {
             title: "QR Sessions",
             icon: <FaQrcode />,
-            path: "/admin/attendance"
+            path: "/admin/qrSession"
         },
 
         {

@@ -30,6 +30,8 @@ import ClassSessionList from "./pages/admin/classSession/ClassSessionList";
 import CreateClassSession from "./pages/admin/classSession/CreateClassSession";
 import EditClassSession from "./pages/admin/classSession/EditClassSession";
 import QRSession from "./pages/admin/qrSession/QRSession";
+import AttendanceList from "./pages/admin/attendance/AttendanceList";
+import AttendanceView from "./pages/admin/attendance/AttendanceView";
 
 import LecturerDashboard from "./pages/lecturer/Dashboard";
 import StudentDashboard from "./pages/student/Dashboard";
@@ -123,6 +125,10 @@ function App() {
 
                 {/* QR Session */}
                 <Route path="qrSession" element={<QRSession />} />
+
+                {/* Attendance */}
+                <Route path="attendance" element={<AttendanceList />} />
+                <Route path="attendance/view/:id" element={<AttendanceView />} />
                
             </Route>
             {/* =======================

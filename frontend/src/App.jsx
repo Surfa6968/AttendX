@@ -29,9 +29,7 @@ import EditTimetable from "./pages/admin/timetable/EditTimetable";
 import ClassSessionList from "./pages/admin/classSession/ClassSessionList";
 import CreateClassSession from "./pages/admin/classSession/CreateClassSession";
 import EditClassSession from "./pages/admin/classSession/EditClassSession";
-// import QRSessionList from "./pages/admin/qrSession/QRSessionList";
-// import AddQRSession from "./pages/admin/qrSession/AddQRSession";
-// import EditQRSession from "./pages/admin/qrSession/EditQRSession";
+import QRSession from "./pages/admin/qrSession/QRSession";
 
 import LecturerDashboard from "./pages/lecturer/Dashboard";
 import StudentDashboard from "./pages/student/Dashboard";
@@ -124,9 +122,8 @@ function App() {
                 <Route path="classSession/edit/:id" element={<EditClassSession />} />
 
                 {/* QR Session */}
-                {/* <Route path="qrSession" element={<QRSessionList />} />
-                <Route path="qrSession/add" element={<AddQRSession />} />
-                <Route path="qrSession/edit/:id" element={<EditQRSession />} /> */}
+                <Route path="qrSession" element={<QRSession />} />
+               
             </Route>
             {/* =======================
                 Lecturer

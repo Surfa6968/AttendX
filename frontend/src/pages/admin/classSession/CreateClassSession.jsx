@@ -130,7 +130,7 @@ function CreateClassSession() {
 
             alert(res.message);
 
-            navigate("/admin/class-sessions");
+            navigate("/admin/classSession");
 
         }
 

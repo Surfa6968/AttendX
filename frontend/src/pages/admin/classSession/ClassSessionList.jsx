@@ -415,7 +415,7 @@ function ClassSessionList() {
                                                     <td>
 
                                                         <div className="d-flex gap-2">
-                                                                                                                           <button
+                                                           <button
                                                                 className="btn btn-sm btn-warning"
                                                                 title="Edit"
                                                                 onClick={() =>

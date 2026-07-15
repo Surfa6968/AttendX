@@ -70,8 +70,11 @@ INNER JOIN class_sessions cs
 INNER JOIN courses c
     ON cs.course_id = c.id
 
+INNER JOIN lecturers l
+    ON cs.lecturer_id = l.id
+
 INNER JOIN users u
-    ON cs.lecturer_id = u.id
+    ON l.user_id = u.id
 
 ORDER BY qr.generated_at DESC
 

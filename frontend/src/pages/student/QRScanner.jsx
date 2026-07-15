@@ -19,59 +19,82 @@ function QRScanner() {
         );
 
         scanner.render(
+
             async (decodedText) => {
 
                 try {
 
-                    // Stop camera
-                    scanner.clear();
+                    // Stop scanner after successful detection
+                    await scanner.clear();
+
+                    console.log("QR Token:", decodedText);
 
                     /*
-                    -------------------------------
+                    ------------------------------------------------
                     Validate QR
-                    -------------------------------
+                    ------------------------------------------------
                     */
-                   console.log("Calling validateQR...");
+
+                    console.log("Calling validateQR...");
 
                     const validate = await validateQR({
                         qr_token: decodedText
                     });
 
-                    console.log(validate);
-                    if (!validate.data.success) {
+                    console.log("Validate Response:", validate);
 
-                        alert(validate.data.message);
+                    if (!validate.success) {
+
+                        alert(validate.message);
 
                         return;
 
                     }
 
                     /*
-                    -------------------------------
+                    ------------------------------------------------
                     Mark Attendance
-                    -------------------------------
+                    ------------------------------------------------
                     */
+
+                    console.log("Calling scanQR...");
 
                     const mark = await scanQR({
                         qr_token: decodedText
                     });
 
-                    alert(mark.data.message);
+                    console.log("Scan Response:", mark);
+
+                    alert(mark.message);
 
                 }
 
                 catch (error) {
 
+                    console.error("QR Scan Error:", error);
+
+                    console.error("Response:", error.response);
+
+                    console.error("Response Data:", error.response?.data);
+
                     alert(
+
                         error.response?.data?.message ||
+
+                        error.message ||
+
                         "QR Scan Failed."
+
                     );
 
                 }
 
             },
 
-            () => {}
+            (errorMessage) => {
+                // Ignore continuous scan errors
+                // console.log(errorMessage);
+            }
 
         );
 
@@ -105,7 +128,7 @@ function QRScanner() {
                         id="reader"
                         style={{
                             width: "400px",
-                            margin: "auto"
+                            margin: "0 auto"
                         }}
                     ></div>
 

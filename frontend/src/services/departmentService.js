@@ -1,38 +1,66 @@
 import axios from "axios";
+import { API_URL } from "../config/api";
 
-const API = "http://localhost/AttendX/backend/api/admin/departments";
+const API = `${API_URL}/admin/departments`;
+
+const api = axios.create({
+    baseURL: API,
+    withCredentials: true
+});
+
+/*
+|--------------------------------------------------------------------------
+| Get All Departments
+|--------------------------------------------------------------------------
+*/
 
 export const getDepartments = async () => {
-    const response = await axios.get(`${API}/list.php`, {
-        withCredentials: true
-    });
+    const response = await api.get("/list.php");
     return response.data;
 };
+
+/*
+|--------------------------------------------------------------------------
+| Get Department
+|--------------------------------------------------------------------------
+*/
 
 export const getDepartment = async (id) => {
-    const response = await axios.get(`${API}/details.php?id=${id}`, {
-        withCredentials: true
-    });
+    const response = await api.get(`/details.php?id=${id}`);
     return response.data;
 };
+
+/*
+|--------------------------------------------------------------------------
+| Create Department
+|--------------------------------------------------------------------------
+*/
 
 export const createDepartment = async (data) => {
-    const response = await axios.post(`${API}/create.php`, data, {
-        withCredentials: true
-    });
+    const response = await api.post("/create.php", data);
     return response.data;
 };
+
+/*
+|--------------------------------------------------------------------------
+| Update Department
+|--------------------------------------------------------------------------
+*/
 
 export const updateDepartment = async (id, data) => {
-    const response = await axios.post(`${API}/update.php?id=${id}`, data, {
-        withCredentials: true
-    });
+    const response = await api.post(`/update.php?id=${id}`, data);
     return response.data;
 };
 
+/*
+|--------------------------------------------------------------------------
+| Delete Department
+|--------------------------------------------------------------------------
+*/
+
 export const deleteDepartment = async (id) => {
-    const response = await axios.post(`${API}/delete.php?id=${id}`, {}, {
-        withCredentials: true
-    });
+    const response = await api.post(`/delete.php?id=${id}`);
     return response.data;
 };
+
+export default api;

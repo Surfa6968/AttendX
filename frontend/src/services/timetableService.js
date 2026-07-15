@@ -1,50 +1,108 @@
 import axios from "axios";
+import { API_URL } from "../config/api";
 
-const API = "http://localhost/AttendX/backend/api/admin/timetable";
+const API = `${API_URL}/admin/timetable`;
+
+const api = axios.create({
+
+    baseURL: API,
+
+    withCredentials: true,
+
+    headers: {
+        "Content-Type": "application/json"
+    }
+
+});
+
+/*
+|--------------------------------------------------------------------------
+| Get All Timetables
+|--------------------------------------------------------------------------
+*/
 
 export const getTimetables = async () => {
-    const res = await axios.get(`${API}/list.php`, {
-        withCredentials: true,
-    });
-    return res.data;
+
+    const response = await api.get("/list.php");
+
+    return response.data;
+
 };
+
+/*
+|--------------------------------------------------------------------------
+| Get Single Timetable
+|--------------------------------------------------------------------------
+*/
 
 export const getTimetable = async (id) => {
-    const res = await axios.get(`${API}/get.php?id=${id}`, {
-        withCredentials: true,
-    });
-    return res.data;
+
+    const response = await api.get(`/get.php?id=${id}`);
+
+    return response.data;
+
 };
+
+/*
+|--------------------------------------------------------------------------
+| Create Timetable
+|--------------------------------------------------------------------------
+*/
 
 export const createTimetable = async (data) => {
-    const res = await axios.post(`${API}/create.php`, data, {
-        withCredentials: true,
-    });
-    return res.data;
+
+    const response = await api.post("/create.php", data);
+
+    return response.data;
+
 };
+
+/*
+|--------------------------------------------------------------------------
+| Update Timetable
+|--------------------------------------------------------------------------
+*/
 
 export const updateTimetable = async (id, data) => {
-    const res = await axios.post(`${API}/update.php?id=${id}`, data, {
-        withCredentials: true,
-    });
-    return res.data;
+
+    const response = await api.post(`/update.php?id=${id}`, data);
+
+    return response.data;
+
 };
+
+/*
+|--------------------------------------------------------------------------
+| Delete Timetable
+|--------------------------------------------------------------------------
+*/
 
 export const deleteTimetable = async (id) => {
-    const res = await axios.post(
-        `${API}/delete.php`,
-        { id },
-        { withCredentials: true }
-    );
-    return res.data;
+
+    const response = await api.post("/delete.php", { id });
+
+    return response.data;
+
 };
 
+/*
+|--------------------------------------------------------------------------
+| Search Timetables
+|--------------------------------------------------------------------------
+*/
+
 export const searchTimetables = async (keyword) => {
-    const res = await axios.get(
-        `${API}/search.php?keyword=${keyword}`,
-        {
-            withCredentials: true,
+
+    const response = await api.get("/search.php", {
+
+        params: {
+            keyword
         }
-    );
-    return res.data;
+
+    });
+
+    return response.data;
+
 };
+
+export default api;

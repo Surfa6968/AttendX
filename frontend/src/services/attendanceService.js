@@ -1,18 +1,14 @@
 import axios from "axios";
+import { API_URL } from "../config/api";
 
-const API =
-    "http://localhost/AttendX/backend/api/admin/attendance";
+const API = `${API_URL}/admin/attendance`;
 
 const api = axios.create({
-
     baseURL: API,
-
     withCredentials: true,
-
     headers: {
         "Content-Type": "application/json"
     }
-
 });
 
 export const getAttendance = () =>

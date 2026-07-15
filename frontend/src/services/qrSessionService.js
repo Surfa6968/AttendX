@@ -1,7 +1,7 @@
 import axios from "axios";
+import { API_URL } from "../config/api";
 
-const API =
-    "http://localhost/AttendX/backend/api/admin/qrSession";
+const API = `${API_URL}/admin/qrSession`;
 
 const api = axios.create({
 
@@ -15,21 +15,78 @@ const api = axios.create({
 
 });
 
-export const getQRSessions = () =>
-    api.get("/list.php");
+/*
+|--------------------------------------------------------------------------
+| Get QR Sessions
+|--------------------------------------------------------------------------
+*/
 
-export const createQRSession = (data) =>
-    api.post("/create.php", data);
+export const getQRSessions = async () => {
 
-export const deleteQRSession = (id) =>
-    api.post("/delete.php", { id });
+    const response = await api.get("/list.php");
 
-export const closeQRSession = (id) =>
-    api.post("/close.php", { id });
+    return response.data;
 
-export const searchQRSessions = (keyword) =>
-    api.get("/search.php", {
+};
+
+/*
+|--------------------------------------------------------------------------
+| Create QR Session
+|--------------------------------------------------------------------------
+*/
+
+export const createQRSession = async (data) => {
+
+    const response = await api.post("/create.php", data);
+
+    return response.data;
+
+};
+
+/*
+|--------------------------------------------------------------------------
+| Close QR Session
+|--------------------------------------------------------------------------
+*/
+
+export const closeQRSession = async (id) => {
+
+    const response = await api.post("/close.php", { id });
+
+    return response.data;
+
+};
+
+/*
+|--------------------------------------------------------------------------
+| Delete QR Session
+|--------------------------------------------------------------------------
+*/
+
+export const deleteQRSession = async (id) => {
+
+    const response = await api.post("/delete.php", { id });
+
+    return response.data;
+
+};
+
+/*
+|--------------------------------------------------------------------------
+| Search QR Sessions
+|--------------------------------------------------------------------------
+*/
+
+export const searchQRSessions = async (keyword) => {
+
+    const response = await api.get("/search.php", {
+
         params: { keyword }
+
     });
+
+    return response.data;
+
+};
 
 export default api;

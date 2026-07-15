@@ -1,38 +1,66 @@
 import axios from "axios";
+import { API_URL } from "../config/api";
 
-const API = "http://localhost/AttendX/backend/api/admin/faculties";
+const API = `${API_URL}/admin/faculties`;
+
+const api = axios.create({
+    baseURL: API,
+    withCredentials: true
+});
+
+/*
+|--------------------------------------------------------------------------
+| Get All Faculties
+|--------------------------------------------------------------------------
+*/
 
 export const getFaculties = async () => {
-    const response = await axios.get(`${API}/list.php`, {
-        withCredentials: true
-    });
+    const response = await api.get("/list.php");
     return response.data;
 };
+
+/*
+|--------------------------------------------------------------------------
+| Get Faculty
+|--------------------------------------------------------------------------
+*/
 
 export const getFaculty = async (id) => {
-    const response = await axios.get(`${API}/details.php?id=${id}`, {
-        withCredentials: true
-    });
+    const response = await api.get(`/details.php?id=${id}`);
     return response.data;
 };
+
+/*
+|--------------------------------------------------------------------------
+| Create Faculty
+|--------------------------------------------------------------------------
+*/
 
 export const createFaculty = async (data) => {
-    const response = await axios.post(`${API}/create.php`, data, {
-        withCredentials: true
-    });
+    const response = await api.post("/create.php", data);
     return response.data;
 };
+
+/*
+|--------------------------------------------------------------------------
+| Update Faculty
+|--------------------------------------------------------------------------
+*/
 
 export const updateFaculty = async (id, data) => {
-    const response = await axios.post(`${API}/update.php?id=${id}`, data, {
-        withCredentials: true
-    });
+    const response = await api.post(`/update.php?id=${id}`, data);
     return response.data;
 };
 
+/*
+|--------------------------------------------------------------------------
+| Delete Faculty
+|--------------------------------------------------------------------------
+*/
+
 export const deleteFaculty = async (id) => {
-    const response = await axios.post(`${API}/delete.php?id=${id}`, {}, {
-        withCredentials: true
-    });
+    const response = await api.post(`/delete.php?id=${id}`);
     return response.data;
 };
+
+export default api;

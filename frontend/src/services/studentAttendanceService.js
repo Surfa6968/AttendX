@@ -1,21 +1,60 @@
 import axios from "axios";
+import { API_URL } from "../config/api";
+
+const API = `${API_URL}/student/attendance`;
 
 const api = axios.create({
 
-    baseURL:
-    "http://localhost/AttendX/backend/api/student/attendance",
+    baseURL: API,
 
-    withCredentials: true
+    withCredentials: true,
+
+    headers: {
+        "Content-Type": "application/json"
+    }
 
 });
 
-export const getAttendanceHistory = () =>
-    api.get("/history.php");
+/*
+|--------------------------------------------------------------------------
+| Attendance History
+|--------------------------------------------------------------------------
+*/
 
-export const scanQR = (data) =>
-    api.post("/scan.php", data);
+export const getAttendanceHistory = async () => {
 
-export const validateQR = (data) =>
-    api.post("/validateQR.php", data);
+    const response = await api.get("/history.php");
+
+    return response.data;
+
+};
+
+/*
+|--------------------------------------------------------------------------
+| Validate QR
+|--------------------------------------------------------------------------
+*/
+
+export const validateQR = async (data) => {
+
+    const response = await api.post("/validateQR.php", data);
+
+    return response.data;
+
+};
+
+/*
+|--------------------------------------------------------------------------
+| Scan QR
+|--------------------------------------------------------------------------
+*/
+
+export const scanQR = async (data) => {
+
+    const response = await api.post("/scan.php", data);
+
+    return response.data;
+
+};
 
 export default api;

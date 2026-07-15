@@ -78,8 +78,11 @@ FROM class_sessions cs
 INNER JOIN courses c
     ON c.id = cs.course_id
 
+INNER JOIN lecturers l
+    ON l.id = cs.lecturer_id
+
 INNER JOIN users u
-    ON u.id = cs.lecturer_id
+    ON u.id = l.user_id
 
 WHERE cs.id = ?
 

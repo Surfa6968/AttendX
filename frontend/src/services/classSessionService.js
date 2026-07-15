@@ -1,6 +1,12 @@
 import axios from "axios";
+import { API_URL } from "../config/api";
 
-const API = "http://localhost/AttendX/backend/api/admin/classSession";
+const API = `${API_URL}/admin/classSession`;
+
+const api = axios.create({
+    baseURL: API,
+    withCredentials: true
+});
 
 /*
 |--------------------------------------------------------------------------
@@ -9,19 +15,8 @@ const API = "http://localhost/AttendX/backend/api/admin/classSession";
 */
 
 export const getClassSessions = async () => {
-
-    const res = await axios.get(
-
-        `${API}/list.php`,
-
-        {
-            withCredentials: true
-        }
-
-    );
-
+    const res = await api.get("/list.php");
     return res.data;
-
 };
 
 /*
@@ -31,19 +26,8 @@ export const getClassSessions = async () => {
 */
 
 export const getClassSession = async (id) => {
-
-    const res = await axios.get(
-
-        `${API}/get.php?id=${id}`,
-
-        {
-            withCredentials: true
-        }
-
-    );
-
+    const res = await api.get(`/get.php?id=${id}`);
     return res.data;
-
 };
 
 /*
@@ -53,21 +37,8 @@ export const getClassSession = async (id) => {
 */
 
 export const createClassSession = async (data) => {
-
-    const res = await axios.post(
-
-        `${API}/create.php`,
-
-        data,
-
-        {
-            withCredentials: true
-        }
-
-    );
-
+    const res = await api.post("/create.php", data);
     return res.data;
-
 };
 
 /*
@@ -77,21 +48,8 @@ export const createClassSession = async (data) => {
 */
 
 export const updateClassSession = async (id, data) => {
-
-    const res = await axios.post(
-
-        `${API}/update.php?id=${id}`,
-
-        data,
-
-        {
-            withCredentials: true
-        }
-
-    );
-
+    const res = await api.post(`/update.php?id=${id}`, data);
     return res.data;
-
 };
 
 /*
@@ -101,21 +59,8 @@ export const updateClassSession = async (id, data) => {
 */
 
 export const deleteClassSession = async (id) => {
-
-    const res = await axios.post(
-
-        `${API}/delete.php`,
-
-        { id },
-
-        {
-            withCredentials: true
-        }
-
-    );
-
+    const res = await api.post("/delete.php", { id });
     return res.data;
-
 };
 
 /*
@@ -125,17 +70,13 @@ export const deleteClassSession = async (id) => {
 */
 
 export const searchClassSessions = async (keyword) => {
-
-    const res = await axios.get(
-
-        `${API}/search.php?keyword=${encodeURIComponent(keyword)}`,
-
-        {
-            withCredentials: true
+    const res = await api.get("/search.php", {
+        params: {
+            keyword
         }
-
-    );
+    });
 
     return res.data;
-
 };
+
+export default api;

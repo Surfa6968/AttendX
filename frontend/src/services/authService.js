@@ -1,4 +1,6 @@
-const API = "http://localhost/AttendX/backend/api/auth";
+import { API_URL } from "../config/api";
+
+const API = `${API_URL}/auth`;
 
 export async function login(email, password) {
 

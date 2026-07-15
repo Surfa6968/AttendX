@@ -23,7 +23,10 @@ function QRSession() {
     const loadQRSessions = async () => {
         try {
             const response = await getQRSessions();
-            setSessions(response.data.data || []);
+
+            console.log(response);
+            
+            setSessions(response.data || []);
         } catch (error) {
             console.error(error);
         }
@@ -38,7 +41,7 @@ function QRSession() {
               return;
               }
               const response = await searchQRSessions(value);
-              setSessions(response.data.data || []);
+              setSessions(response.data || []);
        }
        catch (error) {
               console.error(error);

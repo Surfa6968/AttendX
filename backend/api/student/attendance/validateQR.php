@@ -34,13 +34,13 @@ if (empty($data["qr_token"])) {
 
 $qrToken = trim($data["qr_token"]);
 
-$debugPath = __DIR__ . "/debug_qr.txt";
+// $debugPath = __DIR__ . "/debug_qr.txt";
 
-file_put_contents(
-    $debugPath,
-    date("Y-m-d H:i:s") . " | " . $qrToken . PHP_EOL,
-    FILE_APPEND
-);
+// file_put_contents(
+//     $debugPath,
+//     date("Y-m-d H:i:s") . " | " . $qrToken . PHP_EOL,
+//     FILE_APPEND
+// );
 
 /*
 |--------------------------------------------------------------------------

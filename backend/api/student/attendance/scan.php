@@ -181,7 +181,7 @@ $device = $_SERVER["HTTP_USER_AGENT"] ?? "";
 $ip = $_SERVER["REMOTE_ADDR"] ?? "";
 
 $stmt->bind_param(
-    "iiisss",
+    "iiiss",
     $qr["id"],
     $qr["class_session_id"],
     $student_id,

@@ -28,13 +28,19 @@ if ($_SESSION["user"]["role"] !== "student") {
 
 $data = json_decode(file_get_contents("php://input"), true);
 
-if (
-    empty($data["qr_token"])
-) {
+if (empty($data["qr_token"])) {
     error("QR token is required.");
 }
 
 $qrToken = trim($data["qr_token"]);
+
+$debugPath = __DIR__ . "/debug_qr.txt";
+
+file_put_contents(
+    $debugPath,
+    date("Y-m-d H:i:s") . " | " . $qrToken . PHP_EOL,
+    FILE_APPEND
+);
 
 /*
 |--------------------------------------------------------------------------
@@ -62,8 +68,10 @@ INNER JOIN class_sessions cs
     ON qr.class_session_id = cs.id
 INNER JOIN courses c
     ON cs.course_id = c.id
+INNER JOIN lecturers l
+    ON cs.lecturer_id = l.id
 INNER JOIN users u
-    ON cs.lecturer_id = u.id
+    ON l.user_id = u.id
 WHERE qr.qr_token = ?
 LIMIT 1
 ");

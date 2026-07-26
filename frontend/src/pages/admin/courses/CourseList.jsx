@@ -40,93 +40,58 @@ function CourseList() {
     };
 
     const handleDelete = async (id) => {
-
         if (!window.confirm("Delete this course?")) {
             return;
         }
-
         try {
-
             const res = await deleteCourse(id);
-
             alert(res.message);
-
             loadCourses();
-
         } catch (err) {
-
             console.error(err);
-
             alert(
                 err.response?.data?.message ||
                 "Delete failed."
             );
-
         }
-
     };
 
     const handleSearch = async (value) => {
-
         setKeyword(value);
-
         try {
-
             if (value.trim() === "") {
-
                 loadCourses();
-
                 return;
-
             }
-
             const res = await searchCourses(value);
-
             setCourses(res.data);
-
         } catch (err) {
-
             console.error(err);
-
         }
-
     };
 
     if (loading) {
-
         return (
-
             <div className="text-center mt-5">
-
                 <div className="spinner-border text-primary"></div>
-
             </div>
-
         );
-
     }
 
     return (
-
         <div className="container-fluid">
-
             <div className="d-flex justify-content-between align-items-center mb-4">
-
                 <h2>Course Management</h2>
-
                 <Link
                     to="/admin/courses/add"
                     className="btn btn-primary"
                 >
                     + Add Course
                 </Link>
-
             </div>
 
             <div className="row mb-3">
-
                 <div className="col-md-4">
-
                     <input
                         type="text"
                         className="form-control"
@@ -134,9 +99,7 @@ function CourseList() {
                         value={keyword}
                         onChange={(e) => handleSearch(e.target.value)}
                     />
-
                 </div>
-
             </div>
 
             <div className="card shadow-sm">
@@ -225,7 +188,7 @@ function CourseList() {
 
                                         <td>
 
-                                            {course.academic_year}
+                                            {course.year_of_study}
 
                                         </td>
 

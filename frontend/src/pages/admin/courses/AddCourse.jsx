@@ -17,7 +17,6 @@ function AddCourse() {
     const [lecturers, setLecturers] = useState([]);
 
     const [form, setForm] = useState({
-
         course_code: "",
         course_name: "",
         description: "",
@@ -27,7 +26,7 @@ function AddCourse() {
         department_id: "",
         lecturer_id: "",
 
-        academic_year: "",
+        year_of_study: "",
         semester: ""
 
     });
@@ -241,38 +240,28 @@ function AddCourse() {
                             </div>
 
                             <div className="col-md-3 mb-3">
-
                                 <label className="form-label">
-
-                                    Academic Year
-
+                                    Year of Study
                                 </label>
 
                                 <select
                                     className="form-select"
                                     name="academic_year"
-                                    value={form.academic_year}
+                                    value={form.year_of_study}
                                     onChange={handleChange}
                                     required
                                 >
-
                                     <option value="">Select</option>
-
                                     <option value="1">Year 1</option>
                                     <option value="2">Year 2</option>
                                     <option value="3">Year 3</option>
                                     <option value="4">Year 4</option>
-
                                 </select>
-
                             </div>
 
                             <div className="col-md-3 mb-3">
-
                                 <label className="form-label">
-
                                     Semester
-
                                 </label>
 
                                 <select
@@ -282,14 +271,10 @@ function AddCourse() {
                                     onChange={handleChange}
                                     required
                                 >
-
                                     <option value="">Select</option>
-
                                     <option value="1">Semester 1</option>
                                     <option value="2">Semester 2</option>
-
                                 </select>
-
                             </div>
 
                             <div className="col-md-3 mb-3">

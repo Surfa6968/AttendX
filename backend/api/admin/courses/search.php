@@ -22,7 +22,7 @@ SELECT
     c.course_code,
     c.course_name,
     c.credits,
-    c.academic_year,
+    c.year_of_study,
     c.semester,
     c.is_active,
     f.faculty_name,
@@ -30,16 +30,16 @@ SELECT
     u.full_name AS lecturer_name
 FROM courses c
 INNER JOIN faculties f
-ON c.faculty_id=f.id
+    ON c.faculty_id = f.id
 INNER JOIN departments d
-ON c.department_id=d.id
+    ON c.department_id = d.id
 INNER JOIN lecturers l
-ON c.lecturer_id=l.id
+    ON c.lecturer_id = l.id
 INNER JOIN users u
-ON l.user_id=u.id
+    ON l.user_id = u.id
 WHERE
-c.course_code LIKE ?
-OR c.course_name LIKE ?
+    c.course_code LIKE ?
+    OR c.course_name LIKE ?
 ORDER BY c.course_code
 ");
 

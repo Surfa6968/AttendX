@@ -1,10 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
-import {
-    FaSave,
-    FaTimes
-} from "react-icons/fa";
+import { FaSave, FaTimes } from "react-icons/fa";
 
 import {
     getCourse,
@@ -39,12 +36,11 @@ function EditCourse() {
         course_name: "",
         description: "",
         credits: "",
-
         faculty_id: "",
         department_id: "",
         lecturer_id: "",
-
         academic_year: "",
+        year_of_study: "",
         semester: "",
         is_active: 1
 
@@ -140,17 +136,11 @@ function EditCourse() {
     };
 
     if (loading) {
-
         return (
-
             <div className="text-center mt-5">
-
                 <div className="spinner-border text-primary"></div>
-
             </div>
-
         );
-
     }
 
     return (
@@ -172,7 +162,7 @@ function EditCourse() {
                     <div className="d-flex gap-2">
                         <button
                             type="submit"
-                            form="editUserForm"
+                            form="editCourseForm"
                             className="btn btn-light rounded-circle shadow-sm"
                             title="Save Changes"
                             style={{ width: "46px", height: "46px" }}
@@ -193,15 +183,10 @@ function EditCourse() {
                 </div>
 
                 <div className="card-body p-4">
-
                     <form id="editCourseForm" onSubmit={handleSubmit}>
-
                         <div className="row">
-
                             <div className="col-md-6 mb-4">
-
                                 <label className="form-label fw-semibold">Course Code</label>
-
                                 <input
                                     className="form-control shadow-sm"
                                     style={{
@@ -212,13 +197,10 @@ function EditCourse() {
                                     onChange={handleChange}
                                     required
                                 />
-
                             </div>
 
                             <div className="col-md-6 mb-4">
-
                                 <label className="form-label fw-semibold">Course Name</label>
-
                                 <input
                                     className="form-control shadow-sm"
                                     style={{
@@ -229,13 +211,10 @@ function EditCourse() {
                                     onChange={handleChange}
                                     required
                                 />
-
                             </div>
 
                             <div className="col-12 mb-4">
-
                                 <label className="form-label fw-semibold">Description</label>
-
                                 <textarea
                                     rows="3"
                                     type="text"
@@ -247,16 +226,13 @@ function EditCourse() {
                                     value={form.description}
                                     onChange={handleChange}
                                 />
-
                             </div>
 
                             <div className="col-md-3 mb-4">
-
                                 <label className="form-label fw-semibold">Credits</label>
 
                                 <input
                                     type="number"
-                                    type="text"
                                     className="form-control shadow-sm"
                                     style={{
                                         borderRadius: "10px"
@@ -265,36 +241,47 @@ function EditCourse() {
                                     value={form.credits}
                                     onChange={handleChange}
                                 />
-
                             </div>
 
-                            <div className="col-md-3 mb-4">
+                            {/* <div className="col-md-3 mb-4">
+                                <label className="form-label fw-semibold">
+                                    Academic Year
+                                </label>
 
-                                <label className="form-label fw-semibold">Academic Year</label>
-
-                                <select
-                                    className="form-select shadow-sm"
+                                <input
+                                    type="text"
+                                    className="form-control shadow-sm"
                                     style={{
                                         borderRadius: "10px"
                                     }}
                                     name="academic_year"
                                     value={form.academic_year}
                                     onChange={handleChange}
-                                >
+                                    placeholder="2025/2026"
+                                />
+                            </div> */}
 
+                            <div className="col-md-3 mb-4">
+                                <label className="form-label fw-semibold">year_of_study</label>
+
+                                <select
+                                    className="form-select shadow-sm"
+                                    style={{
+                                        borderRadius: "10px"
+                                    }}
+                                    name="year_of_study"
+                                    value={form.year_of_study}
+                                    onChange={handleChange}
+                                >
                                     <option value="1">Year 1</option>
                                     <option value="2">Year 2</option>
                                     <option value="3">Year 3</option>
                                     <option value="4">Year 4</option>
-
                                 </select>
-
                             </div>
 
                             <div className="col-md-3 mb-4">
-
                                 <label className="form-label fw-semibold">Semester</label>
-
                                 <select
                                     className="form-select shadow-sm"
                                     style={{
@@ -304,12 +291,9 @@ function EditCourse() {
                                     value={form.semester}
                                     onChange={handleChange}
                                 >
-
                                     <option value="1">Semester 1</option>
                                     <option value="2">Semester 2</option>
-
                                 </select>
-
                             </div>
 
                             <div className="col-md-3 mb-4">

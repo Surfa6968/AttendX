@@ -50,7 +50,7 @@ $faculty_id     = intval($data["faculty_id"] ?? 0);
 $department_id  = intval($data["department_id"] ?? 0);
 $lecturer_id    = intval($data["lecturer_id"] ?? 0);
 
-$academic_year  = intval($data["academic_year"] ?? 0);
+$year_of_study  = intval($data["year_of_study"] ?? 0);
 $semester       = intval($data["semester"] ?? 0);
 $is_active      = intval($data["is_active"] ?? 1);
 
@@ -83,7 +83,7 @@ if ($credits <= 0) {
     error("Credits must be greater than zero.", 400);
 }
 
-if (!in_array($academic_year, [1,2,3,4])) {
+if (!in_array($year_of_study, [1,2,3,4])) {
     error("Invalid academic year.", 400);
 }
 
@@ -139,7 +139,7 @@ credits=?,
 faculty_id=?,
 department_id=?,
 lecturer_id=?,
-academic_year=?,
+year_of_study=?,
 semester=?,
 is_active=?
 WHERE id=?
@@ -156,7 +156,7 @@ $credits,
 $faculty_id,
 $department_id,
 $lecturer_id,
-$academic_year,
+$year_of_study,
 $semester,
 $is_active,
 $id

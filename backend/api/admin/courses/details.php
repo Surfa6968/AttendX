@@ -30,7 +30,7 @@ credits,
 faculty_id,
 department_id,
 lecturer_id,
-academic_year,
+year_of_study,
 semester,
 is_active
 FROM courses

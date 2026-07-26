@@ -38,6 +38,12 @@ function StudentSidebar() {
                 </li>
 
                 <li className="nav-item">
+                    <NavLink className="nav-link text-white" to="/student/timetable">
+                        TimeTable
+                    </NavLink>
+                </li>
+
+                <li className="nav-item">
                     <NavLink className="nav-link text-white" to="/student/profile">
                         Profile
                     </NavLink>

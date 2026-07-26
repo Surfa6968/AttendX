@@ -38,6 +38,7 @@ import LecturerDashboard from "./pages/lecturer/Dashboard";
 import StudentDashboard from "./pages/student/Dashboard";
 import QRScanner from "./pages/student/QRScanner";
 import AttendanceHistory from "./pages/student/AttendanceHistory";
+import Profile from "./pages/student/Profile";
 
 import Unauthorized from "./pages/Unauthorized";
 import StudentLayout from "./layouts/StudentLayout";
@@ -164,6 +165,7 @@ function App() {
 
                 <Route path="scan" element={<QRScanner />} />
                 <Route path="attendance" element={<AttendanceHistory />} />
+                <Route path="/student/profile" element={<Profile />} />
             </Route>
 
             {/* =======================

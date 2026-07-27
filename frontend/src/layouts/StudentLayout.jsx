@@ -1,5 +1,5 @@
 import StudentSidebar from "../components/student/StudentSidebar";
-import StudentTopbar from "../components/student/StudentTopbar";
+import StudentTopbar from "../components/common/Topbar";
 import { Outlet } from "react-router-dom";
 
 function StudentLayout() {

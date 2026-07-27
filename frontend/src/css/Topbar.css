@@ -1,0 +1,44 @@
+.navbar{
+    position: relative;
+    z-index: 1050;
+}
+
+.dropdown{
+    position: relative;
+}
+
+.dropdown-menu{
+    z-index: 1060 !important;
+    margin-top:10px;
+    border-radius:15px;
+    animation: dropdownFade .25s ease;
+}
+
+@keyframes dropdownFade{
+    from{
+        opacity:0;
+        transform:translateY(-8px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+.btn-light{
+    transition:.25s;
+}
+
+.btn-light:hover{
+    transform:translateY(-2px);
+}
+
+.dropdown-item{
+    transition:.2s;
+}
+
+.dropdown-item:hover{
+    background:#f3f4f6;
+    padding-left:24px;
+}

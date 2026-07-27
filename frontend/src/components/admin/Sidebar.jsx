@@ -115,45 +115,103 @@ function Sidebar() {
   ];
 
   return (
-    <aside
-      className="bg-dark text-white d-flex flex-column"
-      style={{
-        width: "260px",
-        minHeight: "100vh",
-      }}
-    >
-      <div className="text-center py-4 border-bottom">
-        <h3 className="fw-bold">AttendX</h3>
-
-        <small>Admin Panel</small>
-      </div>
-
-      <div className="flex-grow-1">
-        {menuItems.map((item) => (
-          <NavLink
-            key={item.title}
-            to={item.path}
-            className={({ isActive }) =>
-              `d-flex align-items-center text-decoration-none px-4 py-3 ${
-                isActive ? "bg-primary text-white" : "text-light"
-              }`
-            }
+      <aside
+          className="d-flex flex-column text-white shadow-lg"
+          style={{
+              width: "270px",
+              minHeight: "100vh",
+              background: "#111827",
+          }}
+      >
+          {/* Header */}
+          <div
+              className="text-center py-4"
+              style={{
+                  background: "linear-gradient(135deg,#2563eb,#1d4ed8)",
+                  borderBottom: "1px solid rgba(255,255,255,.1)",
+              }}
           >
-            <span className="me-3 fs-5">{item.icon}</span>
+              <div
+                  className="mx-auto mb-3 d-flex align-items-center justify-content-center"
+                  style={{
+                      width: "65px",
+                      height: "65px",
+                      borderRadius: "50%",
+                      background: "rgba(255,255,255,.15)",
+                      fontSize: "28px",
+                      fontWeight: "bold",
+                  }}
+              >
+                  A
+              </div>
 
-            {item.title}
-          </NavLink>
-        ))}
-      </div>
+              <h4 className="fw-bold mb-1">AttendX</h4>
 
-      <div className="border-top p-3">
-        <button className="btn btn-danger w-100" onClick={handleLogout}>
-          <FaSignOutAlt className="me-2" />
-          Logout
-        </button>
-      </div>
-    </aside>
+              <small className="text-light">
+                  Administration Panel
+              </small>
+          </div>
+
+          {/* Navigation */}
+          <div
+              className="flex-grow-1 py-3 px-2"
+              style={{
+                  overflowY: "auto",
+              }}
+          >
+              {menuItems.map((item) => (
+                  <NavLink
+                      key={item.title}
+                      to={item.path}
+                      className={({ isActive }) =>
+                          `d-flex align-items-center text-decoration-none mb-2 px-3 py-3 rounded-3 transition ${
+                              isActive
+                                  ? "bg-primary text-white shadow"
+                                  : "text-light"
+                          }`
+                      }
+                      style={({ isActive }) => ({
+                          transition: "0.25s",
+                          background: isActive
+                              ? ""
+                              : "transparent",
+                      })}
+                  >
+                      <span
+                          className="me-3 fs-5"
+                          style={{
+                              width: "24px",
+                              textAlign: "center",
+                          }}
+                      >
+                          {item.icon}
+                      </span>
+
+                      <span className="fw-medium">
+                          {item.title}
+                      </span>
+                  </NavLink>
+              ))}
+          </div>
+
+          {/* Footer */}
+          <div
+              className="p-3"
+              style={{
+                  borderTop: "1px solid rgba(255,255,255,.08)",
+              }}
+          >
+              <button
+                  className="btn btn-danger w-100 rounded-pill"
+                  onClick={handleLogout}
+              >
+                  <FaSignOutAlt className="me-2" />
+                  Logout
+              </button>
+          </div>
+      </aside>
   );
+
 }
 
 export default Sidebar;

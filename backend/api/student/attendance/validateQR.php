@@ -57,6 +57,7 @@ SELECT
     qr.expires_at,
     qr.status,
     qr.is_active,
+    c.id AS course_id,
     c.course_code,
     c.course_name,
     cs.session_date,
@@ -134,6 +135,39 @@ if ($result->num_rows === 0) {
 $student = $result->fetch_assoc();
 
 $studentId = $student["id"];
+
+/*
+|--------------------------------------------------------------------------
+| Verify Student Enrollment
+|--------------------------------------------------------------------------
+*/
+
+$stmt = $mysqli->prepare("
+SELECT id
+FROM course_enrollments
+WHERE student_id = ?
+AND course_id = ?
+AND status = 'Active'
+LIMIT 1
+");
+
+$stmt->bind_param(
+    "ii",
+    $studentId,
+    $qr["course_id"]
+);
+
+$stmt->execute();
+
+$result = $stmt->get_result();
+
+if ($result->num_rows === 0) {
+
+    error("You are not enrolled in this course.", 403);
+
+}
+
+$stmt->close();
 
 /*
 |--------------------------------------------------------------------------

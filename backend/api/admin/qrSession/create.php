@@ -288,6 +288,89 @@ $stmt->close();
 
 /*
 |--------------------------------------------------------------------------
+| Create Notifications For Enrolled Students
+|--------------------------------------------------------------------------
+*/
+$sql = "
+
+SELECT
+    s.user_id
+FROM course_enrollments ce
+
+INNER JOIN students s
+    ON s.id = ce.student_id
+
+WHERE
+    ce.course_id = (
+        SELECT course_id
+        FROM class_sessions
+        WHERE id = ?
+    )
+AND ce.status = 'Active'
+
+";
+
+$stmt = $mysqli->prepare($sql);
+
+$stmt->bind_param("i", $class_session_id);
+
+$stmt->execute();
+
+$students = $stmt->get_result();
+
+if ($students->num_rows == 0) {
+    error("No enrolled students found for this class.");
+}
+
+$stmt->close();
+
+$title = "QR Attendance Available";
+
+$message =
+    "Attendance QR has been generated for " .
+    $classSession["course_code"] .
+    " - " .
+    $classSession["course_name"];
+
+$actionUrl = "/student/attendance";
+
+while ($student = $students->fetch_assoc()) {
+
+    $sql = "
+
+    INSERT INTO notifications
+    (
+        user_id,
+        title,
+        message,
+        notification_type,
+        action_url,
+        is_read
+    )
+    VALUES
+    (
+        ?, ?, ?, 'Attendance', ?, 0
+    )
+
+    ";
+
+    $stmt = $mysqli->prepare($sql);
+
+    $stmt->bind_param(
+        "isss",
+        $student["user_id"],
+        $title,
+        $message,
+        $actionUrl
+    );
+
+    $stmt->execute();
+
+    $stmt->close();
+}
+
+/*
+|--------------------------------------------------------------------------
 | Success Response
 |--------------------------------------------------------------------------
 */

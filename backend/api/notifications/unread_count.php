@@ -20,27 +20,15 @@ $userId = $_SESSION["user"]["id"];
 
 /*
 |--------------------------------------------------------------------------
-| Request Validation
-|--------------------------------------------------------------------------
-*/
-
-$id = $_POST["id"] ?? null;
-
-if (!$id) {
-    error("Notification ID is required.", 400);
-}
-
-/*
-|--------------------------------------------------------------------------
-| Mark Notification as Read
+| Count Unread Notifications
 |--------------------------------------------------------------------------
 */
 
 $sql = "
-UPDATE notifications
-SET is_read = 1
-WHERE id = ?
-AND user_id = ?
+SELECT COUNT(*) AS unread_count
+FROM notifications
+WHERE user_id = ?
+AND is_read = 0
 ";
 
 $stmt = mysqli_prepare($mysqli, $sql);
@@ -49,25 +37,16 @@ if (!$stmt) {
     error("Failed to prepare statement.", 500);
 }
 
-mysqli_stmt_bind_param(
-    $stmt,
-    "ii",
-    $id,
-    $userId
-);
+mysqli_stmt_bind_param($stmt, "i", $userId);
 
 mysqli_stmt_execute($stmt);
 
-if (mysqli_stmt_affected_rows($stmt) > 0) {
+$result = mysqli_stmt_get_result($stmt);
 
-    mysqli_stmt_close($stmt);
-
-    success([
-        "message" => "Notification marked as read."
-    ]);
-
-}
+$row = mysqli_fetch_assoc($result);
 
 mysqli_stmt_close($stmt);
 
-error("Notification not found or already marked as read.", 404);
+success([
+    "unread_count" => (int)$row["unread_count"]
+]);

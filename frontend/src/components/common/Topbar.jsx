@@ -2,12 +2,12 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 
+import NotificationBell from "../common/NotificationBell";
+
 import "../../css/Topbar.css";
 
 import {
     FaBars,
-    FaBell,
-    FaUserCircle,
     FaSignOutAlt,
     FaUser,
     FaMoon,
@@ -88,8 +88,6 @@ function Topbar({ toggleSidebar }) {
             style={{
                 height: "75px",
                 borderBottom: "1px solid #e5e7eb",
-              //   position: "relative",
-              //   zIndex: 1050,
             }}
         >
             <button
@@ -120,15 +118,7 @@ function Topbar({ toggleSidebar }) {
                 </button>
 
                 {/* Notifications */}
-                <button
-                    className="btn btn-light rounded-circle position-relative shadow-sm"
-                >
-                    <FaBell size={18} />
-
-                    <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                        3
-                    </span>
-                </button>
+                <NotificationBell />
 
                 {/* User Dropdown */}
                 <div className="dropdown">

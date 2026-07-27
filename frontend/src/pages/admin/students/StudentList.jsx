@@ -150,6 +150,7 @@ function StudentList() {
                                 <th>Academic Year</th>
                                 <th>Year of Study</th>
                                 <th>Semester</th>
+                                <th>Assigned Courses</th>
                                 <th>Status</th>
                                 <th style={{ width: "220px" }}>Actions</th>
                             </tr>
@@ -168,6 +169,24 @@ function StudentList() {
                                         <td>{student.academic_year}</td>
                                         <td>{student.year_of_study}</td>
                                         <td>{student.semester}</td>
+
+                                        <td style={{ minWidth: "280px" }}>
+                                            {student.courses ? (
+                                                student.courses.split(", ").map((course, index) => (
+                                                    <span
+                                                        key={index}
+                                                        className="badge bg-primary me-1 mb-1"
+                                                    >
+                                                        {course}
+                                                    </span>
+                                                ))
+                                            ) : (
+                                                <span className="text-muted">
+                                                    No Courses
+                                                </span>
+                                            )}
+                                        </td>
+
                                         <td>
                                             {student.is_active == 1 ? (
                                                 <span className="badge bg-success">
@@ -200,7 +219,7 @@ function StudentList() {
                                 ))
                             ) : (
                                 <tr>
-                                    <td colSpan="11" className="text-center"> No students found. </td>
+                                    <td colSpan="12" className="text-center"> No students found. </td>
                                 </tr>
 
                             )}

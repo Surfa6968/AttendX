@@ -29,20 +29,21 @@ if ($_SESSION["user"]["role"] !== "admin") {
 
 $data = json_decode(file_get_contents("php://input"), true);
 
-$full_name = trim($data["full_name"] ?? "");
-$email = trim($data["email"] ?? "");
-$password = $data["password"] ?? "";
-$gender = trim($data["gender"] ?? "");
-$registration_no = trim($data["registration_no"] ?? "");
-$faculty_id = intval($data["faculty_id"] ?? 0);
-$department_id = intval($data["department_id"] ?? 0);
-$academic_year = trim($data["academic_year"] ?? "");
-$year_of_study = trim($data["year_of_study"] ?? "");
-$semester = trim($data["semester"] ?? "");
-$phone = trim($data["phone"] ?? "");
-$address = trim($data["address"] ?? "");
-$guardian_name = trim($data["guardian_name"] ?? "");
-$guardian_phone = trim($data["guardian_phone"] ?? "");
+$full_name        = trim($data["full_name"] ?? "");
+$email            = trim($data["email"] ?? "");
+$password         = $data["password"] ?? "";
+$gender           = trim($data["gender"] ?? "");
+$registration_no  = trim($data["registration_no"] ?? "");
+$faculty_id       = intval($data["faculty_id"] ?? 0);
+$department_id    = intval($data["department_id"] ?? 0);
+$academic_year    = trim($data["academic_year"] ?? "");
+$year_of_study    = trim($data["year_of_study"] ?? "");
+$semester         = trim($data["semester"] ?? "");
+$course_id        = intval($data["course_id"] ?? 0);
+$phone            = trim($data["phone"] ?? "");
+$address          = trim($data["address"] ?? "");
+$guardian_name    = trim($data["guardian_name"] ?? "");
+$guardian_phone   = trim($data["guardian_phone"] ?? "");
 
 /*
 |--------------------------------------------------------------------------
@@ -54,7 +55,8 @@ if (
     !required($full_name) ||
     !required($email) ||
     !required($password) ||
-    !required($registration_no)
+    !required($registration_no) ||
+    $course_id <= 0
 ) {
     error("Please fill all required fields.", 400);
 }
@@ -72,7 +74,7 @@ if (!isEmail($email)) {
 $stmt = $mysqli->prepare("
 SELECT id
 FROM users
-WHERE email = ?
+WHERE email=?
 LIMIT 1
 ");
 
@@ -94,7 +96,7 @@ $stmt->close();
 $stmt = $mysqli->prepare("
 SELECT id
 FROM students
-WHERE registration_no = ?
+WHERE registration_no=?
 LIMIT 1
 ");
 
@@ -109,106 +111,161 @@ $stmt->close();
 
 /*
 |--------------------------------------------------------------------------
-| Create User
+| Start Transaction
 |--------------------------------------------------------------------------
 */
 
-$password_hash = password_hash($password, PASSWORD_DEFAULT);
+$mysqli->begin_transaction();
 
-$stmt = $mysqli->prepare("
-INSERT INTO users
-(
-role_id,
-full_name,
-email,
-password_hash,
-gender,
-is_active
-)
-VALUES
-(
-3,
-?,
-?,
-?,
-?,
-1
-)
-");
+try {
 
-$stmt->bind_param(
-    "ssss",
-    $full_name,
-    $email,
-    $password_hash,
-    $gender
-);
+    /*
+    |--------------------------------------------------------------------------
+    | Create User
+    |--------------------------------------------------------------------------
+    */
 
-if (!$stmt->execute()) {
-    error("Failed to create user.", 500);
+    $password_hash = password_hash($password, PASSWORD_DEFAULT);
+
+    $stmt = $mysqli->prepare("
+    INSERT INTO users
+    (
+        role_id,
+        full_name,
+        email,
+        password_hash,
+        gender,
+        is_active
+    )
+    VALUES
+    (
+        3,
+        ?,
+        ?,
+        ?,
+        ?,
+        1
+    )
+    ");
+
+    $stmt->bind_param(
+        "ssss",
+        $full_name,
+        $email,
+        $password_hash,
+        $gender
+    );
+
+    if (!$stmt->execute()) {
+        throw new Exception("Failed to create user.");
+    }
+
+    $user_id = $stmt->insert_id;
+
+    $stmt->close();
+
+    /*
+    |--------------------------------------------------------------------------
+    | Create Student
+    |--------------------------------------------------------------------------
+    */
+
+    $stmt = $mysqli->prepare("
+    INSERT INTO students
+    (
+        user_id,
+        registration_no,
+        faculty_id,
+        department_id,
+        academic_year,
+        year_of_study,
+        semester,
+        phone,
+        address,
+        guardian_name,
+        guardian_phone
+    )
+    VALUES
+    (
+        ?,?,?,?,?,?,?,?,?,?,?
+    )
+    ");
+
+    $stmt->bind_param(
+        "isiisssssss",
+        $user_id,
+        $registration_no,
+        $faculty_id,
+        $department_id,
+        $academic_year,
+        $year_of_study,
+        $semester,
+        $phone,
+        $address,
+        $guardian_name,
+        $guardian_phone
+    );
+
+    if (!$stmt->execute()) {
+        throw new Exception("Failed to create student.");
+    }
+
+    echo "<pre>";
+    echo "Student ID = $student_id\n";
+    echo "Course ID = $course_id\n";
+    exit;
+
+    $stmt->close();
+
+    /*
+    |--------------------------------------------------------------------------
+    | Enroll Student
+    |--------------------------------------------------------------------------
+    */
+
+    $stmt = $mysqli->prepare("
+    INSERT INTO course_enrollments
+    (
+        student_id,
+        course_id,
+        status
+    )
+    VALUES
+    (
+        ?, ?, 'Active'
+    )
+    ");
+
+    $stmt->bind_param(
+        "ii",
+        $student_id,
+        $course_id
+    );
+
+    if (!$stmt->execute()) {
+        die(
+            "MySQL Error: " . $stmt->error .
+            "<br>Student ID: " . $student_id .
+            "<br>Course ID: " . $course_id
+        );
+    }
+
+    $stmt->close();
+
+    /*
+    |--------------------------------------------------------------------------
+    | Commit
+    |--------------------------------------------------------------------------
+    */
+
+    $mysqli->commit();
+
+    success("Student created successfully.");
+
+} catch (Exception $e) {
+
+    $mysqli->rollback();
+
+    error($e->getMessage(), 500);
+
 }
-
-$user_id = $stmt->insert_id;
-
-$stmt->close();
-
-/*
-|--------------------------------------------------------------------------
-| Create Student
-|--------------------------------------------------------------------------
-*/
-
-$stmt = $mysqli->prepare("
-INSERT INTO students
-(
-user_id,
-registration_no,
-faculty_id,
-department_id,
-academic_year,
-year_of_study,
-semester,
-phone,
-address,
-guardian_name,
-guardian_phone
-)
-VALUES
-(
-?,?,?,?,?,?,?,?,?,?,?
-)
-");
-
-$stmt->bind_param(
-
-"isiisssssss",
-
-$user_id,
-$registration_no,
-$faculty_id,
-$department_id,
-$academic_year,
-$year_of_study,
-$semester,
-$phone,
-$address,
-$guardian_name,
-$guardian_phone
-
-);
-
-if (!$stmt->execute()) {
-
-    error("Failed to create student.",500);
-
-}
-
-$stmt->close();
-
-/*
-|--------------------------------------------------------------------------
-| Success
-|--------------------------------------------------------------------------
-*/
-
-success("Student created successfully.");

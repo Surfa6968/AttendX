@@ -62,7 +62,7 @@ SELECT
 FROM students s
 
 INNER JOIN users u
-ON s.user_id = u.id
+    ON s.user_id = u.id
 
 WHERE s.id = ?
 
@@ -80,6 +80,27 @@ if ($result->num_rows == 0) {
 }
 
 $student = $result->fetch_assoc();
+
+$stmt->close();
+
+$stmt = $mysqli->prepare("
+SELECT course_id
+FROM course_enrollments
+WHERE student_id = ?
+");
+
+$stmt->bind_param("i", $id);
+$stmt->execute();
+
+$result = $stmt->get_result();
+
+$student["course_ids"] = [];
+
+while ($row = $result->fetch_assoc()) {
+
+    $student["course_ids"][] = (int)$row["course_id"];
+
+}
 
 $stmt->close();
 

@@ -25,7 +25,6 @@ if ($_SESSION["user"]["role"] !== "admin") {
 | Get Student List
 |--------------------------------------------------------------------------
 */
-
 $stmt = $mysqli->prepare("
 SELECT
     s.id,
@@ -42,7 +41,13 @@ SELECT
     u.is_active,
 
     f.faculty_name,
-    d.department_name
+    d.department_name,
+
+    GROUP_CONCAT(
+        CONCAT(c.course_code, ' - ', c.course_name)
+        ORDER BY c.course_code
+        SEPARATOR ', '
+    ) AS courses
 
 FROM students s
 
@@ -54,6 +59,27 @@ LEFT JOIN faculties f
 
 LEFT JOIN departments d
     ON s.department_id = d.id
+
+LEFT JOIN course_enrollments ce
+    ON ce.student_id = s.id
+
+LEFT JOIN courses c
+    ON ce.course_id = c.id
+
+GROUP BY
+    s.id,
+    s.registration_no,
+    s.faculty_id,
+    s.department_id,
+    s.academic_year,
+    s.year_of_study,
+    s.semester,
+    u.full_name,
+    u.email,
+    u.gender,
+    u.is_active,
+    f.faculty_name,
+    d.department_name
 
 ORDER BY u.full_name ASC
 ");
@@ -96,9 +122,12 @@ while ($row = $result->fetch_assoc()) {
 
         "semester" => $row["semester"],
 
+        "courses" => $row["courses"] ?? "",
+
         "is_active" => (int)$row["is_active"]
 
     ];
+
 }
 
 $stmt->close();

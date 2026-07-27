@@ -12,59 +12,40 @@ import {
 
 import { getFaculties } from "../../../services/facultyService";
 import { getDepartments } from "../../../services/departmentService";
+import { getCourses } from "../../../services/courseService";
 
 function EditStudent() {
 
     const navigate = useNavigate();
-
     const { id } = useParams();
-
     const [loading, setLoading] = useState(false);
-
     const [faculties, setFaculties] = useState([]);
-
     const [departments, setDepartments] = useState([]);
+    const [courses, setCourses] = useState([]);
 
     const [formData, setFormData] = useState({
-
         registration_no: "",
-
         full_name: "",
-
         email: "",
-
         gender: "",
-
         faculty_id: "",
-
         department_id: "",
-
         academic_year: "",
-
         year_of_study: "",
-
         semester: "",
-
+        course_ids: [],
         phone: "",
-
         address: "",
-
         guardian_name: "",
-
         guardian_phone: "",
-
         is_active: 1
-
     });
 
     useEffect(() => {
-
         loadStudent();
-
         loadFaculties();
-
         loadDepartments();
-
+        loadCourses();
     }, []);
 
     const loadStudent = async () => {
@@ -83,6 +64,7 @@ function EditStudent() {
                 academic_year: res.data.academic_year || "",
                 year_of_study: res.data.year_of_study || "",
                 semester: res.data.semester || "",
+                course_ids: res.data.course_ids || [],
                 phone: res.data.phone || "",
                 address: res.data.address || "",
                 guardian_name: res.data.guardian_name || "",
@@ -138,16 +120,37 @@ function EditStudent() {
 
     };
 
+    const loadCourses = async () => {
+        try {
+            const res = await getCourses();
+            setCourses(res.data);
+        } catch (err) {
+            console.error(err);
+        }
+    };
+
     const handleChange = (e) => {
 
         setFormData({
-
             ...formData,
-
             [e.target.name]: e.target.value
-
         });
+    };
 
+    const handleCourseChange = (courseId) => {
+        setFormData(prev => {
+            if (prev.course_ids.includes(courseId)) {
+                return {
+                    ...prev,
+                    course_ids: prev.course_ids.filter(id => id !== courseId)
+                };
+            }
+
+            return {
+                ...prev,
+                course_ids: [...prev.course_ids, courseId]
+            };
+        });
     };
 
     const handleSubmit = async (e) => {
@@ -188,7 +191,7 @@ function EditStudent() {
 
     };
 
-        return (
+    return (
 
         <div className="container py-4">
             <div className="card border-0 shadow-lg" style={{ borderRadius: "18px" }}>
@@ -206,7 +209,7 @@ function EditStudent() {
                     <div className="d-flex gap-2">
                         <button
                             type="submit"
-                            form="editUserForm"
+                            form="editStudentForm"
                             className="btn btn-light rounded-circle shadow-sm"
                             title="Save Changes"
                             style={{ width: "46px", height: "46px" }}
@@ -441,6 +444,43 @@ function EditStudent() {
                                     <option value="2">Semester 2</option>
 
                                 </select>
+                            </div>
+
+                            {/* Course */}
+                           <div className="col-md-12 mb-3">
+                                <label className="form-label fw-semibold">
+                                    Assign Courses
+                                </label>
+
+                                <div 
+                                    className="border rounded p-3"
+                                    style={{ maxHeight: "220px", overflowY: "auto" }}
+                                >
+                                    {courses.map(course => (
+                                        <div
+                                            key={course.id}
+                                            className="form-check mb-2"
+                                        >
+
+                                            <input
+                                                className="form-check-input"
+                                                type="checkbox"
+                                                id={`course_${course.id}`}
+                                                checked={formData.course_ids.includes(Number(course.id))}
+                                                onChange={() => handleCourseChange(Number(course.id))}
+                                            />
+
+                                            <label
+                                                className="form-check-label"
+                                                htmlFor={`course_${course.id}`}
+                                            >
+                                                <strong>{course.course_code}</strong>
+                                                {" - "}
+                                                {course.course_name}
+                                            </label>
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
 
                             {/* Phone */}

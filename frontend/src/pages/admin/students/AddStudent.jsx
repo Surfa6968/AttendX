@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { createStudent } from "../../../services/studentService";
 import { getFaculties } from "../../../services/facultyService";
 import { getDepartments } from "../../../services/departmentService";
+import { getCourses } from "../../../services/courseService";
 
 function AddStudent() {
 
@@ -11,6 +12,7 @@ function AddStudent() {
     const [loading, setLoading] = useState(false);
     const [faculties, setFaculties] = useState([]);
     const [departments, setDepartments] = useState([]);
+    const [courses, setCourses] = useState([]);
 
     const [formData, setFormData] = useState({
 
@@ -24,6 +26,7 @@ function AddStudent() {
         academic_year: "",
         year_of_study: "",
         semester: "",
+        course_id: "",
         phone: "",
         address: "",
         guardian_name: "",
@@ -34,6 +37,7 @@ function AddStudent() {
     useEffect(() => {
         loadFaculties();
         loadDepartments();
+        loadCourses();
     }, []);
 
     const loadFaculties = async () => {
@@ -54,6 +58,18 @@ function AddStudent() {
         }
 
         catch (err) {
+            console.error(err);
+        }
+    };
+
+    const loadCourses = async () => {
+        try {
+            const res = await getCourses();
+            
+            console.log(res);
+
+            setCourses(res.data);
+        } catch (err) {
             console.error(err);
         }
     };
@@ -332,6 +348,33 @@ function AddStudent() {
                                     <option value="">Select</option>
                                     <option value="1">Semester 1</option>
                                     <option value="2">Semester 2</option>
+                                </select>
+                            </div>
+
+                            <div className="col-md-6 mb-3">
+                                <label className="form-label">
+                                    Course
+                                </label>
+
+                                <select
+                                    className="form-select"
+                                    name="course_id"
+                                    value={formData.course_id}
+                                    onChange={handleChange}
+                                    required
+                                >
+                                    <option value="">
+                                        Select Course
+                                    </option>
+
+                                    {courses.map((course) => (
+                                        <option
+                                            key={course.id}
+                                            value={course.id}
+                                        >
+                                            {course.course_code} - {course.course_name}
+                                        </option>
+                                    ))}
                                 </select>
                             </div>
 

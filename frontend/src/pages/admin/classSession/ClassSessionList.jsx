@@ -196,29 +196,16 @@ function ClassSessionList() {
                 >
 
                     <div className="d-flex align-items-center gap-3">
-
                         <FaCalendarAlt size={28} />
 
                         <div>
-
-                            <h3 className="mb-0 fw-bold">
-
-                                Class Session Management
-
-                            </h3>
-
-                            <small>
-
-                                Manage all scheduled class sessions
-
-                            </small>
-
+                            <h3 className="mb-0 fw-bold">  Class Session Management </h3>
+                            <small> Manage all scheduled class sessions </small>
                         </div>
-
                     </div>
 
                     <button
-                        className="btn btn-light fw-semibold"
+                        className="btn btn-light fw-semibold px-4"
                         onClick={() =>
                             navigate("/admin/classSession/create")
                         }
@@ -226,7 +213,7 @@ function ClassSessionList() {
 
                         <FaPlus className="me-2" />
 
-                        Create Session
+                        Add Session
 
                     </button>
 
@@ -414,7 +401,7 @@ function ClassSessionList() {
 
                                                     <td>
 
-                                                        <div className="d-flex gap-2">
+                                                        <div className="d-flex gap-2 justify-content-center">
                                                            <button
                                                                 className="btn btn-sm btn-warning"
                                                                 title="Edit"

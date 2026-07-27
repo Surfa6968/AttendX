@@ -5,12 +5,13 @@ import { createUser } from "../../../services/userService";
 function AddUser() {
 
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
 
     const [form, setForm] = useState({
         full_name: "",
         email: "",
         password: "",
-        gender: "Male",
+        gender: "",
         role_id: "3"
     });
 
@@ -25,20 +26,31 @@ function AddUser() {
 
     const handleSubmit = async (e) => {
 
-       e.preventDefault();
+        e.preventDefault();
 
-       try {
-              const result = await createUser(form);
-              if (result.success) {
-              alert(result.message);
-              navigate("/admin/users");
-              } else {
-              alert(result.message);
-              }
-       } catch (error) {
-              console.error(error);
-              alert("Something went wrong.");
-       }
+        setLoading(true);
+
+        try {
+
+            const result = await createUser(form);
+
+            if (result.success) {
+                alert(result.message);
+                navigate("/admin/users");
+            } else {
+                alert(result.message);
+            }
+
+        } catch (error) {
+
+            console.error(error);
+            alert("Something went wrong.");
+
+        } finally {
+
+            setLoading(false);
+
+        }
     };
 
     return (
@@ -129,6 +141,7 @@ function AddUser() {
                                 onChange={handleChange}
                             >
 
+                                <option value="">Select Gender</option>
                                 <option>Male</option>
                                 <option>Female</option>
                                 <option>Other</option>
@@ -164,13 +177,9 @@ function AddUser() {
                             <button
                                 type="submit"
                                 className="btn btn-primary me-2"
-                                disabled={loading}
+                                disabled={false}
                             >
-                                {
-                                loading
-                                    ? "Saving..."
-                                    : "Save User"
-                                }
+                                Save User
                             </button>
 
                             <button

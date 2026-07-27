@@ -32,6 +32,7 @@ import EditClassSession from "./pages/admin/classSession/EditClassSession";
 import QRSession from "./pages/admin/qrSession/QRSession";
 import AttendanceList from "./pages/admin/attendance/AttendanceList";
 import AttendanceView from "./pages/admin/attendance/AttendanceView";
+import Reports from "./pages/admin/reports/Reports";
 
 import LecturerDashboard from "./pages/lecturer/Dashboard";
 
@@ -136,6 +137,9 @@ function App() {
                 {/* Attendance */}
                 <Route path="attendance" element={<AttendanceList />} />
                 <Route path="attendance/view/:id" element={<AttendanceView />} />
+
+                {/* Reports */}
+                <Route path="reports" element={<Reports />} />
                
             </Route>
             {/* =======================

@@ -243,24 +243,6 @@ function EditCourse() {
                                 />
                             </div>
 
-                            {/* <div className="col-md-3 mb-4">
-                                <label className="form-label fw-semibold">
-                                    Academic Year
-                                </label>
-
-                                <input
-                                    type="text"
-                                    className="form-control shadow-sm"
-                                    style={{
-                                        borderRadius: "10px"
-                                    }}
-                                    name="academic_year"
-                                    value={form.academic_year}
-                                    onChange={handleChange}
-                                    placeholder="2025/2026"
-                                />
-                            </div> */}
-
                             <div className="col-md-3 mb-4">
                                 <label className="form-label fw-semibold">year_of_study</label>
 

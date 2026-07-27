@@ -127,109 +127,83 @@ function AddCourse() {
 
     return (
 
-        <div className="container-fluid">
+        <div className="container py-4">
+            <div 
+                className="card border-0 shadow-lg" 
+                style={{ borderRadius: "18px" }}
+            >
 
-            <div className="card shadow-sm">
-
-                <div className="card-header bg-primary text-white">
-
+                <div className="card-header border-0 d-flex justify-content-between align-items-center"
+                    style={{
+                        background:"linear-gradient(135deg,#2563eb,#1d4ed8)",
+                        color:"#fff",
+                        borderTopLeftRadius:"18px",
+                        borderTopRightRadius:"18px",
+                        padding:"18px 24px"
+                    }}
+                >
                     <h3>Add Course</h3>
-
                 </div>
 
-                <div className="card-body">
-
+                <div className="card-body py-4">
                     <form onSubmit={handleSubmit}>
-
                         <div className="row">
-
-                            <div className="col-md-6 mb-3">
-
-                                <label className="form-label">
-
+                            <div className="col-md-6 mb-4">
+                                <label className="form-label fw-semibold">
                                     Course Code
-
                                 </label>
 
                                 <input
-
                                     type="text"
-
-                                    className="form-control"
-
+                                    className="form-control shadow-sm"
+                                    style={{borderRadius:"10px"}}
                                     name="course_code"
-
                                     value={form.course_code}
-
                                     onChange={handleChange}
-
                                     required
-
                                 />
-
                             </div>
 
-                            <div className="col-md-6 mb-3">
-
-                                <label className="form-label">
-
+                            <div className="col-md-6 mb-4">
+                                <label className="form-label fw-semibold">
                                     Course Name
-
                                 </label>
 
                                 <input
-
                                     type="text"
-
-                                    className="form-control"
-
+                                    className="form-control shadow-sm"
+                                    style={{borderRadius:"10px"}}
                                     name="course_name"
-
                                     value={form.course_name}
-
                                     onChange={handleChange}
-
                                     required
-
                                 />
-
                             </div>
 
-                            <div className="col-12 mb-3">
-
-                                <label className="form-label">
-
+                            <div className="col-12 mb-4">
+                                <label className="form-label fw-semibold">
                                     Description
-
                                 </label>
 
                                 <textarea
-
                                     rows="3"
-
-                                    className="form-control"
-
+                                    className="form-control shadow-sm"
+                                    style={{borderRadius:"10px"}}
                                     name="description"
-
                                     value={form.description}
-
                                     onChange={handleChange}
-
                                 ></textarea>
-
                             </div>
 
-                                                        <div className="col-md-3 mb-3">
-
-                                <label className="form-label">
-
+                            <div className="col-md-4 mb-4">
+                                <label className="form-label fw-semibold">
                                     Credits
-
                                 </label>
 
                                 <input
                                     type="number"
-                                    className="form-control"
+                                    className="form-control shadow-sm"
+                                    style={{borderRadius:"10px"}}
                                     name="credits"
                                     value={form.credits}
                                     onChange={handleChange}
@@ -239,14 +213,15 @@ function AddCourse() {
 
                             </div>
 
-                            <div className="col-md-3 mb-3">
-                                <label className="form-label">
+                            <div className="col-md-4 mb-4">
+                                <label className="form-label fw-semibold">
                                     Year of Study
                                 </label>
 
                                 <select
-                                    className="form-select"
-                                    name="academic_year"
+                                    className="form-select shadow-sm"
+                                    style={{borderRadius:"10px"}}
+                                    name="year_of_study"
                                     value={form.year_of_study}
                                     onChange={handleChange}
                                     required
@@ -259,13 +234,14 @@ function AddCourse() {
                                 </select>
                             </div>
 
-                            <div className="col-md-3 mb-3">
-                                <label className="form-label">
+                            <div className="col-md-4 mb-4">
+                                <label className="form-label fw-semibold">
                                     Semester
                                 </label>
 
                                 <select
-                                    className="form-select"
+                                    className="form-select shadow-sm"
+                                    style={{borderRadius:"10px"}}
                                     name="semester"
                                     value={form.semester}
                                     onChange={handleChange}
@@ -277,16 +253,14 @@ function AddCourse() {
                                 </select>
                             </div>
 
-                            <div className="col-md-3 mb-3">
-
-                                <label className="form-label">
-
+                            <div className="col-md-4 mb-4">
+                                <label className="form-label fw-semibold">
                                     Faculty
-
                                 </label>
 
                                 <select
-                                    className="form-select"
+                                    className="form-select shadow-sm"
+                                    style={{borderRadius:"10px"}}
                                     name="faculty_id"
                                     value={form.faculty_id}
                                     onChange={handleChange}
@@ -294,38 +268,27 @@ function AddCourse() {
                                 >
 
                                     <option value="">Select Faculty</option>
-
                                     {
-
                                         faculties.map(faculty => (
-
                                             <option
                                                 key={faculty.id}
                                                 value={faculty.id}
                                             >
-
                                                 {faculty.faculty_name}
-
                                             </option>
-
                                         ))
-
                                     }
-
                                 </select>
-
                             </div>
 
-                            <div className="col-md-6 mb-3">
-
-                                <label className="form-label">
-
+                            <div className="col-md-4 mb-4">
+                                <label className="form-label fw-semibold">
                                     Department
-
                                 </label>
 
                                 <select
-                                    className="form-select"
+                                    className="form-select shadow-sm"
+                                    style={{borderRadius:"10px"}}
                                     name="department_id"
                                     value={form.department_id}
                                     onChange={handleChange}
@@ -333,9 +296,7 @@ function AddCourse() {
                                 >
 
                                     <option value="">Select Department</option>
-
                                     {
-
                                         departments
                                             .filter(
                                                 d =>
@@ -343,98 +304,74 @@ function AddCourse() {
                                                     Number(d.faculty_id) === Number(form.faculty_id)
                                             )
                                             .map(department => (
-
                                                 <option
                                                     key={department.id}
                                                     value={department.id}
                                                 >
-
                                                     {department.department_name}
-
                                                 </option>
-
-                                            ))
-
+                                            )
+                                        )
                                     }
-
                                 </select>
-
                             </div>
 
-                            <div className="col-md-6 mb-4">
-
-                                <label className="form-label">
-
+                            <div className="col-md-4 mb-4">
+                                <label className="form-label fw-semibold">
                                     Lecturer
-
                                 </label>
 
                                 <select
-                                    className="form-select"
+                                    className="form-select shadow-sm"
+                                    style={{borderRadius:"10px"}}
                                     name="lecturer_id"
                                     value={form.lecturer_id}
                                     onChange={handleChange}
                                     required
                                 >
-
                                     <option value="">Select Lecturer</option>
-
                                     {
-
                                         lecturers.map(lecturer => (
-
                                             <option
                                                 key={lecturer.id}
                                                 value={lecturer.id}
                                             >
-
                                                 {lecturer.full_name}
-
                                             </option>
-
                                         ))
-
                                     }
-
                                 </select>
-
                             </div>
-
                         </div>
 
                         <div className="col-12 mt-4">
-                            <button
-                                type="submit"
-                                className="btn btn-primary me-2"
-                                disabled={loading}
-                            >
-                                {
-                                    loading
-                                        ? "Saving..."
-                                        : "Create Course"
-                                }
-
-                            </button>
-                            
-                            <button
-                                type="button"
-                                className="btn btn-secondary"
-                                onClick={() => navigate("/admin/courses")}
-                            >
-                                Cancel
-                            </button>
+                            <div className="d-flex justify-content-end gap-3">
+                                <button
+                                    type="submit"
+                                    className="btn btn-primary px-5"
+                                    disabled={loading}
+                                >
+                                    {
+                                        loading
+                                            ? "Saving..."
+                                            : "Create Course"
+                                    }
+                                </button>
+                                
+                                <button
+                                    type="button"
+                                    className="btn btn-secondary px-4"
+                                    onClick={() => navigate("/admin/courses")}
+                                >
+                                    Cancel
+                                </button>
+                            </div>
                         </div>
-
                     </form>
-
                 </div>
-
             </div>
-
         </div>
-
     );
-
 }
 
 export default AddCourse;

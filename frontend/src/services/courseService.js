@@ -15,19 +15,19 @@ const api = axios.create({
 */
 
 export const getCourses = async () => {
-    const response = await api.get("/list.php");
-    return response.data;
+    const { data } = await api.get("/list.php");
+    return data;
 };
 
 /*
 |--------------------------------------------------------------------------
-| Get Course
+| Get Course Details
 |--------------------------------------------------------------------------
 */
 
 export const getCourse = async (id) => {
-    const response = await api.get(`/details.php?id=${id}`);
-    return response.data;
+    const { data } = await api.get(`/details.php?id=${id}`);
+    return data;
 };
 
 /*
@@ -36,9 +36,9 @@ export const getCourse = async (id) => {
 |--------------------------------------------------------------------------
 */
 
-export const createCourse = async (data) => {
-    const response = await api.post("/create.php", data);
-    return response.data;
+export const createCourse = async (course) => {
+    const { data } = await api.post("/create.php", course);
+    return data;
 };
 
 /*
@@ -47,9 +47,9 @@ export const createCourse = async (data) => {
 |--------------------------------------------------------------------------
 */
 
-export const updateCourse = async (id, data) => {
-    const response = await api.post(`/update.php?id=${id}`, data);
-    return response.data;
+export const updateCourse = async (id, course) => {
+    const { data } = await api.post(`/update.php?id=${id}`, course);
+    return data;
 };
 
 /*
@@ -59,8 +59,8 @@ export const updateCourse = async (id, data) => {
 */
 
 export const deleteCourse = async (id) => {
-    const response = await api.post(`/delete.php?id=${id}`);
-    return response.data;
+    const { data } = await api.post(`/delete.php?id=${id}`);
+    return data;
 };
 
 /*
@@ -69,14 +69,12 @@ export const deleteCourse = async (id) => {
 |--------------------------------------------------------------------------
 */
 
-export const searchCourses = async (keyword) => {
-    const response = await api.get("/search.php", {
-        params: {
-            keyword
-        }
+export const searchCourses = async (keyword = "") => {
+    const { data } = await api.get("/search.php", {
+        params: { keyword }
     });
 
-    return response.data;
+    return data;
 };
 
 export default api;

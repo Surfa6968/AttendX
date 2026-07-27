@@ -22,21 +22,23 @@ if ($_SESSION["user"]["role"] !== "admin") {
 
 /*
 |--------------------------------------------------------------------------
-| Get Timetable List
+| Timetable List
 |--------------------------------------------------------------------------
 */
 
 $sql = "
-
 SELECT
 
     t.id,
+
     t.course_id,
     t.lecturer_id,
+
     t.day_of_week,
     t.start_time,
     t.end_time,
     t.room,
+
     t.academic_year,
     t.year_of_study,
     t.semester,
@@ -44,12 +46,14 @@ SELECT
     c.course_code,
     c.course_name,
 
-    l.employee_no,
-
-    u.full_name AS lecturer_name,
+    c.faculty_id,
+    c.department_id,
 
     f.faculty_name,
-    d.department_name
+    d.department_name,
+
+    l.employee_no,
+    u.full_name AS lecturer_name
 
 FROM timetables t
 
@@ -80,7 +84,6 @@ FIELD(
     'Sunday'
 ),
 t.start_time ASC
-
 ";
 
 $result = $mysqli->query($sql);
@@ -89,11 +92,11 @@ if (!$result) {
     error("Failed to load timetable.", 500);
 }
 
-$timetable = [];
+$data = [];
 
 while ($row = $result->fetch_assoc()) {
 
-    $timetable[] = [
+    $data[] = [
 
         "id" => (int)$row["id"],
 
@@ -103,11 +106,14 @@ while ($row = $result->fetch_assoc()) {
         "course_code" => $row["course_code"],
         "course_name" => $row["course_name"],
 
-        "employee_no" => $row["employee_no"],
-        "lecturer_name" => $row["lecturer_name"],
+        "faculty_id" => (int)$row["faculty_id"],
+        "department_id" => (int)$row["department_id"],
 
         "faculty_name" => $row["faculty_name"],
         "department_name" => $row["department_name"],
+
+        "employee_no" => $row["employee_no"],
+        "lecturer_name" => $row["lecturer_name"],
 
         "day_of_week" => $row["day_of_week"],
 
@@ -121,16 +127,9 @@ while ($row = $result->fetch_assoc()) {
         "semester" => $row["semester"]
 
     ];
-
 }
-
-/*
-|--------------------------------------------------------------------------
-| Success Response
-|--------------------------------------------------------------------------
-*/
 
 success(
     "Timetable loaded successfully.",
-    $timetable
+    $data
 );

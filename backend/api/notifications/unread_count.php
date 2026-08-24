@@ -47,6 +47,9 @@ $row = mysqli_fetch_assoc($result);
 
 mysqli_stmt_close($stmt);
 
-success([
-    "unread_count" => (int)$row["unread_count"]
-]);
+success(
+    "Unread count loaded successfully.",
+    [
+        "unread_count" => (int)$row["unread_count"]
+    ]
+);

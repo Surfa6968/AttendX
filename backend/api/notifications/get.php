@@ -58,6 +58,7 @@ while ($row = mysqli_fetch_assoc($result)) {
 
 mysqli_stmt_close($stmt);
 
-success([
-    "notifications" => $notifications
-]);
+success(
+    "Notifications loaded successfully.",
+    $notifications
+);

@@ -20,13 +20,24 @@ $userId = $_SESSION["user"]["id"];
 
 /*
 |--------------------------------------------------------------------------
+| Read JSON Request
+|--------------------------------------------------------------------------
+*/
+
+$data = json_decode(
+    file_get_contents("php://input"),
+    true
+);
+
+$id = intval($data["id"] ?? 0);
+
+/*
+|--------------------------------------------------------------------------
 | Request Validation
 |--------------------------------------------------------------------------
 */
 
-$id = $_POST["id"] ?? null;
-
-if (!$id) {
+if ($id <= 0) {
     error("Notification ID is required.", 400);
 }
 
@@ -62,12 +73,17 @@ if (mysqli_stmt_affected_rows($stmt) > 0) {
 
     mysqli_stmt_close($stmt);
 
-    success([
-        "message" => "Notification marked as read."
-    ]);
-
+    success(
+        "Notification marked as read.",
+        [
+            "id" => $id
+        ]
+    );
 }
 
 mysqli_stmt_close($stmt);
 
-error("Notification not found or already marked as read.", 404);
+error(
+    "Notification not found or already marked as read.",
+    404
+);

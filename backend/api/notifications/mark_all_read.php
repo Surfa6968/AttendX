@@ -43,7 +43,15 @@ mysqli_stmt_bind_param(
     $userId
 );
 
-mysqli_stmt_execute($stmt);
+if (!mysqli_stmt_execute($stmt)) {
+
+    mysqli_stmt_close($stmt);
+
+    error(
+        "Failed to mark notifications as read.",
+        500
+    );
+}
 
 $updatedRows = mysqli_stmt_affected_rows($stmt);
 
@@ -51,11 +59,13 @@ mysqli_stmt_close($stmt);
 
 /*
 |--------------------------------------------------------------------------
-| Response
+| Success
 |--------------------------------------------------------------------------
 */
 
-success([
-    "message" => "All notifications marked as read.",
-    "updated" => $updatedRows
-]);
+success(
+    "All notifications marked as read.",
+    [
+        "updated" => $updatedRows
+    ]
+);

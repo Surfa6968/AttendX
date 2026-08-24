@@ -140,6 +140,151 @@
 
 }
 
+/* =========================================================
+   Notification Dropdown
+   ========================================================= */
+
+.notification-dropdown {
+    width: 380px;
+    max-height: 500px;
+    overflow-y: auto;
+
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
+
+    box-shadow:
+        0 10px 25px rgba(0, 0, 0, 0.12),
+        0 4px 10px rgba(0, 0, 0, 0.06);
+
+    z-index: 9999;
+}
+
+/* Header */
+
+.notification-dropdown .notification-header {
+    padding: 15px 18px;
+    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+    color: #ffffff;
+
+    border-radius: 16px 16px 0 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* Notification item */
+
+.notification-dropdown .notification-item {
+    padding: 15px 18px;
+    border-bottom: 1px solid #f1f5f9;
+
+    transition: background-color 0.2s ease;
+}
+
+.notification-dropdown .notification-item:hover {
+    background-color: #f8fafc;
+}
+
+/* Unread notification */
+
+.notification-dropdown .notification-item.unread {
+    background-color: #eff6ff;
+}
+
+.notification-dropdown .notification-item.unread:hover {
+    background-color: #e0edff;
+}
+
+/* Title */
+
+.notification-dropdown .notification-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1e293b;
+}
+
+/* Message */
+
+.notification-dropdown .notification-message {
+    font-size: 13px;
+    color: #64748b;
+
+    line-height: 1.5;
+}
+
+/* Date */
+
+.notification-dropdown .notification-time {
+    font-size: 11px;
+    color: #94a3b8;
+}
+
+/* Read button */
+
+.notification-dropdown .notification-read-btn {
+    width: 30px;
+    height: 30px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+    border: 1px solid #22c55e;
+
+    background: #ffffff;
+    color: #16a34a;
+
+    transition: all 0.2s ease;
+}
+
+.notification-dropdown .notification-read-btn:hover {
+    background: #16a34a;
+    color: #ffffff;
+}
+
+/* Empty state */
+
+.notification-dropdown .notification-empty {
+    padding: 40px 20px;
+    text-align: center;
+    color: #94a3b8;
+}
+
+/* Scrollbar */
+
+.notification-dropdown::-webkit-scrollbar {
+    width: 6px;
+}
+
+.notification-dropdown::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.notification-dropdown::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 10px;
+}
+
+.notification-dropdown::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+/* =========================================================
+   Responsive
+   ========================================================= */
+
+@media (max-width: 576px) {
+    .notification-dropdown {
+        width: calc(100vw - 30px);
+
+        max-width: 380px;
+
+        right: -10px;
+    }
+}
 
 /* ============================================================
    Header

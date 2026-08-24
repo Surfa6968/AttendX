@@ -1,16 +1,12 @@
 import { useEffect, useState } from "react";
-
 import DashboardCard from "../../components/dashboard/DashboardCard";
-
 import { getDashboardStats } from "../../services/dashboardService";
 
 import {
-
-FaUserGraduate,
-FaChalkboardTeacher,
-FaBook,
-FaClipboardCheck
-
+       FaUserGraduate,
+       FaChalkboardTeacher,
+       FaBook,
+       FaClipboardCheck
 } from "react-icons/fa";
 
 function Dashboard(){

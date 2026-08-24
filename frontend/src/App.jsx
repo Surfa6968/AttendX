@@ -35,16 +35,27 @@ import AttendanceView from "./pages/admin/attendance/AttendanceView";
 import Reports from "./pages/admin/reports/Reports";
 import Settings from "./pages/admin/settings/Settings";
 
+import LecturerLayout from "./layouts/LecturerLayout";
+
 import LecturerDashboard from "./pages/lecturer/Dashboard";
+// import LecturerCourses from "./pages/lecturer/Courses";
+// import LecturerTimetable from "./pages/lecturer/Timetable";
+// import LecturerClassSessions from "./pages/lecturer/ClassSessions";
+// import LecturerQRSessions from "./pages/lecturer/QRSessions";
+// import LecturerAttendance from "./pages/lecturer/Attendance";
+// import LecturerReports from "./pages/lecturer/Reports";
+// import LecturerNotifications from "./pages/lecturer/Notifications";
+// import LecturerProfile from "./pages/lecturer/Profile";
+// import LecturerSettings from "./pages/lecturer/Settings";
+
+import Unauthorized from "./pages/Unauthorized";
+import StudentLayout from "./layouts/StudentLayout";
 
 import StudentDashboard from "./pages/student/Dashboard";
 import QRScanner from "./pages/student/QRScanner";
 import AttendanceHistory from "./pages/student/AttendanceHistory";
 import Timetable from "./pages/student/Timetable";
 import Profile from "./pages/student/Profile";
-
-import Unauthorized from "./pages/Unauthorized";
-import StudentLayout from "./layouts/StudentLayout";
 
 function App() {
     const { user } = useAuth();
@@ -146,6 +157,8 @@ function App() {
                 <Route path="settings" element={<Settings />} />
                
             </Route>
+
+
             {/* =======================
                 Lecturer
             ======================= */}
@@ -153,12 +166,23 @@ function App() {
                 path="/lecturer"
                 element={
                     <ProtectedRoute allowedRoles={["lecturer"]}>
-                        <AdminLayout />
+                        <LecturerLayout />
                     </ProtectedRoute>
                 }
             >
                 <Route path="dashboard" element={<LecturerDashboard />} />
+                {/* <Route path="courses" element={<LecturerCourses />} />
+                <Route path="timetable" element={<LecturerTimetable />} />
+                <Route path="classSession" element={<LecturerClassSessions />} />
+                <Route path="qrSession" element={<LecturerQRSessions />} />
+                <Route path="attendance" element={<LecturerAttendance />} />
+                <Route path="reports" element={<LecturerReports />} />
+                <Route path="notifications" element={<LecturerNotifications />} />
+                <Route path="profile" element={<LecturerProfile />} />
+                <Route path="settings" element={<LecturerSettings />} /> */}
             </Route>
+
+
             {/* =======================
                 Student
             ======================= */}

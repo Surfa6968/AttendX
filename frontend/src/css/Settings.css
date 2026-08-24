@@ -1,0 +1,229 @@
+/* =========================================================
+   Settings Page
+========================================================= */
+
+.settings-page {
+    width: 100%;
+}
+
+/* =========================================================
+   Header
+========================================================= */
+
+.settings-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.settings-header h2 {
+    color: #1e293b;
+}
+
+/* =========================================================
+   Menu Card
+========================================================= */
+
+.settings-menu-card {
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+.settings-menu-item {
+    width: 100%;
+    border: none;
+    background: transparent;
+
+    display: flex;
+    align-items: center;
+
+    text-align: left;
+
+    padding: 14px 12px;
+    margin-bottom: 6px;
+
+    border-radius: 12px;
+
+    cursor: pointer;
+
+    transition:
+        background-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.settings-menu-item:last-child {
+    margin-bottom: 0;
+}
+
+.settings-menu-item:hover {
+    background: #f1f5f9;
+    transform: translateX(2px);
+}
+
+.settings-menu-item.active {
+    background: #eaf2ff;
+}
+
+/* =========================================================
+   Menu Icon
+========================================================= */
+
+.settings-menu-icon {
+    width: 42px;
+    height: 42px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 11px;
+
+    background: #f1f5f9;
+
+    color: #2563eb;
+
+    margin-right: 12px;
+
+    font-size: 17px;
+}
+
+.settings-menu-item.active .settings-menu-icon {
+    background: #2563eb;
+    color: white;
+}
+
+/* =========================================================
+   Menu Text
+========================================================= */
+
+.settings-menu-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.settings-menu-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1e293b;
+}
+
+.settings-menu-description {
+    font-size: 12px;
+    color: #64748b;
+
+    margin-top: 3px;
+
+    line-height: 1.4;
+}
+
+.settings-menu-arrow {
+    color: #94a3b8;
+
+    flex-shrink: 0;
+
+    margin-left: 8px;
+}
+
+.settings-menu-item.active .settings-menu-arrow {
+    color: #2563eb;
+}
+
+/* =========================================================
+   Content Card
+========================================================= */
+
+.settings-content-card {
+    border-radius: 16px;
+
+    min-height: 500px;
+}
+
+/* =========================================================
+   Content Header
+========================================================= */
+
+.settings-content-header {
+    display: flex;
+    align-items: center;
+}
+
+.settings-content-icon {
+    width: 52px;
+    height: 52px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 14px;
+
+    background: #eaf2ff;
+
+    color: #2563eb;
+
+    font-size: 21px;
+
+    margin-right: 15px;
+}
+
+.settings-content-header h4 {
+    color: #1e293b;
+}
+
+/* =========================================================
+   Placeholder
+========================================================= */
+
+.settings-placeholder {
+    min-height: 320px;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+
+    color: #2563eb;
+}
+
+.settings-placeholder h5 {
+    color: #1e293b;
+}
+
+.settings-placeholder p {
+    max-width: 520px;
+
+    line-height: 1.7;
+}
+
+/* =========================================================
+   Responsive
+========================================================= */
+
+@media (max-width: 991px) {
+
+    .settings-content-card {
+        min-height: 400px;
+    }
+
+}
+
+@media (max-width: 576px) {
+
+    .settings-header h2 {
+        font-size: 22px;
+    }
+
+    .settings-menu-description {
+        display: none;
+    }
+
+    .settings-content-card .card-body {
+        padding: 20px !important;
+    }
+
+}

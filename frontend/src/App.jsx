@@ -33,6 +33,7 @@ import QRSession from "./pages/admin/qrSession/QRSession";
 import AttendanceList from "./pages/admin/attendance/AttendanceList";
 import AttendanceView from "./pages/admin/attendance/AttendanceView";
 import Reports from "./pages/admin/reports/Reports";
+import Settings from "./pages/admin/settings/Settings";
 
 import LecturerDashboard from "./pages/lecturer/Dashboard";
 
@@ -140,6 +141,9 @@ function App() {
 
                 {/* Reports */}
                 <Route path="reports" element={<Reports />} />
+
+                {/* Settings */}
+                <Route path="settings" element={<Settings />} />
                
             </Route>
             {/* =======================

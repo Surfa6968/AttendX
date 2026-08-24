@@ -101,11 +101,11 @@ function Sidebar() {
       path: "/admin/reports",
     },
 
-    {
-      title: "Notifications",
-      icon: <FaBell />,
-      path: "/admin/notifications",
-    },
+    // {
+    //   title: "Notifications",
+    //   icon: <FaBell />,
+    //   path: "/admin/notifications",
+    // },
 
     {
       title: "Settings",

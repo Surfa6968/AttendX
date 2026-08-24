@@ -36,41 +36,32 @@ function NotificationBell() {
     */
 
     const loadNotifications = async () => {
-
         try {
-
             const [list, count] = await Promise.all([
                 getNotifications(),
                 getUnreadCount(),
             ]);
 
             if (list.success) {
-
                 setNotifications(
                     Array.isArray(list.data)
                         ? list.data
                         : []
                 );
-
             }
 
             if (count.success) {
-
                 setUnreadCount(
                     Number(count.data?.unread_count || 0)
                 );
-
             }
 
         } catch (error) {
-
             console.error(
                 "Failed to load notifications:",
                 error
             );
-
         }
-
     };
 
     /*
@@ -99,34 +90,24 @@ function NotificationBell() {
     */
 
     useEffect(() => {
-
-        const handleMouseMove = (event) => {
-
+        const handleClickOutside = (event) => {
             if (
-                open &&
                 dropdownRef.current &&
                 !dropdownRef.current.contains(event.target)
             ) {
                 setOpen(false);
             }
-
         };
 
-        document.addEventListener(
-            "mousemove",
-            handleMouseMove
-        );
+        document.addEventListener("mousedown", handleClickOutside);
 
         return () => {
-
             document.removeEventListener(
-                "mousemove",
-                handleMouseMove
+                "mousedown",
+                handleClickOutside
             );
-
         };
-
-    }, [open]);
+    }, []);
 
     /*
     |--------------------------------------------------------------------------
@@ -333,22 +314,41 @@ function NotificationBell() {
                 Notification Bell
             ============================================================ */}
 
-            <button
-                type="button"
-                className="btn btn-light rounded-circle shadow-sm position-relative"
-                onClick={() => {
-                    setOpen(!open);
-                    loadNotifications();
-                }}
-            >
-                <FaBell size={18} />
+<button
+    type="button"
+    className="btn btn-light rounded-circle shadow-sm position-relative"
+    onClick={() => {
+        setOpen(!open);
+        loadNotifications();
+    }}
+>
+    <FaBell size={18} />
 
-                {unreadCount > 0 && (
-                    <span className="notification-badge position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                        {unreadCount > 99 ? "99+" : unreadCount}
-                    </span>
-                )}
-            </button>
+    {unreadCount > 0 && (
+        <span
+            style={{
+                position: "absolute",
+                top: "-5px",
+                right: "-5px",
+                minWidth: "22px",
+                height: "22px",
+                padding: "0 6px",
+                borderRadius: "50%",
+                backgroundColor: "#dc3545",
+                color: "#fff",
+                fontSize: "12px",
+                fontWeight: "700",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                border: "2px solid #fff",
+                zIndex: 10,
+            }}
+        >
+            {unreadCount > 99 ? "99+" : unreadCount}
+        </span>
+    )}
+</button>
 
 
             {/* ============================================================
@@ -357,7 +357,7 @@ function NotificationBell() {
 
             {open && (
 
-                <div className="notification-panel">
+                <div className="notification-dropdown position-absolute end-0 mt-2">
 
                     {/* Header */}
 

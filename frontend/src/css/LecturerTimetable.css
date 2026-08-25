@@ -1,0 +1,662 @@
+/* ============================================================
+   Lecturer Timetable
+   ============================================================ */
+
+.lecturer-timetable-page {
+    padding: 28px;
+    min-height: 100%;
+    background: #f6f8fc;
+    color: #1f2937;
+}
+
+
+/* ============================================================
+   HEADER
+   ============================================================ */
+
+.lecturer-timetable-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 25px;
+}
+
+.timetable-breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    color: #7b8494;
+    font-size: 13px;
+    margin-bottom: 8px;
+}
+
+.timetable-breadcrumb span {
+    color: #b4bac5;
+}
+
+.lecturer-timetable-header h1 {
+    margin: 0;
+    font-size: 28px;
+    font-weight: 700;
+    color: #172033;
+}
+
+.lecturer-timetable-header p {
+    margin: 7px 0 0;
+    color: #747d8d;
+    font-size: 14px;
+}
+
+.timetable-refresh-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid #dce2eb;
+    background: #ffffff;
+    color: #374151;
+    padding: 10px 17px;
+    border-radius: 9px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    transition: 0.2s ease;
+}
+
+.timetable-refresh-button:hover {
+    border-color: #2563eb;
+    color: #2563eb;
+    background: #f8fbff;
+}
+
+.timetable-refresh-button:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+}
+
+.timetable-spin {
+    animation: timetableSpin 0.9s linear infinite;
+}
+
+@keyframes timetableSpin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+
+/* ============================================================
+   ERROR
+   ============================================================ */
+
+.timetable-error {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 15px 18px;
+    margin-bottom: 22px;
+    background: #fff4f4;
+    border: 1px solid #ffd4d4;
+    border-radius: 10px;
+    color: #b42318;
+}
+
+.timetable-error > svg {
+    font-size: 21px;
+    flex-shrink: 0;
+}
+
+.timetable-error div {
+    flex: 1;
+}
+
+.timetable-error strong {
+    display: block;
+    font-size: 14px;
+}
+
+.timetable-error p {
+    margin: 3px 0 0;
+    font-size: 13px;
+    color: #8d3d39;
+}
+
+.timetable-error button {
+    border: 0;
+    background: #dc2626;
+    color: white;
+    border-radius: 7px;
+    padding: 8px 14px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+
+/* ============================================================
+   SUMMARY
+   ============================================================ */
+
+.timetable-summary {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 17px;
+    margin-bottom: 22px;
+}
+
+.timetable-summary-card {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: #ffffff;
+    border: 1px solid #e5e9f0;
+    border-radius: 12px;
+    padding: 18px;
+    box-shadow: 0 2px 8px rgba(31, 41, 55, 0.03);
+}
+
+.summary-icon {
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 11px;
+    font-size: 18px;
+}
+
+.summary-icon.blue {
+    color: #2563eb;
+    background: #eaf2ff;
+}
+
+.summary-icon.green {
+    color: #16a34a;
+    background: #eaf8ef;
+}
+
+.summary-icon.purple {
+    color: #7c3aed;
+    background: #f1eafe;
+}
+
+.timetable-summary-card span {
+    display: block;
+    color: #7b8494;
+    font-size: 12px;
+    margin-bottom: 3px;
+}
+
+.timetable-summary-card strong {
+    display: block;
+    color: #172033;
+    font-size: 22px;
+}
+
+
+/* ============================================================
+   FILTER PANEL
+   ============================================================ */
+
+.timetable-filter-panel {
+    background: #ffffff;
+    border: 1px solid #e4e8ef;
+    border-radius: 12px;
+    padding: 19px;
+    margin-bottom: 23px;
+}
+
+.timetable-filter-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    margin-bottom: 16px;
+}
+
+.timetable-filter-title h3 {
+    margin: 0;
+    font-size: 16px;
+    color: #202938;
+}
+
+.timetable-filter-title p {
+    margin: 4px 0 0;
+    color: #858e9d;
+    font-size: 12px;
+}
+
+.timetable-clear-button {
+    border: 0;
+    background: #eef3ff;
+    color: #2563eb;
+    border-radius: 7px;
+    padding: 8px 12px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.timetable-filters {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 13px;
+}
+
+.timetable-search,
+.timetable-select {
+    height: 43px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border: 1px solid #dce2ea;
+    border-radius: 8px;
+    background: #ffffff;
+    padding: 0 13px;
+}
+
+.timetable-search svg,
+.timetable-select svg {
+    color: #8a93a3;
+    flex-shrink: 0;
+}
+
+.timetable-search input,
+.timetable-select select {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    color: #303846;
+    font-size: 13px;
+}
+
+.timetable-select select {
+    cursor: pointer;
+}
+
+
+/* ============================================================
+   LOADING
+   ============================================================ */
+
+.timetable-loading {
+    min-height: 320px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #ffffff;
+    border: 1px solid #e5e9f0;
+    border-radius: 12px;
+}
+
+.timetable-loader {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: 4px solid #e5eaf2;
+    border-top-color: #2563eb;
+    animation: timetableSpin 0.8s linear infinite;
+    margin-bottom: 15px;
+}
+
+.timetable-loading h3 {
+    margin: 0;
+    color: #253044;
+    font-size: 17px;
+}
+
+.timetable-loading p {
+    margin: 6px 0 0;
+    color: #858e9d;
+    font-size: 13px;
+}
+
+
+/* ============================================================
+   EMPTY
+   ============================================================ */
+
+.timetable-empty {
+    min-height: 330px;
+    background: #ffffff;
+    border: 1px solid #e5e9f0;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 35px;
+}
+
+.timetable-empty-icon {
+    width: 65px;
+    height: 65px;
+    border-radius: 50%;
+    background: #eef3ff;
+    color: #2563eb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    margin-bottom: 15px;
+}
+
+.timetable-empty h3 {
+    margin: 0;
+    color: #253044;
+    font-size: 19px;
+}
+
+.timetable-empty p {
+    color: #858e9d;
+    font-size: 13px;
+    margin: 7px 0 18px;
+}
+
+.timetable-empty button {
+    border: 0;
+    background: #2563eb;
+    color: white;
+    padding: 9px 15px;
+    border-radius: 7px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+
+/* ============================================================
+   RESULTS
+   ============================================================ */
+
+.lecturer-timetable-content {
+    width: 100%;
+}
+
+.timetable-results-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.timetable-results-header h3 {
+    margin: 0;
+    color: #202938;
+    font-size: 18px;
+}
+
+.timetable-results-header span {
+    display: block;
+    margin-top: 4px;
+    color: #858e9d;
+    font-size: 12px;
+}
+
+
+/* ============================================================
+   DAY SECTION
+   ============================================================ */
+
+.timetable-day-section {
+    background: #ffffff;
+    border: 1px solid #e3e8f0;
+    border-radius: 12px;
+    margin-bottom: 17px;
+    overflow: hidden;
+}
+
+.timetable-day-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 13px 17px;
+    background: #f8faff;
+    border-bottom: 1px solid #e8edf4;
+}
+
+.timetable-day {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.timetable-day.monday {
+    color: #2563eb;
+}
+
+.timetable-day.tuesday {
+    color: #7c3aed;
+}
+
+.timetable-day.wednesday {
+    color: #0891b2;
+}
+
+.timetable-day.thursday {
+    color: #16a34a;
+}
+
+.timetable-day.friday {
+    color: #ea580c;
+}
+
+.timetable-day.saturday {
+    color: #db2777;
+}
+
+.timetable-day.sunday {
+    color: #dc2626;
+}
+
+.day-class-count {
+    color: #7e8796;
+    font-size: 12px;
+}
+
+
+/* ============================================================
+   CLASS CARD
+   ============================================================ */
+
+.timetable-class-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.timetable-class-card {
+    display: grid;
+    grid-template-columns: 155px minmax(0, 1fr) 160px;
+    gap: 22px;
+    align-items: center;
+    padding: 18px;
+    border-bottom: 1px solid #edf0f5;
+    transition: background 0.2s ease;
+}
+
+.timetable-class-card:last-child {
+    border-bottom: 0;
+}
+
+.timetable-class-card:hover {
+    background: #fafcff;
+}
+
+
+/* ============================================================
+   TIME
+   ============================================================ */
+
+.class-time {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+}
+
+.class-time > svg {
+    color: #2563eb;
+    font-size: 18px;
+}
+
+.class-time strong {
+    display: block;
+    color: #253044;
+    font-size: 14px;
+}
+
+.class-time span {
+    display: block;
+    margin-top: 3px;
+    color: #8a93a2;
+    font-size: 12px;
+}
+
+
+/* ============================================================
+   COURSE
+   ============================================================ */
+
+.class-course {
+    min-width: 0;
+}
+
+.course-code {
+    display: inline-block;
+    color: #2563eb;
+    background: #edf4ff;
+    border-radius: 5px;
+    padding: 4px 8px;
+    font-size: 11px;
+    font-weight: 700;
+    margin-bottom: 5px;
+}
+
+.class-course h4 {
+    margin: 0;
+    color: #202938;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.class-details {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 8px;
+}
+
+.class-details span {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    color: #7d8796;
+    font-size: 11px;
+}
+
+.class-details svg {
+    color: #9099a8;
+}
+
+
+/* ============================================================
+   ACADEMIC YEAR
+   ============================================================ */
+
+.class-academic {
+    text-align: right;
+}
+
+.class-academic span {
+    display: block;
+    color: #9098a6;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+}
+
+.class-academic strong {
+    display: block;
+    margin-top: 4px;
+    color: #303948;
+    font-size: 13px;
+}
+
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
+@media (max-width: 1000px) {
+
+    .timetable-summary {
+        grid-template-columns: 1fr;
+    }
+
+    .timetable-class-card {
+        grid-template-columns: 130px 1fr;
+    }
+
+    .class-academic {
+        grid-column: 2;
+        text-align: left;
+    }
+
+}
+
+
+@media (max-width: 700px) {
+
+    .lecturer-timetable-page {
+        padding: 17px;
+    }
+
+    .lecturer-timetable-header {
+        flex-direction: column;
+    }
+
+    .lecturer-timetable-header h1 {
+        font-size: 23px;
+    }
+
+    .timetable-refresh-button {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .timetable-filters {
+        grid-template-columns: 1fr;
+    }
+
+    .timetable-filter-title {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .timetable-class-card {
+        grid-template-columns: 1fr;
+        gap: 13px;
+    }
+
+    .class-academic {
+        grid-column: auto;
+        text-align: left;
+    }
+
+    .timetable-day-header {
+        padding: 12px;
+    }
+
+    .timetable-class-card {
+        padding: 15px;
+    }
+
+}

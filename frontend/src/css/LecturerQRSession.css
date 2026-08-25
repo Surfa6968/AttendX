@@ -1,0 +1,567 @@
+/* ==========================================================================
+   Lecturer QR Session
+   ========================================================================== */
+
+.lecturer-qr-page {
+    min-height: 100vh;
+    background: #f8fafc;
+}
+
+
+/* ==========================================================================
+   Header
+   ========================================================================== */
+
+.lecturer-qr-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 25px;
+}
+
+.lecturer-qr-breadcrumb {
+    font-size: 13px;
+    color: #64748b;
+    margin-bottom: 6px;
+}
+
+.lecturer-qr-header h2 {
+    margin: 0;
+    font-weight: 700;
+    color: #0f172a;
+}
+
+.lecturer-qr-header p {
+    margin: 6px 0 0;
+    color: #64748b;
+}
+
+.lecturer-qr-refresh {
+    border: 1px solid #dbe3ef;
+    background: #ffffff;
+    color: #2563eb;
+    border-radius: 9px;
+    padding: 10px 17px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+}
+
+.lecturer-qr-refresh:hover {
+    background: #eff6ff;
+}
+
+
+/* ==========================================================================
+   Error
+   ========================================================================== */
+
+.lecturer-qr-error {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px 18px;
+    margin-bottom: 22px;
+    border-radius: 12px;
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    color: #991b1b;
+}
+
+.lecturer-qr-error > svg {
+    font-size: 21px;
+}
+
+.lecturer-qr-error div {
+    flex: 1;
+}
+
+.lecturer-qr-error strong {
+    display: block;
+}
+
+.lecturer-qr-error p {
+    margin: 3px 0 0;
+}
+
+.lecturer-qr-error button {
+    border: 0;
+    background: transparent;
+    color: #991b1b;
+    font-size: 17px;
+}
+
+
+/* ==========================================================================
+   Settings
+   ========================================================================== */
+
+.lecturer-qr-settings {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    padding: 16px 20px;
+    margin-bottom: 22px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.lecturer-qr-settings > div {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: 1;
+}
+
+.lecturer-qr-settings > div > svg {
+    color: #2563eb;
+    font-size: 21px;
+}
+
+.lecturer-qr-settings strong {
+    display: block;
+    color: #0f172a;
+}
+
+.lecturer-qr-settings small {
+    display: block;
+    color: #64748b;
+}
+
+.lecturer-qr-settings input {
+    width: 100px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    padding: 8px 10px;
+    text-align: center;
+}
+
+.lecturer-qr-settings > span {
+    color: #64748b;
+}
+
+
+/* ==========================================================================
+   Panels
+   ========================================================================== */
+
+.lecturer-qr-panel {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    margin-bottom: 25px;
+    overflow: hidden;
+}
+
+.lecturer-qr-panel-header {
+    padding: 20px 22px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.lecturer-qr-panel-header h5 {
+    margin: 0;
+    color: #0f172a;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+}
+
+.lecturer-qr-panel-header h5 svg {
+    color: #2563eb;
+}
+
+.lecturer-qr-panel-header p {
+    margin: 5px 0 0;
+    color: #64748b;
+    font-size: 14px;
+}
+
+
+/* ==========================================================================
+   Loading / Empty
+   ========================================================================== */
+
+.lecturer-qr-loading {
+    padding: 50px 20px;
+    text-align: center;
+    color: #64748b;
+}
+
+.lecturer-qr-loading p {
+    margin-top: 12px;
+    margin-bottom: 0;
+}
+
+.lecturer-qr-empty {
+    padding: 55px 20px;
+    text-align: center;
+    color: #64748b;
+}
+
+.lecturer-qr-empty-icon {
+    width: 65px;
+    height: 65px;
+    margin: 0 auto 15px;
+    border-radius: 50%;
+    background: #eff6ff;
+    color: #2563eb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 25px;
+}
+
+.lecturer-qr-empty h6 {
+    color: #334155;
+    font-weight: 700;
+    margin-bottom: 6px;
+}
+
+.lecturer-qr-empty p {
+    margin: 0;
+}
+
+
+/* ==========================================================================
+   Class List
+   ========================================================================== */
+
+.lecturer-class-list {
+    padding: 18px;
+}
+
+.lecturer-class-card {
+    display: grid;
+    grid-template-columns:
+        minmax(200px, 1.5fr)
+        minmax(130px, 1fr)
+        minmax(130px, 1fr)
+        minmax(100px, .8fr)
+        minmax(130px, auto);
+
+    align-items: center;
+    gap: 18px;
+
+    padding: 17px;
+
+    border: 1px solid #e2e8f0;
+    border-radius: 13px;
+
+    margin-bottom: 12px;
+
+    transition: .2s ease;
+}
+
+.lecturer-class-card:last-child {
+    margin-bottom: 0;
+}
+
+.lecturer-class-card:hover {
+    border-color: #bfdbfe;
+    box-shadow: 0 4px 15px rgba(15, 23, 42, .06);
+}
+
+
+/* Course */
+
+.lecturer-class-main {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.lecturer-course-icon {
+    width: 45px;
+    height: 45px;
+    flex-shrink: 0;
+    border-radius: 11px;
+    background: #eff6ff;
+    color: #2563eb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 19px;
+}
+
+.lecturer-class-main strong {
+    display: block;
+    color: #0f172a;
+    font-size: 16px;
+}
+
+.lecturer-class-main span {
+    display: block;
+    color: #64748b;
+    font-size: 13px;
+    margin-top: 2px;
+}
+
+
+/* Details */
+
+.lecturer-class-detail {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+}
+
+.lecturer-class-detail > svg {
+    color: #2563eb;
+}
+
+.lecturer-class-detail small {
+    display: block;
+    color: #94a3b8;
+    font-size: 11px;
+}
+
+.lecturer-class-detail strong {
+    display: block;
+    color: #334155;
+    font-size: 13px;
+}
+
+
+/* Action */
+
+.lecturer-class-action {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.start-qr-btn {
+    border: 0;
+    border-radius: 9px;
+    background: #16a34a;
+    color: #ffffff;
+    padding: 10px 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.start-qr-btn:hover:not(:disabled) {
+    background: #15803d;
+}
+
+.start-qr-btn:disabled {
+    opacity: .65;
+    cursor: not-allowed;
+}
+
+.qr-active-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    background: #dcfce7;
+    color: #166534;
+    border-radius: 999px;
+    padding: 8px 12px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.qr-active-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #16a34a;
+}
+
+
+/* ==========================================================================
+   QR Table
+   ========================================================================== */
+
+.lecturer-qr-table {
+    margin: 0;
+}
+
+.lecturer-qr-table thead th {
+    background: #f8fafc;
+    color: #475569;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: .03em;
+    white-space: nowrap;
+    padding: 13px 14px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.lecturer-qr-table tbody td {
+    padding: 14px;
+    border-bottom: 1px solid #f1f5f9;
+    color: #475569;
+    white-space: nowrap;
+}
+
+.lecturer-qr-table tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+.lecturer-qr-table td strong {
+    display: block;
+    color: #0f172a;
+}
+
+.lecturer-qr-table td small {
+    display: block;
+    color: #64748b;
+    margin-top: 2px;
+}
+
+
+/* ==========================================================================
+   QR Image
+   ========================================================================== */
+
+.lecturer-qr-image {
+    width: 75px;
+    height: 75px;
+    object-fit: contain;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 4px;
+    background: #ffffff;
+}
+
+
+/* ==========================================================================
+   Status
+   ========================================================================== */
+
+.qr-status-badge {
+    display: inline-block;
+    padding: 6px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.qr-status-badge.active {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.qr-status-badge.expired {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.qr-status-badge.closed {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+
+/* ==========================================================================
+   Close Button
+   ========================================================================== */
+
+.close-qr-btn {
+    border: 0;
+    background: #fee2e2;
+    color: #b91c1c;
+    border-radius: 8px;
+    padding: 8px 11px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 600;
+    font-size: 12px;
+}
+
+.close-qr-btn:hover {
+    background: #fecaca;
+}
+
+
+/* ==========================================================================
+   Responsive
+   ========================================================================== */
+
+@media (max-width: 1200px) {
+
+    .lecturer-class-card {
+        grid-template-columns:
+            1.5fr
+            1fr
+            1fr
+            .8fr
+            auto;
+    }
+
+}
+
+
+@media (max-width: 992px) {
+
+    .lecturer-qr-header {
+        align-items: flex-start;
+    }
+
+    .lecturer-class-card {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .lecturer-class-main {
+        grid-column: 1 / -1;
+    }
+
+    .lecturer-class-action {
+        justify-content: flex-start;
+    }
+
+}
+
+
+@media (max-width: 576px) {
+
+    .lecturer-qr-page {
+        padding-left: 10px !important;
+        padding-right: 10px !important;
+    }
+
+    .lecturer-qr-header {
+        flex-direction: column;
+    }
+
+    .lecturer-qr-refresh {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .lecturer-qr-settings {
+        flex-wrap: wrap;
+    }
+
+    .lecturer-qr-settings > div {
+        width: 100%;
+        flex: none;
+    }
+
+    .lecturer-class-card {
+        grid-template-columns: 1fr;
+        gap: 14px;
+    }
+
+    .lecturer-class-main {
+        grid-column: auto;
+    }
+
+    .lecturer-class-action {
+        justify-content: stretch;
+    }
+
+    .start-qr-btn {
+        width: 100%;
+    }
+
+}

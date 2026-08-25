@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import {
     FaBook,
@@ -6,14 +7,24 @@ import {
     FaQrcode,
     FaClipboardCheck,
     FaChartLine,
-    FaUsers,
     FaClock,
     FaArrowRight,
+    FaExclamationCircle,
+    FaSyncAlt,
 } from "react-icons/fa";
+
+import { getLecturerDashboard } from "../../services/lecturerDashboardService";
+
+import "../../css/LecturerDashboard.css";
+
 
 function LecturerDashboard() {
 
+    const navigate = useNavigate();
+
     const [loading, setLoading] = useState(true);
+
+    const [error, setError] = useState("");
 
     const [statistics, setStatistics] = useState({
         totalCourses: 0,
@@ -29,50 +40,175 @@ function LecturerDashboard() {
 
     /*
     |--------------------------------------------------------------------------
-    | Load Dashboard Data
+    | LOAD DASHBOARD
+    |--------------------------------------------------------------------------
+    */
+
+    const loadDashboard = async () => {
+
+        try {
+
+            setLoading(true);
+
+            setError("");
+
+
+            const response =
+                await getLecturerDashboard();
+
+
+            console.log(
+                "LECTURER DASHBOARD RESPONSE:",
+                response
+            );
+
+
+            if (response?.success === true) {
+
+                /*
+                 * Support different response structures:
+                 *
+                 * response.data
+                 * response.data.dashboard
+                 * response.dashboard
+                 */
+
+                const dashboard =
+                    response?.data?.dashboard ||
+                    response?.dashboard ||
+                    response?.data ||
+                    {};
+
+
+                /*
+                 * STATISTICS
+                 */
+
+                const stats =
+                    dashboard.statistics ||
+                    dashboard.stats ||
+                    {};
+
+
+                setStatistics({
+
+                    totalCourses:
+                        Number(
+                            stats.totalCourses ??
+                            stats.total_courses ??
+                            dashboard.totalCourses ??
+                            dashboard.total_courses ??
+                            0
+                        ),
+
+                    todayClasses:
+                        Number(
+                            stats.todayClasses ??
+                            stats.today_classes ??
+                            dashboard.todayClasses ??
+                            dashboard.today_classes ??
+                            0
+                        ),
+
+                    activeQRSession:
+                        Number(
+                            stats.activeQRSession ??
+                            stats.active_qr_session ??
+                            dashboard.activeQRSession ??
+                            dashboard.active_qr_session ??
+                            0
+                        ),
+
+                    todayAttendance:
+                        Number(
+                            stats.todayAttendance ??
+                            stats.today_attendance ??
+                            dashboard.todayAttendance ??
+                            dashboard.today_attendance ??
+                            0
+                        ),
+
+                });
+
+
+                /*
+                 * UPCOMING CLASSES
+                 */
+
+                const classes =
+                    dashboard.upcomingClasses ||
+                    dashboard.upcoming_classes ||
+                    response?.upcomingClasses ||
+                    response?.upcoming_classes ||
+                    [];
+
+
+                setUpcomingClasses(
+                    Array.isArray(classes)
+                        ? classes
+                        : []
+                );
+
+
+                /*
+                 * RECENT ATTENDANCE
+                 */
+
+                const attendance =
+                    dashboard.recentAttendance ||
+                    dashboard.recent_attendance ||
+                    response?.recentAttendance ||
+                    response?.recent_attendance ||
+                    [];
+
+
+                setRecentAttendance(
+                    Array.isArray(attendance)
+                        ? attendance
+                        : []
+                );
+
+
+            } else {
+
+                setError(
+                    response?.message ||
+                    "Unable to load lecturer dashboard."
+                );
+
+            }
+
+
+        } catch (error) {
+
+            console.error(
+                "Failed to load lecturer dashboard:",
+                error
+            );
+
+
+            setError(
+                error?.response?.data?.message ||
+                "Unable to connect to the AttendX server."
+            );
+
+
+        } finally {
+
+            setLoading(false);
+
+        }
+
+    };
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | INITIAL LOAD
     |--------------------------------------------------------------------------
     */
 
     useEffect(() => {
-
-        const loadDashboard = async () => {
-
-            try {
-
-                setLoading(true);
-
-                /*
-                 * API integration will be connected here.
-                 *
-                 * For now we use empty/default values so the
-                 * dashboard can be developed without breaking.
-                 */
-
-                setStatistics({
-                    totalCourses: 0,
-                    todayClasses: 0,
-                    activeQRSession: 0,
-                    todayAttendance: 0,
-                });
-
-                setUpcomingClasses([]);
-
-                setRecentAttendance([]);
-
-            } catch (error) {
-
-                console.error(
-                    "Failed to load lecturer dashboard:",
-                    error
-                );
-
-            } finally {
-
-                setLoading(false);
-
-            }
-
-        };
 
         loadDashboard();
 
@@ -81,7 +217,7 @@ function LecturerDashboard() {
 
     /*
     |--------------------------------------------------------------------------
-    | Loading
+    | LOADING
     |--------------------------------------------------------------------------
     */
 
@@ -91,7 +227,7 @@ function LecturerDashboard() {
 
             <div className="container-fluid">
 
-                <div className="text-center py-5">
+                <div className="lecturer-dashboard-loading">
 
                     <div
                         className="spinner-border text-primary"
@@ -104,8 +240,12 @@ function LecturerDashboard() {
 
                     </div>
 
-                    <p className="text-muted mt-3 mb-0">
-                        Loading lecturer dashboard...
+                    <h5 className="mt-3 fw-semibold">
+                        Loading Dashboard
+                    </h5>
+
+                    <p className="text-muted mb-0">
+                        Retrieving your lecturer information...
                     </p>
 
                 </div>
@@ -119,34 +259,88 @@ function LecturerDashboard() {
 
     /*
     |--------------------------------------------------------------------------
-    | Dashboard
+    | DASHBOARD
     |--------------------------------------------------------------------------
     */
 
     return (
 
-        <div className="container-fluid">
+        <div className="container-fluid lecturer-dashboard">
 
 
             {/* ============================================================
                 HEADER
             ============================================================ */}
 
-            <div className="d-flex justify-content-between align-items-center mb-4">
+            <div className="lecturer-dashboard-header">
 
                 <div>
 
-                    <h2 className="fw-bold mb-1">
+                    <span className="dashboard-breadcrumb">
+                        Lecturer Portal / Dashboard
+                    </span>
+
+                    <h2>
                         Lecturer Dashboard
                     </h2>
 
-                    <p className="text-muted mb-0">
-                        Welcome to your AttendX lecturer dashboard.
+                    <p>
+                        Welcome back. Here's an overview of your
+                        academic activities.
                     </p>
 
                 </div>
 
+
+                <button
+                    type="button"
+                    className="dashboard-refresh-btn"
+                    onClick={loadDashboard}
+                    disabled={loading}
+                >
+
+                    <FaSyncAlt />
+
+                    Refresh
+
+                </button>
+
             </div>
+
+
+            {/* ============================================================
+                ERROR
+            ============================================================ */}
+
+            {error && (
+
+                <div className="dashboard-error">
+
+                    <FaExclamationCircle />
+
+                    <div>
+
+                        <strong>
+                            Unable to load dashboard
+                        </strong>
+
+                        <p>
+                            {error}
+                        </p>
+
+                    </div>
+
+
+                    <button
+                        type="button"
+                        onClick={loadDashboard}
+                    >
+                        Retry
+                    </button>
+
+                </div>
+
+            )}
 
 
             {/* ============================================================
@@ -156,41 +350,32 @@ function LecturerDashboard() {
             <div className="row g-4 mb-4">
 
 
-                {/* My Courses */}
+                {/* COURSES */}
 
                 <div className="col-xl-3 col-md-6">
 
-                    <div className="card border-0 shadow-sm h-100">
+                    <div className="dashboard-stat-card">
 
-                        <div className="card-body">
+                        <div>
 
-                            <div className="d-flex justify-content-between align-items-center">
+                            <span>
+                                My Courses
+                            </span>
 
-                                <div>
+                            <h3>
+                                {statistics.totalCourses}
+                            </h3>
 
-                                    <p className="text-muted mb-2">
-                                        My Courses
-                                    </p>
+                            <small>
+                                Assigned courses
+                            </small>
 
-                                    <h3 className="fw-bold mb-0">
-                                        {statistics.totalCourses}
-                                    </h3>
+                        </div>
 
-                                </div>
 
-                                <div
-                                    className="d-flex align-items-center justify-content-center rounded-3 bg-primary text-white"
-                                    style={{
-                                        width: "50px",
-                                        height: "50px",
-                                    }}
-                                >
+                        <div className="dashboard-stat-icon blue">
 
-                                    <FaBook size={21} />
-
-                                </div>
-
-                            </div>
+                            <FaBook />
 
                         </div>
 
@@ -199,41 +384,32 @@ function LecturerDashboard() {
                 </div>
 
 
-                {/* Today's Classes */}
+                {/* TODAY CLASSES */}
 
                 <div className="col-xl-3 col-md-6">
 
-                    <div className="card border-0 shadow-sm h-100">
+                    <div className="dashboard-stat-card">
 
-                        <div className="card-body">
+                        <div>
 
-                            <div className="d-flex justify-content-between align-items-center">
+                            <span>
+                                Today's Classes
+                            </span>
 
-                                <div>
+                            <h3>
+                                {statistics.todayClasses}
+                            </h3>
 
-                                    <p className="text-muted mb-2">
-                                        Today's Classes
-                                    </p>
+                            <small>
+                                Scheduled today
+                            </small>
 
-                                    <h3 className="fw-bold mb-0">
-                                        {statistics.todayClasses}
-                                    </h3>
+                        </div>
 
-                                </div>
 
-                                <div
-                                    className="d-flex align-items-center justify-content-center rounded-3 bg-success text-white"
-                                    style={{
-                                        width: "50px",
-                                        height: "50px",
-                                    }}
-                                >
+                        <div className="dashboard-stat-icon green">
 
-                                    <FaCalendarAlt size={21} />
-
-                                </div>
-
-                            </div>
+                            <FaCalendarAlt />
 
                         </div>
 
@@ -242,41 +418,32 @@ function LecturerDashboard() {
                 </div>
 
 
-                {/* Active QR Session */}
+                {/* QR */}
 
                 <div className="col-xl-3 col-md-6">
 
-                    <div className="card border-0 shadow-sm h-100">
+                    <div className="dashboard-stat-card">
 
-                        <div className="card-body">
+                        <div>
 
-                            <div className="d-flex justify-content-between align-items-center">
+                            <span>
+                                Active QR Session
+                            </span>
 
-                                <div>
+                            <h3>
+                                {statistics.activeQRSession}
+                            </h3>
 
-                                    <p className="text-muted mb-2">
-                                        Active QR Session
-                                    </p>
+                            <small>
+                                Currently active
+                            </small>
 
-                                    <h3 className="fw-bold mb-0">
-                                        {statistics.activeQRSession}
-                                    </h3>
+                        </div>
 
-                                </div>
 
-                                <div
-                                    className="d-flex align-items-center justify-content-center rounded-3 bg-warning text-white"
-                                    style={{
-                                        width: "50px",
-                                        height: "50px",
-                                    }}
-                                >
+                        <div className="dashboard-stat-icon orange">
 
-                                    <FaQrcode size={21} />
-
-                                </div>
-
-                            </div>
+                            <FaQrcode />
 
                         </div>
 
@@ -285,41 +452,32 @@ function LecturerDashboard() {
                 </div>
 
 
-                {/* Today's Attendance */}
+                {/* ATTENDANCE */}
 
                 <div className="col-xl-3 col-md-6">
 
-                    <div className="card border-0 shadow-sm h-100">
+                    <div className="dashboard-stat-card">
 
-                        <div className="card-body">
+                        <div>
 
-                            <div className="d-flex justify-content-between align-items-center">
+                            <span>
+                                Today's Attendance
+                            </span>
 
-                                <div>
+                            <h3>
+                                {statistics.todayAttendance}
+                            </h3>
 
-                                    <p className="text-muted mb-2">
-                                        Today's Attendance
-                                    </p>
+                            <small>
+                                Students recorded
+                            </small>
 
-                                    <h3 className="fw-bold mb-0">
-                                        {statistics.todayAttendance}
-                                    </h3>
+                        </div>
 
-                                </div>
 
-                                <div
-                                    className="d-flex align-items-center justify-content-center rounded-3 bg-info text-white"
-                                    style={{
-                                        width: "50px",
-                                        height: "50px",
-                                    }}
-                                >
+                        <div className="dashboard-stat-icon purple">
 
-                                    <FaClipboardCheck size={21} />
-
-                                </div>
-
-                            </div>
+                            <FaClipboardCheck />
 
                         </div>
 
@@ -334,82 +492,129 @@ function LecturerDashboard() {
                 QUICK ACTIONS
             ============================================================ */}
 
-            <div className="card border-0 shadow-sm mb-4">
+            <div className="dashboard-panel mb-4">
 
-                <div className="card-body p-4">
+                <div className="dashboard-panel-header">
 
-                    <h5 className="fw-bold mb-4">
-                        Quick Actions
-                    </h5>
+                    <div>
 
+                        <h5>
+                            Quick Actions
+                        </h5>
 
-                    <div className="row g-3">
+                        <p>
+                            Quickly access your most used lecturer tools.
+                        </p>
 
+                    </div>
 
-                        {/* Start QR */}
-
-                        <div className="col-md-4">
-
-                            <button
-                                type="button"
-                                className="btn btn-primary w-100 py-3"
-                                onClick={() =>
-                                    window.location.href =
-                                        "/lecturer/qrSession"
-                                }
-                            >
-
-                                <FaQrcode className="me-2" />
-
-                                Start QR Session
-
-                            </button>
-
-                        </div>
+                </div>
 
 
-                        {/* Attendance */}
-
-                        <div className="col-md-4">
-
-                            <button
-                                type="button"
-                                className="btn btn-success w-100 py-3"
-                                onClick={() =>
-                                    window.location.href =
-                                        "/lecturer/attendance"
-                                }
-                            >
-
-                                <FaClipboardCheck className="me-2" />
-
-                                View Attendance
-
-                            </button>
-
-                        </div>
+                <div className="row g-3">
 
 
-                        {/* Timetable */}
+                    <div className="col-lg-4 col-md-6">
 
-                        <div className="col-md-4">
+                        <button
+                            type="button"
+                            className="dashboard-action primary"
+                            onClick={() =>
+                                navigate("/lecturer/qrSession")
+                            }
+                        >
 
-                            <button
-                                type="button"
-                                className="btn btn-outline-primary w-100 py-3"
-                                onClick={() =>
-                                    window.location.href =
-                                        "/lecturer/timetable"
-                                }
-                            >
+                            <span className="action-icon">
 
-                                <FaCalendarAlt className="me-2" />
+                                <FaQrcode />
 
-                                View Timetable
+                            </span>
 
-                            </button>
+                            <span>
 
-                        </div>
+                                <strong>
+                                    Start QR Session
+                                </strong>
+
+                                <small>
+                                    Generate attendance QR
+                                </small>
+
+                            </span>
+
+                            <FaArrowRight />
+
+                        </button>
+
+                    </div>
+
+
+                    <div className="col-lg-4 col-md-6">
+
+                        <button
+                            type="button"
+                            className="dashboard-action success"
+                            onClick={() =>
+                                navigate("/lecturer/attendance")
+                            }
+                        >
+
+                            <span className="action-icon">
+
+                                <FaClipboardCheck />
+
+                            </span>
+
+                            <span>
+
+                                <strong>
+                                    View Attendance
+                                </strong>
+
+                                <small>
+                                    Check student attendance
+                                </small>
+
+                            </span>
+
+                            <FaArrowRight />
+
+                        </button>
+
+                    </div>
+
+
+                    <div className="col-lg-4 col-md-6">
+
+                        <button
+                            type="button"
+                            className="dashboard-action purple"
+                            onClick={() =>
+                                navigate("/lecturer/timetable")
+                            }
+                        >
+
+                            <span className="action-icon">
+
+                                <FaCalendarAlt />
+
+                            </span>
+
+                            <span>
+
+                                <strong>
+                                    View Timetable
+                                </strong>
+
+                                <small>
+                                    Check your weekly schedule
+                                </small>
+
+                            </span>
+
+                            <FaArrowRight />
+
+                        </button>
 
                     </div>
 
@@ -419,7 +624,7 @@ function LecturerDashboard() {
 
 
             {/* ============================================================
-                UPCOMING CLASSES + ATTENDANCE
+                UPCOMING + ATTENDANCE
             ============================================================ */}
 
             <div className="row g-4">
@@ -429,106 +634,144 @@ function LecturerDashboard() {
                     UPCOMING CLASSES
                 ======================================================== */}
 
-                <div className="col-lg-7">
+                <div className="col-xl-7">
 
-                    <div className="card border-0 shadow-sm h-100">
+                    <div className="dashboard-panel h-100">
 
-                        <div className="card-body p-4">
+                        <div className="dashboard-panel-header">
 
-                            <div className="d-flex justify-content-between align-items-center mb-4">
+                            <div>
 
-                                <h5 className="fw-bold mb-0">
+                                <h5>
                                     Upcoming Classes
                                 </h5>
 
-                                <a
-                                    href="/lecturer/timetable"
-                                    className="text-decoration-none"
-                                >
-                                    View All
-                                    <FaArrowRight
-                                        className="ms-2"
-                                        size={12}
-                                    />
-                                </a>
+                                <p>
+                                    Your next scheduled classes.
+                                </p>
 
                             </div>
 
 
-                            {upcomingClasses.length === 0 ? (
+                            <button
+                                type="button"
+                                className="dashboard-view-btn"
+                                onClick={() =>
+                                    navigate("/lecturer/timetable")
+                                }
+                            >
 
-                                <div className="text-center py-5">
+                                View All
 
-                                    <FaCalendarAlt
-                                        size={40}
-                                        className="text-muted mb-3"
-                                    />
+                                <FaArrowRight />
 
-                                    <h6 className="fw-semibold">
-                                        No upcoming classes
-                                    </h6>
+                            </button>
 
-                                    <p className="text-muted mb-0">
-                                        Your upcoming classes will
-                                        appear here.
-                                    </p>
+                        </div>
+
+
+                        {upcomingClasses.length === 0 ? (
+
+                            <div className="dashboard-empty">
+
+                                <div className="dashboard-empty-icon">
+
+                                    <FaCalendarAlt />
 
                                 </div>
 
-                            ) : (
+                                <h6>
+                                    No Upcoming Classes
+                                </h6>
 
-                                <div className="list-group list-group-flush">
+                                <p>
+                                    Your upcoming classes will appear
+                                    here once they are scheduled.
+                                </p>
 
-                                    {upcomingClasses.map(
-                                        (item, index) => (
+                            </div>
 
-                                            <div
-                                                key={item.id || index}
-                                                className="list-group-item px-0 py-3"
-                                            >
+                        ) : (
 
-                                                <div className="d-flex justify-content-between">
+                            <div className="upcoming-class-list">
 
-                                                    <div>
+                                {upcomingClasses.map(
+                                    (item, index) => (
 
-                                                        <h6 className="fw-semibold mb-1">
-                                                            {item.course_name}
-                                                        </h6>
+                                        <div
+                                            key={
+                                                item.id ||
+                                                item.timetable_id ||
+                                                index
+                                            }
+                                            className="upcoming-class-item"
+                                        >
 
-                                                        <small className="text-muted">
-                                                            {item.course_code}
-                                                        </small>
+                                            <div className="class-date-icon">
 
-                                                    </div>
-
-                                                    <div className="text-end">
-
-                                                        <div>
-                                                            <FaClock
-                                                                className="me-1"
-                                                            />
-
-                                                            {item.start_time}
-                                                        </div>
-
-                                                        <small className="text-muted">
-                                                            {item.room}
-                                                        </small>
-
-                                                    </div>
-
-                                                </div>
+                                                <FaCalendarAlt />
 
                                             </div>
 
-                                        )
-                                    )}
 
-                                </div>
+                                            <div className="upcoming-class-info">
 
-                            )}
+                                                <strong>
 
-                        </div>
+                                                    {
+                                                        item.course_name ||
+                                                        item.courseName ||
+                                                        "-"
+                                                    }
+
+                                                </strong>
+
+                                                <span>
+
+                                                    {
+                                                        item.course_code ||
+                                                        item.courseCode ||
+                                                        "-"
+                                                    }
+
+                                                </span>
+
+                                            </div>
+
+
+                                            <div className="upcoming-class-time">
+
+                                                <strong>
+
+                                                    <FaClock />
+
+                                                    {
+                                                        item.start_time ||
+                                                        item.startTime ||
+                                                        "-"
+                                                    }
+
+                                                </strong>
+
+                                                <span>
+
+                                                    {
+                                                        item.room ||
+                                                        "-"
+                                                    }
+
+                                                </span>
+
+                                            </div>
+
+                                        </div>
+
+                                    )
+                                )}
+
+                            </div>
+
+                        )}
 
                     </div>
 
@@ -539,99 +782,132 @@ function LecturerDashboard() {
                     RECENT ATTENDANCE
                 ======================================================== */}
 
-                <div className="col-lg-5">
+                <div className="col-xl-5">
 
-                    <div className="card border-0 shadow-sm h-100">
+                    <div className="dashboard-panel h-100">
 
-                        <div className="card-body p-4">
+                        <div className="dashboard-panel-header">
 
-                            <div className="d-flex justify-content-between align-items-center mb-4">
+                            <div>
 
-                                <h5 className="fw-bold mb-0">
+                                <h5>
                                     Recent Attendance
                                 </h5>
 
-                                <a
-                                    href="/lecturer/reports"
-                                    className="text-decoration-none"
-                                >
-                                    Reports
-                                </a>
+                                <p>
+                                    Latest attendance records.
+                                </p>
 
                             </div>
 
 
-                            {recentAttendance.length === 0 ? (
+                            <button
+                                type="button"
+                                className="dashboard-view-btn"
+                                onClick={() =>
+                                    navigate("/lecturer/reports")
+                                }
+                            >
 
-                                <div className="text-center py-5">
+                                Reports
 
-                                    <FaChartLine
-                                        size={40}
-                                        className="text-muted mb-3"
-                                    />
+                                <FaArrowRight />
 
-                                    <h6 className="fw-semibold">
-                                        No attendance records
-                                    </h6>
+                            </button>
 
-                                    <p className="text-muted mb-0">
-                                        Recent attendance data will
-                                        appear here.
-                                    </p>
+                        </div>
+
+
+                        {recentAttendance.length === 0 ? (
+
+                            <div className="dashboard-empty">
+
+                                <div className="dashboard-empty-icon">
+
+                                    <FaChartLine />
 
                                 </div>
 
-                            ) : (
+                                <h6>
+                                    No Attendance Records
+                                </h6>
 
-                                <div>
+                                <p>
+                                    Recent attendance data will appear
+                                    here.
+                                </p>
 
-                                    {recentAttendance.map(
-                                        (item, index) => (
+                            </div>
 
-                                            <div
-                                                key={
-                                                    item.id ||
-                                                    index
-                                                }
-                                                className="d-flex justify-content-between align-items-center border-bottom py-3"
-                                            >
+                        ) : (
 
-                                                <div>
+                            <div className="recent-attendance-list">
 
-                                                    <h6 className="fw-semibold mb-1">
-                                                        {item.course_name}
-                                                    </h6>
+                                {recentAttendance.map(
+                                    (item, index) => (
 
-                                                    <small className="text-muted">
-                                                        {item.date}
-                                                    </small>
+                                        <div
+                                            key={
+                                                item.id ||
+                                                item.attendance_id ||
+                                                index
+                                            }
+                                            className="recent-attendance-item"
+                                        >
 
-                                                </div>
+                                            <div>
 
-                                                <div className="text-end">
+                                                <strong>
 
-                                                    <strong>
-                                                        {item.present}
-                                                    </strong>
+                                                    {
+                                                        item.course_name ||
+                                                        item.courseName ||
+                                                        "-"
+                                                    }
 
-                                                    <small className="text-muted">
-                                                        {" "}
-                                                        /{" "}
-                                                        {item.total}
-                                                    </small>
+                                                </strong>
 
-                                                </div>
+                                                <span>
+
+                                                    {
+                                                        item.date ||
+                                                        "-"
+                                                    }
+
+                                                </span>
 
                                             </div>
 
-                                        )
-                                    )}
 
-                                </div>
+                                            <div className="attendance-count">
 
-                            )}
+                                                <strong>
 
-                        </div>
+                                                    {
+                                                        item.present ??
+                                                        0
+                                                    }
+
+                                                </strong>
+
+                                                <span>
+                                                    /
+                                                    {
+                                                        item.total ??
+                                                        0
+                                                    }
+                                                </span>
+
+                                            </div>
+
+                                        </div>
+
+                                    )
+                                )}
+
+                            </div>
+
+                        )}
 
                     </div>
 
@@ -639,10 +915,12 @@ function LecturerDashboard() {
 
             </div>
 
+
         </div>
 
     );
 
 }
+
 
 export default LecturerDashboard;

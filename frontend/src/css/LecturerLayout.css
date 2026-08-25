@@ -1,0 +1,121 @@
+.lecturer-layout {
+    min-height: 100vh;
+
+    display: flex;
+
+    background: #f5f7fb;
+}
+
+
+.lecturer-sidebar-wrapper {
+    width: 270px;
+    min-width: 270px;
+
+    min-height: 100vh;
+
+    position: relative;
+
+    z-index: 1055;
+}
+
+
+.lecturer-main-area {
+    flex: 1;
+
+    min-width: 0;
+    min-height: 100vh;
+}
+
+
+.lecturer-page-content {
+    padding: 24px;
+}
+
+
+/* ============================================================
+   MOBILE OVERLAY
+============================================================ */
+
+.lecturer-sidebar-overlay {
+    display: none;
+}
+
+
+/* ============================================================
+   MOBILE SIDEBAR
+============================================================ */
+
+@media (max-width: 991.98px) {
+
+    .lecturer-layout {
+        display: block;
+    }
+
+
+    .lecturer-sidebar-wrapper {
+
+        position: fixed;
+
+        top: 0;
+        left: -280px;
+
+        width: 270px;
+        min-width: 270px;
+
+        height: 100vh;
+
+        z-index: 1055;
+
+        transition:
+            left 0.3s ease;
+
+        box-shadow:
+            10px 0 30px rgba(0, 0, 0, 0.18);
+    }
+
+
+    .lecturer-sidebar-wrapper.mobile-open {
+        left: 0;
+    }
+
+
+    .lecturer-sidebar-overlay {
+
+        display: block;
+
+        position: fixed;
+
+        inset: 0;
+
+        z-index: 1050;
+
+        background:
+            rgba(15, 23, 42, 0.55);
+
+        backdrop-filter: blur(2px);
+    }
+
+
+    .lecturer-main-area {
+        width: 100%;
+    }
+
+
+    .lecturer-page-content {
+        padding: 16px;
+    }
+
+}
+
+
+/* ============================================================
+   PHONE
+============================================================ */
+
+@media (max-width: 575.98px) {
+
+    .lecturer-page-content {
+        padding: 12px;
+    }
+
+}

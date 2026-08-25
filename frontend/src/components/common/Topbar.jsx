@@ -7,167 +7,385 @@ import NotificationBell from "../common/NotificationBell";
 import "../../css/Topbar.css";
 
 import {
-  FaBars,
-  FaSignOutAlt,
-  FaUser,
-  FaMoon,
-  FaSun,
-  FaUserGraduate,
-  FaChalkboardTeacher,
-  FaUserShield,
+    FaBars,
+    FaSignOutAlt,
+    FaUser,
+    FaMoon,
+    FaSun,
+    FaUserGraduate,
+    FaChalkboardTeacher,
+    FaUserShield,
 } from "react-icons/fa";
 
+
 function Topbar({ toggleSidebar }) {
-  const { user, logout } = useAuth();
-  const navigate = useNavigate();
 
-  const [darkMode, setDarkMode] = useState(false);
+    const { user, logout } = useAuth();
 
-  const role = user?.role?.toLowerCase() || "admin";
+    const navigate = useNavigate();
 
-  const roleConfig = {
-    admin: {
-      title: "Administration Panel",
-      badge: "Admin",
-      profile: "/admin/profile",
-      color: "primary",
-      icon: <FaUserShield size={36} className="text-primary me-2" />,
-      largeIcon: <FaUserShield size={60} className="text-primary mb-2" />,
-    },
+    const [darkMode, setDarkMode] = useState(false);
 
-    student: {
-      title: "Student Portal",
-      badge: "Student",
-      profile: "/student/profile",
-      color: "success",
-      icon: <FaUserGraduate size={36} className="text-success me-2" />,
-      largeIcon: <FaUserGraduate size={60} className="text-success mb-2" />,
-    },
 
-    lecturer: {
-      title: "Lecturer Portal",
-      badge: "Lecturer",
-      profile: "/lecturer/profile",
-      color: "warning",
-      icon: <FaChalkboardTeacher size={36} className="text-warning me-2" />,
-      largeIcon: (
-        <FaChalkboardTeacher size={60} className="text-warning mb-2" />
-      ),
-    },
-  };
+    /* ============================================================
+       ROLE
+       ============================================================ */
 
-  const current = roleConfig[role] || roleConfig.admin;
+    const role =
+        user?.role?.toLowerCase() || "admin";
 
-  const handleLogout = async () => {
-    await logout();
-    navigate("/login", { replace: true });
-  };
 
-  const toggleTheme = () => {
-    const next = !darkMode;
+    /* ============================================================
+       ROLE CONFIGURATION
+       ============================================================ */
 
-    setDarkMode(next);
+    const roleConfig = {
 
-    document.body.setAttribute("data-bs-theme", next ? "dark" : "light");
-  };
+        admin: {
+            title: "Administration Panel",
+            badge: "Administrator",
+            profile: "/admin/profile",
+            icon: <FaUserShield />,
+        },
 
-  return (
-    <nav
-      className="navbar navbar-expand-lg bg-white shadow-sm px-4"
-      style={{
-        height: "75px",
-        borderBottom: "1px solid #e5e7eb",
-      }}
-    >
-      <button
-        className="btn btn-outline-primary d-lg-none me-3 rounded-circle"
-        onClick={toggleSidebar}
-      >
-        <FaBars />
-      </button>
+        lecturer: {
+            title: "Lecturer Portal",
+            badge: "Lecturer",
+            profile: "/lecturer/profile",
+            icon: <FaChalkboardTeacher />,
+        },
 
-      <div>
-        <h4 className="fw-bold text-primary mb-0">AttendX</h4>
+        student: {
+            title: "Student Portal",
+            badge: "Student",
+            profile: "/student/profile",
+            icon: <FaUserGraduate />,
+        },
 
-        <small className="text-muted">{current.title}</small>
-      </div>
+    };
 
-      <div className="ms-auto d-flex align-items-center gap-3">
-        {/* Dark Mode */}
-        <button
-          className="btn btn-light rounded-circle shadow-sm"
-          onClick={toggleTheme}
-        >
-          {darkMode ? <FaSun /> : <FaMoon />}
-        </button>
 
-        {/* Notifications */}
-        <NotificationBell />
+    const current =
+        roleConfig[role] ||
+        roleConfig.admin;
 
-        {/* User Dropdown */}
-        <div className="dropdown">
-          <button
-            className="btn btn-light dropdown-toggle d-flex align-items-center rounded-pill px-3 shadow-sm"
-            data-bs-toggle="dropdown"
-          >
-            {current.icon}
 
-            <div className="text-start">
-              <div className="fw-semibold">{user?.full_name}</div>
+    /* ============================================================
+       LOGOUT
+       ============================================================ */
 
-              <small className="text-muted">{current.badge}</small>
+    const handleLogout = async () => {
+
+        try {
+
+            await logout();
+
+        } catch (error) {
+
+            console.error(
+                "Logout failed:",
+                error
+            );
+
+        } finally {
+
+            navigate(
+                "/login",
+                {
+                    replace: true,
+                }
+            );
+
+        }
+
+    };
+
+
+    /* ============================================================
+       DARK MODE
+       ============================================================ */
+
+    const toggleTheme = () => {
+
+        const next =
+            !darkMode;
+
+        setDarkMode(next);
+
+        document.body.setAttribute(
+            "data-bs-theme",
+            next
+                ? "dark"
+                : "light"
+        );
+
+    };
+
+
+    /* ============================================================
+       PROFILE NAVIGATION
+       ============================================================ */
+
+    const openProfile = () => {
+
+        navigate(
+            current.profile
+        );
+
+    };
+
+
+    /* ============================================================
+       RENDER
+       ============================================================ */
+
+    return (
+
+        <header className="attendx-topbar">
+
+
+            {/* =====================================================
+                LEFT
+            ===================================================== */}
+
+            <div className="topbar-left">
+
+
+                {/* Mobile Sidebar */}
+                {toggleSidebar && (
+
+                    <button
+                        type="button"
+                        className="topbar-menu-button"
+                        onClick={toggleSidebar}
+                        aria-label="Open navigation"
+                    >
+
+                        <FaBars />
+
+                    </button>
+
+                )}
+
+
+                {/* Brand */}
+                <div className="topbar-brand">
+
+                    <div className="topbar-brand-logo">
+                        A
+                    </div>
+
+                    <div className="topbar-brand-text">
+
+                        <h5>
+                            AttendX
+                        </h5>
+
+                        <span>
+                            {current.title}
+                        </span>
+
+                    </div>
+
+                </div>
+
             </div>
-          </button>
 
-          <ul
-            className="dropdown-menu dropdown-menu-end border-0 shadow"
-            style={{
-              width: "280px",
-              borderRadius: "15px",
-            }}
-          >
-            <li className="text-center py-3">
-              {current.largeIcon}
 
-              <h6 className="fw-bold mb-1">{user?.full_name}</h6>
+            {/* =====================================================
+                RIGHT
+            ===================================================== */}
 
-              <small className="text-muted">{user?.email}</small>
+            <div className="topbar-right">
 
-              <br />
 
-              <span className={`badge bg-${current.color} mt-2`}>
-                {current.badge}
-              </span>
-            </li>
+                {/* =================================================
+                    THEME
+                ================================================= */}
 
-            <li>
-              <hr className="dropdown-divider" />
-            </li>
+                <button
+                    type="button"
+                    className="topbar-icon-button"
+                    onClick={toggleTheme}
+                    title={
+                        darkMode
+                            ? "Light mode"
+                            : "Dark mode"
+                    }
+                >
 
-            <li>
-              <button
-                className="dropdown-item"
-                onClick={() => navigate(current.profile)}
-              >
-                <FaUser className="me-2" />
-                My Profile
-              </button>
-            </li>
+                    {darkMode
+                        ? <FaSun />
+                        : <FaMoon />
+                    }
 
-            <li>
-              <button
-                className="dropdown-item text-danger"
-                onClick={handleLogout}
-              >
-                <FaSignOutAlt className="me-2" />
-                Logout
-              </button>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
-  );
+                </button>
+
+
+                {/* =================================================
+                    NOTIFICATIONS
+                ================================================= */}
+
+                <div className="topbar-notification">
+
+                    <NotificationBell />
+
+                </div>
+
+
+                {/* =================================================
+                    PROFILE
+                ================================================= */}
+
+                <div className="dropdown">
+
+                    <button
+                        type="button"
+                        className="topbar-profile-button dropdown-toggle"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                    >
+
+                        <div
+                            className={
+                                `topbar-role-icon topbar-role-${role}`
+                            }
+                        >
+
+                            {current.icon}
+
+                        </div>
+
+
+                        <div className="topbar-user-info">
+
+                            <strong>
+                                {user?.full_name ||
+                                    "User"
+                                }
+                            </strong>
+
+                            <span>
+                                {current.badge}
+                            </span>
+
+                        </div>
+
+                    </button>
+
+
+                    {/* =================================================
+                        DROPDOWN
+                    ================================================= */}
+
+                    <ul className="dropdown-menu dropdown-menu-end topbar-dropdown">
+
+
+                        {/* Profile Header */}
+
+                        <li>
+
+                            <div className="topbar-dropdown-header">
+
+                                <div
+                                    className={
+                                        `topbar-dropdown-avatar topbar-role-${role}`
+                                    }
+                                >
+
+                                    {current.icon}
+
+                                </div>
+
+
+                                <div>
+
+                                    <strong>
+                                        {
+                                            user?.full_name ||
+                                            "User"
+                                        }
+                                    </strong>
+
+                                    <span>
+                                        {
+                                            user?.email ||
+                                            ""
+                                        }
+                                    </span>
+
+                                    <small>
+                                        {current.badge}
+                                    </small>
+
+                                </div>
+
+                            </div>
+
+                        </li>
+
+
+                        <li>
+                            <hr className="dropdown-divider" />
+                        </li>
+
+
+                        {/* Profile */}
+
+                        <li>
+
+                            <button
+                                type="button"
+                                className="dropdown-item topbar-dropdown-item"
+                                onClick={openProfile}
+                            >
+
+                                <span className="dropdown-item-icon">
+                                    <FaUser />
+                                </span>
+
+                                <span>
+                                    My Profile
+                                </span>
+
+                            </button>
+
+                        </li>
+
+
+                        {/* Logout */}
+
+                        <li>
+
+                            <button
+                                type="button"
+                                className="dropdown-item topbar-dropdown-item logout"
+                                onClick={handleLogout}
+                            >
+
+                                <span className="dropdown-item-icon">
+                                    <FaSignOutAlt />
+                                </span>
+
+                                <span>
+                                    Logout
+                                </span>
+
+                            </button>
+
+                        </li>
+
+                    </ul>
+
+                </div>
+
+            </div>
+
+        </header>
+
+    );
+
 }
+
 
 export default Topbar;

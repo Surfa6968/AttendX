@@ -12,19 +12,18 @@ import {
     FaUser,
     FaCog,
     FaSignOutAlt,
+    FaChevronRight,
 } from "react-icons/fa";
 
-function Sidebar() {
+import "../../css/LecturerSidebar.css";
+
+
+function LecturerSidebar() {
 
     const { logout } = useAuth();
 
     const navigate = useNavigate();
 
-    /*
-    |--------------------------------------------------------------------------
-    | Logout
-    |--------------------------------------------------------------------------
-    */
 
     const handleLogout = async () => {
 
@@ -32,16 +31,14 @@ function Sidebar() {
 
             await logout();
 
-            navigate("/login", {
-                replace: true,
-            });
-
         } catch (error) {
 
             console.error(
                 "Logout failed:",
                 error
             );
+
+        } finally {
 
             navigate("/login", {
                 replace: true,
@@ -52,211 +49,230 @@ function Sidebar() {
     };
 
 
-    /*
-    |--------------------------------------------------------------------------
-    | Lecturer Menu
-    |--------------------------------------------------------------------------
-    */
-
-    const menuItems = [
+    const menuSections = [
 
         {
-            title: "Dashboard",
-            icon: <FaTachometerAlt />,
-            path: "/lecturer/dashboard",
+            title: "OVERVIEW",
+
+            items: [
+
+                {
+                    title: "Dashboard",
+                    icon: <FaTachometerAlt />,
+                    path: "/lecturer/dashboard",
+                },
+
+            ],
         },
 
-        {
-            title: "My Courses",
-            icon: <FaBook />,
-            path: "/lecturer/courses",
-        },
 
         {
-            title: "Timetable",
-            icon: <FaCalendarAlt />,
-            path: "/lecturer/timetable",
+            title: "ACADEMIC",
+
+            items: [
+
+                {
+                    title: "My Courses",
+                    icon: <FaBook />,
+                    path: "/lecturer/courses",
+                },
+
+                {
+                    title: "Timetable",
+                    icon: <FaCalendarAlt />,
+                    path: "/lecturer/timetable",
+                },
+
+                {
+                    title: "Class Sessions",
+                    icon: <FaCalendarAlt />,
+                    path: "/lecturer/classSession",
+                },
+
+            ],
         },
 
-        {
-            title: "Class Sessions",
-            icon: <FaCalendarAlt />,
-            path: "/lecturer/classSession",
-        },
 
         {
-            title: "QR Sessions",
-            icon: <FaQrcode />,
-            path: "/lecturer/qrSession",
+            title: "ATTENDANCE",
+
+            items: [
+
+                {
+                    title: "QR Sessions",
+                    icon: <FaQrcode />,
+                    path: "/lecturer/qrSession",
+                },
+
+                {
+                    title: "Attendance",
+                    icon: <FaClipboardCheck />,
+                    path: "/lecturer/attendance",
+                },
+
+                {
+                    title: "Reports",
+                    icon: <FaChartBar />,
+                    path: "/lecturer/reports",
+                },
+
+            ],
         },
 
-        {
-            title: "Attendance",
-            icon: <FaClipboardCheck />,
-            path: "/lecturer/attendance",
-        },
 
         {
-            title: "Reports",
-            icon: <FaChartBar />,
-            path: "/lecturer/reports",
-        },
+            title: "ACCOUNT",
 
-        {
-            title: "Notifications",
-            icon: <FaBell />,
-            path: "/lecturer/notifications",
-        },
+            items: [
 
-        {
-            title: "My Profile",
-            icon: <FaUser />,
-            path: "/lecturer/profile",
-        },
+                {
+                    title: "Notifications",
+                    icon: <FaBell />,
+                    path: "/lecturer/notifications",
+                },
 
-        {
-            title: "Settings",
-            icon: <FaCog />,
-            path: "/lecturer/settings",
+                {
+                    title: "My Profile",
+                    icon: <FaUser />,
+                    path: "/lecturer/profile",
+                },
+
+                {
+                    title: "Settings",
+                    icon: <FaCog />,
+                    path: "/lecturer/settings",
+                },
+
+            ],
         },
 
     ];
 
 
-    /*
-    |--------------------------------------------------------------------------
-    | Render
-    |--------------------------------------------------------------------------
-    */
-
     return (
 
-        <aside
-            className="d-flex flex-column text-white shadow-lg"
-            style={{
-                width: "270px",
-                minHeight: "100vh",
-                background: "#111827",
-            }}
+        <aside 
+            className="lecturer-sidebar d-flex flex-column text-white shadow-lg"
         >
 
-            {/* ============================================================
-                HEADER
-            ============================================================ */}
+            {/* =====================================================
+                BRAND
+            ===================================================== */}
 
-            <div
-                className="text-center py-4"
-                style={{
-                    background:
-                        "linear-gradient(135deg,#2563eb,#1d4ed8)",
-                    borderBottom:
-                        "1px solid rgba(255,255,255,.1)",
-                }}
-            >
+            <div className="lecturer-brand">
 
-                <div
-                    className="mx-auto mb-3 d-flex align-items-center justify-content-center"
-                    style={{
-                        width: "65px",
-                        height: "65px",
-                        borderRadius: "50%",
-                        background:
-                            "rgba(255,255,255,.15)",
-                        fontSize: "28px",
-                        fontWeight: "bold",
-                    }}
-                >
+                <div className="lecturer-brand-logo">
                     A
                 </div>
 
+                <div className="lecturer-brand-text">
 
-                <h4 className="fw-bold mb-1">
-                    AttendX
-                </h4>
+                    <h4>
+                        AttendX
+                    </h4>
 
+                    <span>
+                        Lecturer Portal
+                    </span>
 
-                <small className="text-light">
-                    Lecturer Panel
-                </small>
+                </div>
 
             </div>
 
 
-            {/* ============================================================
+            {/* =====================================================
                 NAVIGATION
-            ============================================================ */}
+            ===================================================== */}
 
-            <div
-                className="flex-grow-1 py-3 px-2"
-                style={{
-                    overflowY: "auto",
-                }}
-            >
+            <nav className="lecturer-navigation">
 
-                {menuItems.map((item) => (
+                {menuSections.map((section) => (
 
-                    <NavLink
-                        key={item.title}
-                        to={item.path}
-                        className={({ isActive }) =>
-                            `d-flex align-items-center text-decoration-none mb-2 px-3 py-3 rounded-3 ${
-                                isActive
-                                    ? "bg-primary text-white shadow"
-                                    : "text-light"
-                            }`
-                        }
-                        style={({ isActive }) => ({
-                            transition: "0.25s",
-                            background:
-                                isActive
-                                    ? ""
-                                    : "transparent",
-                        })}
+                    <div
+                        className="lecturer-nav-section"
+                        key={section.title}
                     >
 
-                        <span
-                            className="me-3 fs-5"
-                            style={{
-                                width: "24px",
-                                textAlign: "center",
-                            }}
-                        >
-                            {item.icon}
-                        </span>
+                        <div className="lecturer-nav-label">
+                            {section.title}
+                        </div>
 
 
-                        <span className="fw-medium">
-                            {item.title}
-                        </span>
+                        {section.items.map((item) => (
 
-                    </NavLink>
+                            <NavLink
+                                key={item.title}
+                                to={item.path}
+                                className={({ isActive }) =>
+                                    `lecturer-nav-item ${
+                                        isActive
+                                            ? "active"
+                                            : ""
+                                    }`
+                                }
+                            >
+
+                                <span className="lecturer-nav-icon">
+                                    {item.icon}
+                                </span>
+
+
+                                <span className="lecturer-nav-title">
+                                    {item.title}
+                                </span>
+
+
+                                <FaChevronRight className="lecturer-nav-arrow" />
+
+                            </NavLink>
+
+                        ))}
+
+                    </div>
 
                 ))}
 
-            </div>
+            </nav>
 
 
-            {/* ============================================================
-                FOOTER / LOGOUT
-            ============================================================ */}
+            {/* =====================================================
+                BOTTOM AREA
+            ===================================================== */}
 
-            <div
-                className="p-3"
-                style={{
-                    borderTop:
-                        "1px solid rgba(255,255,255,.08)",
-                }}
-            >
+            <div className="lecturer-sidebar-bottom">
+
+                <div className="lecturer-sidebar-profile">
+
+                    <div className="lecturer-avatar">
+                        L
+                    </div>
+
+                    <div className="lecturer-profile-info">
+
+                        <strong>
+                            Lecturer
+                        </strong>
+
+                        <span>
+                            Academic Staff
+                        </span>
+
+                    </div>
+
+                </div>
+
 
                 <button
                     type="button"
-                    className="btn btn-danger w-100 rounded-pill"
+                    className="lecturer-logout"
                     onClick={handleLogout}
                 >
 
-                    <FaSignOutAlt className="me-2" />
+                    <FaSignOutAlt />
 
-                    Logout
+                    <span>
+                        Logout
+                    </span>
 
                 </button>
 
@@ -268,4 +284,4 @@ function Sidebar() {
 
 }
 
-export default Sidebar;
+export default LecturerSidebar;

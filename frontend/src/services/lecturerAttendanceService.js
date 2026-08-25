@@ -10,14 +10,32 @@ const api = axios.create({
 
 /*
 |--------------------------------------------------------------------------
-| Get Lecturer Attendance
+| Lecturer Attendance History
 |--------------------------------------------------------------------------
 */
 
-export const getLecturerAttendance = async () => {
-    const response = await api.get("/history.php");
+export const getLecturerAttendance = async (params = {}) => {
+    const response = await api.get("/history.php", {
+        params,
+    });
 
     return response.data;
 };
+
+
+/*
+|--------------------------------------------------------------------------
+| Lecturer Attendance Report
+|--------------------------------------------------------------------------
+*/
+
+export const getLecturerAttendanceReport = async (params = {}) => {
+    const response = await api.get("/report.php", {
+        params,
+    });
+
+    return response.data;
+};
+
 
 export default api;

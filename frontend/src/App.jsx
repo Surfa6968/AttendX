@@ -38,11 +38,11 @@ import Settings from "./pages/admin/settings/Settings";
 import LecturerLayout from "./layouts/LecturerLayout";
 
 import LecturerDashboard from "./pages/lecturer/Dashboard";
-// import LecturerCourses from "./pages/lecturer/Courses";
+import LecturerCourses from "./pages/lecturer/Courses";
+import LecturerAttendance from "./pages/lecturer/Attendance";
 // import LecturerTimetable from "./pages/lecturer/Timetable";
 // import LecturerClassSessions from "./pages/lecturer/ClassSessions";
 // import LecturerQRSessions from "./pages/lecturer/QRSessions";
-// import LecturerAttendance from "./pages/lecturer/Attendance";
 // import LecturerReports from "./pages/lecturer/Reports";
 // import LecturerNotifications from "./pages/lecturer/Notifications";
 // import LecturerProfile from "./pages/lecturer/Profile";
@@ -171,15 +171,15 @@ function App() {
                 }
             >
                 <Route path="dashboard" element={<LecturerDashboard />} />
-                {/* <Route path="courses" element={<LecturerCourses />} />
-                <Route path="timetable" element={<LecturerTimetable />} />
-                <Route path="classSession" element={<LecturerClassSessions />} />
-                <Route path="qrSession" element={<LecturerQRSessions />} />
+                <Route path="courses" element={<LecturerCourses />} />
                 <Route path="attendance" element={<LecturerAttendance />} />
-                <Route path="reports" element={<LecturerReports />} />
-                <Route path="notifications" element={<LecturerNotifications />} />
-                <Route path="profile" element={<LecturerProfile />} />
-                <Route path="settings" element={<LecturerSettings />} /> */}
+                {/* <Route path="timetable" element={<LecturerTimetable />} /> */}
+                {/* <Route path="classSession" element={<LecturerClassSessions />} /> */}
+                {/* <Route path="qrSession" element={<LecturerQRSessions />} /> */}
+                {/* <Route path="reports" element={<LecturerReports />} /> */}
+                {/* <Route path="notifications" element={<LecturerNotifications />} /> */}
+                {/* <Route path="profile" element={<LecturerProfile />} /> */}
+                {/* <Route path="settings" element={<LecturerSettings />} /> */} */
             </Route>
 
 
